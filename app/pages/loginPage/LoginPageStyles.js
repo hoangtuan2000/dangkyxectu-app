@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
+import Constants from '../../constant/Constants';
 
 const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Constants.styles.backgroundLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -22,7 +23,7 @@ const lightStyles = StyleSheet.create({
 const darkStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: Constants.styles.backgroundDark,
     alignItems: 'center',
     justifyContent: 'center',
   },

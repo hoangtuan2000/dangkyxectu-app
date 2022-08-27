@@ -32,7 +32,7 @@ function ButtonCustom({
 
   return (
     <TouchableOpacity
-      onPress={() => onPress()}
+      onPress={() => onPress && onPress()}
       style={[
         stylesButton,
         {
@@ -51,7 +51,7 @@ function ButtonCustom({
         style={[
           stylesText,
           {
-            color: textColor ? textColor : Constants.styles.colorLight,
+            color: textColor ? textColor : Constants.styles.colorWhite,
             fontSize: textSize ? textSize : 16,
             fontWeight: textWeight ? textWeight : 'normal',
           },

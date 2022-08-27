@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, useColorScheme, TouchableOpacity} from 'react-native';
+import {Text, View} from 'react-native';
 import {lightStyles, darkStyles} from './AccountPageStyles';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
@@ -41,7 +41,7 @@ function AccountPage() {
         <ButtonCustom
           icon={<MaterialIcons name={'logout'} color={'white'} size={20} />}
           iconPosition="left"
-          textButton={Strings.App.LOGOUT}
+          textButton={Strings.Common.LOGOUT}
           onPress={e => console.log(e.target)}
           bgColor={Constants.styles.colorError}
         />

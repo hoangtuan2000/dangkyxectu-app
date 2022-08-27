@@ -1,12 +1,17 @@
 const Constants = {
   styles: {
     colorPrimary: '#0cb1f2',
-    colorLight: 'white',
+    colorWhite: 'white',
+    colorLight: '#ededed',
     colorDark: 'black',
     colorSecondary: 'gray',
     colorError: '#f71919',
     backgroundDark: '#2b2b2a',
     backgroundLight: 'white',
+
+    fontSizeSmall: 10,
+    fontSizeDefault: 14,
+    fontSizeLarge: 18,
   },
 };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoutesPath from '../../constant/RoutesPath';
 import RentalCarListScreen from '../rentalCarListScreen/RentalCarListScreen';
