@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import filterReportReducer from './filterReport/filterReportSlice'
+import themeModeReducer from './themeModeSlice/themeModeSlice'
 
 export const store = configureStore({
   reducer: {
-    filterReportRedux: filterReportReducer,
+    themeMode: themeModeReducer,
   },
 })

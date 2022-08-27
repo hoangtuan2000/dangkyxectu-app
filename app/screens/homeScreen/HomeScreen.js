@@ -5,12 +5,19 @@ import RoutesPath from '../../constant/RoutesPath';
 import RentalCarListScreen from '../rentalCarListScreen/RentalCarListScreen';
 import RentedCarScreen from '../rentedCarScreen/RentedCarScreen';
 import AccountScreen from '../accountScreen/AccountScreen';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import Constants from '../../constant/Constants';
+import {useSelector} from 'react-redux'
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
+  const isDarkMode = useSelector(state => state.themeMode.darkMode);
   return (
     <Tab.Navigator
+      activeColor={isDarkMode ? Constants.styles.colorLight : Constants.styles.colorPrimary}
+      inactiveColor={isDarkMode ? Constants.styles.colorDark : Constants.styles.colorSecondary}
+      barStyle={{backgroundColor: isDarkMode ? Constants.styles.colorSecondary : 'white'}}
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarIcon: ({focused, color, size}) => {
@@ -24,10 +31,8 @@ function HomeScreen() {
             iconName = focused ? 'account' : 'account';
           }
 
-          return <MaterialIcons name={iconName} size={size} color={color} />;
+          return <MaterialIcons name={iconName} size={26} color={color} />;
         },
-        tabBarActiveTintColor: '#0095ff',
-        tabBarInactiveTintColor: 'gray',
       })}>
       <Tab.Screen
         name={RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN}

@@ -11,6 +11,7 @@ function ButtonCustom({
   stylesButton,
   bgColor,
   padding,
+  margin,
   borderRadius,
   textColor,
   textSize,
@@ -38,12 +39,14 @@ function ButtonCustom({
           width: widthButton && widthButton,
           backgroundColor: bgColor ? bgColor : Constants.styles.colorPrimary,
           padding: padding ? padding : 10,
+          margin: margin ? margin : 5,
           borderRadius: borderRadius ? borderRadius : 10,
           alignItems: 'center',
+          justifyContent: 'center',
           flexDirection: getFlexDirection(),
         },
       ]}>
-      <View>{icon && icon}</View>
+      <View style={{paddingLeft: 5, paddingRight: 5}}>{icon && icon}</View>
       <Text
         style={[
           stylesText,

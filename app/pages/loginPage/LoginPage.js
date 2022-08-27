@@ -79,7 +79,7 @@ function LoginPage({navigation}) {
         <View>
           <ButtonCustom
             onPress={handleLogin}
-            textButton={Strings.Login.LOGIN}
+            textButton={Strings.App.LOGIN}
             textWeight="bold"
             textSize={17}
           />

@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import Constants from '../../constant/Constants';
 
 const lightStyles = StyleSheet.create({
   label: {
@@ -26,7 +27,7 @@ const lightStyles = StyleSheet.create({
   },
 
   error: {
-    color: 'red',
+    color: Constants.styles.colorError,
     paddingTop: 4,
     fontSize: 14,
     fontWeight: 'bold',
@@ -59,7 +60,7 @@ const darkStyles = StyleSheet.create({
   },
 
   error: {
-    color: 'red',
+    color: Constants.styles.colorError,
     paddingTop: 4,
     fontSize: 14,
     fontWeight: 'bold',
