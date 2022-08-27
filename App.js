@@ -12,13 +12,13 @@ function App() {
   return (
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={RoutesPath.LOGINSCREEN} screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName={RoutesPath.Screens.LOGIN_SCREEN} screenOptions={{ headerShown: false }}>
             <Stack.Screen
-              name={RoutesPath.LOGIN_SCREEN}
+              name={RoutesPath.Screens.LOGIN_SCREEN}
               component={LoginScreen}
             />
             <Stack.Screen
-              name={RoutesPath.HOME_SCREEN}
+              name={RoutesPath.Screens.HOME_SCREEN}
               component={HomeScreen}
             />
           </Stack.Navigator>

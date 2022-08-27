@@ -7,16 +7,6 @@ const lightStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  imageLogo: {
-    width: 140,
-    height: 140,
-    alignSelf: 'center'
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 25,
-    alignSelf: 'center'
-  },
 });
 
 const darkStyles = StyleSheet.create({
@@ -25,17 +15,6 @@ const darkStyles = StyleSheet.create({
     backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  imageLogo: {
-    width: 140,
-    height: 140,
-    alignSelf: 'center'
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 25,
-    color: '#dadde3',
-    alignSelf: 'center'
   },
 });
 
