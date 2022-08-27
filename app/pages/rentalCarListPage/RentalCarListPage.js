@@ -1,10 +1,20 @@
 import React from 'react';
-import {Text, View, FlatList, Image} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import {darkStyles, lightStyles} from './RentalCarListPageStyles';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CarFilterModal from '../../components/carFilterModal/CarFilterModal';
 
 const DATA = [
   {
@@ -47,6 +57,7 @@ const DATA = [
 
 function RentalCarListPage() {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const [modalVisible, setModalVisible] = React.useState(false);
   return (
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
       <FlatList
@@ -108,6 +119,17 @@ function RentalCarListPage() {
           );
         }}
         keyExtractor={item => item.id}
+      />
+
+      <TouchableOpacity
+        onPress={() => setModalVisible(!modalVisible)}
+        style={isDarkMode ? darkStyles.filterButton : lightStyles.filterButton}>
+        <MaterialIcons name="filter-outline" size={26} color={'white'} />
+      </TouchableOpacity>
+
+      <CarFilterModal
+        showModal={modalVisible}
+        setShowModal={() => setModalVisible(!modalVisible)}
       />
     </View>
   );

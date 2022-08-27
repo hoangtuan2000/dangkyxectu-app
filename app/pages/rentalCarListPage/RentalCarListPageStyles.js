@@ -30,6 +30,17 @@ const lightStyles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 5,
   },
+  filterButton: {
+    backgroundColor: 'green',
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const darkStyles = StyleSheet.create({
@@ -60,6 +71,17 @@ const darkStyles = StyleSheet.create({
     height: 150,
     resizeMode: 'cover',
     borderRadius: 5,
+  },
+  filterButton: {
+    backgroundColor: 'green',
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
