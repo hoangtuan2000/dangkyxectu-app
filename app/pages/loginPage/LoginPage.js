@@ -3,22 +3,25 @@ import {
   Text,
   useColorScheme,
   View,
-  StyleSheet,
   Image,
-  TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import InputCustom from '../../components/inputCustom/InputCustom';
+import RoutesPath from '../../constant/RoutesPath';
 import Strings from '../../constant/Strings';
-import {lightStyles, darkStyles} from './LoginStyles';
+import {lightStyles, darkStyles} from './LoginPageStyles';
 
-function Login() {
+function LoginPage({navigation}) {
   const isDarkMode = useColorScheme() === 'dark';
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = () => {
+    navigation.navigate(RoutesPath.HOME_SCREEN);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -74,6 +77,7 @@ function Login() {
 
       <View>
         <TouchableOpacity
+          onPress={handleLogin}
           style={isDarkMode ? darkStyles.button : lightStyles.button}>
           <Text
             style={isDarkMode ? darkStyles.textButton : lightStyles.textButton}>
@@ -85,4 +89,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPage;

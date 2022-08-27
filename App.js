@@ -1,12 +1,10 @@
-// In App.js in a new project
-
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Login from './app/screens/login/Login';
 import RoutesPath from './app/constant/RoutesPath';
+import HomeScreen from './app/screens/homeScreen/HomeScreen';
+import LoginScreen from './app/screens/loginScreen/LoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,10 +12,14 @@ function App() {
   return (
       <SafeAreaProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={RoutesPath.LOGIN} screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName={RoutesPath.LOGINSCREEN} screenOptions={{ headerShown: false }}>
             <Stack.Screen
-              name={RoutesPath.LOGIN}
-              component={Login}
+              name={RoutesPath.LOGIN_SCREEN}
+              component={LoginScreen}
+            />
+            <Stack.Screen
+              name={RoutesPath.HOME_SCREEN}
+              component={HomeScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
