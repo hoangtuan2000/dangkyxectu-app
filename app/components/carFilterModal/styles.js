@@ -5,10 +5,23 @@ const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Constants.styles.backgroundLight,
   },
   modalView: {
+    flex: 1,
+    backgroundColor: Constants.styles.backgroundLight,
+    borderRadius: 10,
+    margin: 10,
     padding: 10,
+    paddingTop: 20,
+    alignSelf: 'stretch',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 
@@ -16,10 +29,23 @@ const darkStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: Constants.styles.backgroundDark,
   },
   modalView: {
+    flex: 1,
+    backgroundColor: Constants.styles.backgroundDark,
+    borderRadius: 10,
+    margin: 10,
     padding: 10,
+    paddingTop: 20,
+    alignSelf: 'stretch',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 

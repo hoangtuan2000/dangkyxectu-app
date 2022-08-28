@@ -28,6 +28,8 @@ const Strings = {
     NUMBER_OF_FAILURES: 'Số Lần Hỏng Hóc',
     LICENSE: 'Giấy Phép',
     NUMBER_PHONE: 'Số Điện Thoại',
+    CANCEL: 'Hủy',
+    SEARCH: 'Tìm Kiếm',
   },
 
   Login: {
@@ -41,7 +43,7 @@ const Strings = {
     LICENSE_PLATES: 'Biển Số: ',
     VEHICLE_CONDITION: 'Tình Trạng Xe: ',
     SCHEDULE: 'Lịch Trình: ',
-    CAR_BRAND: 'Hãng Xe:'
+    CAR_BRAND: 'Hãng Xe:',
   },
 };
 
