@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import {Dimensions, Platform, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {AutocompleteDropdown} from 'react-native-autocomplete-dropdown';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,8 +13,9 @@ function AutoCompleteDropdownCustom({
   title,
   style,
   marginBottom,
-  zIndex,
   fontSizeTitle,
+  placeholder,
+  zindex
 }) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
@@ -22,6 +23,7 @@ function AutoCompleteDropdownCustom({
     <View
       style={[
         style,
+        Platform.select({ios: {zIndex: zindex}}),
         {
           marginBottom: marginBottom ? marginBottom : 10,
         },
@@ -49,7 +51,17 @@ function AutoCompleteDropdownCustom({
         inputContainerStyle={
           isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer
         }
-        textInputProps={isDarkMode ? darkStyles.input : lightStyles.input}
+        textInputProps={{
+          placeholder: placeholder && placeholder,
+          placeholderTextColor: isDarkMode
+            ? Constants.styles.colorWhite
+            : Constants.styles.colorSecondary,
+          style: {
+            color: isDarkMode
+              ? Constants.styles.colorWhite
+              : Constants.styles.colorDark,
+          },
+        }}
         suggestionsListMaxHeight={Dimensions.get('window').height * 0.4}
         ChevronIconComponent={
           <Feather
@@ -83,16 +95,14 @@ function AutoCompleteDropdownCustom({
             ? Constants.styles.colorWhite
             : Constants.styles.colorDark,
         }}
-        EmptyResultComponent={() => {
-          return (
-            <Text
-              style={
-                isDarkMode ? darkStyles.emptryResult : lightStyles.emptryResult
-              }>
-              {Strings.Common.NO_DATA}
-            </Text>
-          );
-        }}
+        EmptyResultComponent={
+          <Text
+            style={
+              isDarkMode ? darkStyles.emptryResult : lightStyles.emptryResult
+            }>
+            {Strings.Common.NO_DATA}
+          </Text>
+        }
       />
     </View>
   );

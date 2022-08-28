@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text, TextInput, useColorScheme} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
+import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 
 function InputCustom({
@@ -14,7 +15,7 @@ function InputCustom({
   width,
   ...props
 }) {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [focused, setFocused] = React.useState(false);
 
   const getFlexDirection = () => {
@@ -39,8 +40,16 @@ function InputCustom({
     }
   };
   return (
-    <View style={[isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer, {width: width && width}]}>
-      {label && <Text style={isDarkMode ? darkStyles.label : lightStyles.label}>{label}</Text>}
+    <View
+      style={[
+        isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer,
+        {width: width && width},
+      ]}>
+      {label && (
+        <Text style={isDarkMode ? darkStyles.label : lightStyles.label}>
+          {label}
+        </Text>
+      )}
 
       <View
         style={[
@@ -51,7 +60,10 @@ function InputCustom({
         <View>{icon && icon}</View>
 
         <TextInput
-          style={[isDarkMode ? darkStyles.textInput : lightStyles.textInput, style]}
+          style={[
+            isDarkMode ? darkStyles.textInput : lightStyles.textInput,
+            style,
+          ]}
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
@@ -65,7 +77,11 @@ function InputCustom({
         />
       </View>
 
-      {error && <Text style={isDarkMode ? darkStyles.error : lightStyles.error}>{error}</Text>}
+      {error && (
+        <Text style={isDarkMode ? darkStyles.error : lightStyles.error}>
+          {error}
+        </Text>
+      )}
     </View>
   );
 }

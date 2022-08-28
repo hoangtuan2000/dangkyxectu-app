@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, View} from 'react-native';
+import {Modal, Platform, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
@@ -13,6 +13,15 @@ const DATA = [
   {id: '3', title: 'Xe 16 Chổ'},
   {id: '4', title: 'Xe 32 Chổ'},
   {id: '5', title: 'Xe 35 Chổ'},
+  {id: '6', title: 'Xe 35 Chổ'},
+  {id: '7', title: 'Xe 35 Chổ'},
+  {id: '8', title: 'Xe 35 Chổ'},
+  {id: '9', title: 'Xe 35 Chổ'},
+  {id: '10', title: 'Xe 35 Chổ'},
+  {id: '11', title: 'Xe 35 Chổ'},
+  {id: '12', title: 'Xe 35 Chổ'},
+  {id: '13', title: 'Xe 35 Chổ'},
+  {id: '14', title: 'Xe 37 Chổ'},
 ];
 
 const DATA2 = [
@@ -29,18 +38,21 @@ function CarFilterModal({showModal, setShowModal}) {
     <Modal visible={showModal} animationType="slide" transparent={true}>
       <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
         <View style={isDarkMode ? darkStyles.modalView : lightStyles.modalView}>
+          
           <AutoCompleteDropdownCustom
             data={DATA}
             title={'Tìm Kiếm Xe Theo Số Ghế'}
             setSelectedItem={setSelectedItem}
-            style={{zIndex: 10}}
-            />
+            zindex={10}
+            placeholder={Strings.CarFilterModal.ENTER_NUMBER_SEAT}
+          />
 
           <AutoCompleteDropdownCustom
             data={DATA2}
             title={'Sắp Xếp Xe Theo Lịch Trình'}
             setSelectedItem={setSelectedItem2}
-            style={{zIndex: 9}}
+            zindex={9}
+            placeholder={Strings.CarFilterModal.ENTER_SCHEDULE}
           />
 
           <View

@@ -45,6 +45,11 @@ const Strings = {
     SCHEDULE: 'Lịch Trình: ',
     CAR_BRAND: 'Hãng Xe:',
   },
+
+  CarFilterModal: {
+    ENTER_NUMBER_SEAT: 'Nhập Số Ghế',
+    ENTER_SCHEDULE: 'Nhập Lịch Trình',
+  },
 };
 
 export default Strings;

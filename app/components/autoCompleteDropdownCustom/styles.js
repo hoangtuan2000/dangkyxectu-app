@@ -8,9 +8,6 @@ const lightStyles = StyleSheet.create({
   inputContainer: {
     backgroundColor: Constants.styles.colorLight,
   },
-  input: {
-    color: Constants.styles.colorDark,
-  },
   suggestionsListContainer: {
     backgroundColor: Constants.styles.colorLight,
   },
@@ -27,9 +24,6 @@ const darkStyles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: Constants.styles.colorSecondary,
-  },
-  input: {
-    color: Constants.styles.colorWhite,
   },
   suggestionsListContainer: {
     backgroundColor: Constants.styles.colorSecondary,
