@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 import InputCustom from '../../components/inputCustom/InputCustom';
@@ -17,7 +18,7 @@ import Strings from '../../constant/Strings';
 import {lightStyles, darkStyles} from './LoginPageStyles';
 
 function LoginPage({navigation}) {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
   const [showPassword, setShowPassword] = useState(false);
 

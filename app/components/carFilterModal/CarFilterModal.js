@@ -33,12 +33,14 @@ function CarFilterModal({showModal, setShowModal}) {
             data={DATA}
             title={'Tìm Kiếm Xe Theo Số Ghế'}
             setSelectedItem={setSelectedItem}
-          />
+            style={{zIndex: 10}}
+            />
 
           <AutoCompleteDropdownCustom
             data={DATA2}
             title={'Sắp Xếp Xe Theo Lịch Trình'}
             setSelectedItem={setSelectedItem2}
+            style={{zIndex: 9}}
           />
 
           <View
