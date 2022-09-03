@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput} from 'react-native';
 import {useSelector} from 'react-redux';
+import Constants from '../../constant/Constants';
 import {lightStyles, darkStyles} from './styles';
 
 function InputCustom({
@@ -67,6 +68,7 @@ function InputCustom({
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
+          placeholderTextColor={isDarkMode ? Constants.styles.colorLight : Constants.styles.colorSecondary}
           onFocus={() => {
             setFocused(true);
           }}

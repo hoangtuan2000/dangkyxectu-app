@@ -16,6 +16,7 @@ const lightStyles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 25,
+    color: 'black',
     alignSelf: 'center'
   },
 });

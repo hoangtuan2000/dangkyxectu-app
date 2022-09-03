@@ -6,7 +6,7 @@ const lightStyles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-
+  
   wrapper: {
     height: 42,
     borderWidth: 1,

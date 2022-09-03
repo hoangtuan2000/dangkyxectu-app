@@ -15,7 +15,7 @@ function AutoCompleteDropdownCustom({
   marginBottom,
   fontSizeTitle,
   placeholder,
-  zindex
+  zindex,
 }) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
@@ -85,11 +85,12 @@ function AutoCompleteDropdownCustom({
             }
           />
         }
-        suggestionsListContainerStyle={
+        suggestionsListContainerStyle={[
+          {elevation: zindex},
           isDarkMode
             ? darkStyles.suggestionsListContainer
-            : lightStyles.suggestionsListContainer
-        }
+            : lightStyles.suggestionsListContainer,
+        ]}
         suggestionsListTextStyle={{
           color: isDarkMode
             ? Constants.styles.colorWhite
