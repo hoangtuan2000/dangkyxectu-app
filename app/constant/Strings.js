@@ -6,6 +6,8 @@ const Strings = {
   },
 
   Common: {
+    SUCCESS: 'Thành Công',
+    ERROR: 'Xảy ra Lỗi',
     LOGIN: 'Đăng Nhập',
     LOGOUT: 'Đăng Xuất',
     NO_DATA: 'Không Có Dữ Liệu',
@@ -30,6 +32,7 @@ const Strings = {
     NUMBER_PHONE: 'Số Điện Thoại',
     CANCEL: 'Hủy',
     SEARCH: 'Tìm Kiếm',
+    CLOSE: 'Đóng',
   },
 
   Login: {

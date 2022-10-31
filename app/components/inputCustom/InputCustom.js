@@ -68,7 +68,7 @@ function InputCustom({
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
-          placeholderTextColor={isDarkMode ? Constants.styles.colorLight : Constants.styles.colorSecondary}
+          placeholderTextColor={isDarkMode ? Constants.Styles.colorLight : Constants.Styles.colorSecondary}
           onFocus={() => {
             setFocused(true);
           }}

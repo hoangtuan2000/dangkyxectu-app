@@ -11,6 +11,8 @@ function ButtonCustom({
   stylesButton,
   bgColor,
   padding,
+  paddingLeft,
+  paddingRight,
   margin,
   borderRadius,
   textColor,
@@ -26,6 +28,8 @@ function ButtonCustom({
         return 'row';
       } else if (iconPosition === 'right') {
         return 'row-reverse';
+      } else {
+        return 'row';
       }
     }
   };
@@ -37,8 +41,10 @@ function ButtonCustom({
         stylesButton,
         {
           width: widthButton && widthButton,
-          backgroundColor: bgColor ? bgColor : Constants.styles.colorPrimary,
+          backgroundColor: bgColor ? bgColor : Constants.Styles.colorPrimary,
           padding: padding ? padding : 10,
+          paddingLeft: paddingLeft ? paddingLeft : 10,
+          paddingRight: paddingRight ? paddingRight : 10,
           margin: margin ? margin : 5,
           borderRadius: borderRadius ? borderRadius : 10,
           alignItems: 'center',
@@ -51,7 +57,7 @@ function ButtonCustom({
         style={[
           stylesText,
           {
-            color: textColor ? textColor : Constants.styles.colorWhite,
+            color: textColor ? textColor : Constants.Styles.colorWhite,
             fontSize: textSize ? textSize : 16,
             fontWeight: textWeight ? textWeight : 'normal',
           },

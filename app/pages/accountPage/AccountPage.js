@@ -34,7 +34,7 @@ function AccountPage() {
               <MaterialIcons name={'weather-night'} color={'white'} size={20} />
             )
           }
-          bgColor={!isDarkMode && Constants.styles.colorSecondary}
+          bgColor={!isDarkMode && Constants.Styles.colorSecondary}
           iconPosition="left"
           textButton={isDarkMode ? Strings.App.LIGHTTHEME : Strings.App.DARKTHEME}
         />
@@ -43,7 +43,7 @@ function AccountPage() {
           iconPosition="left"
           textButton={Strings.Common.LOGOUT}
           onPress={e => console.log(e.target)}
-          bgColor={Constants.styles.colorError}
+          bgColor={Constants.Styles.colorError}
         />
       </View>
     </View>

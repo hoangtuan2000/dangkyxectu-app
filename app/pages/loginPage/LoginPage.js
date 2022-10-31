@@ -16,14 +16,25 @@ import Constants from '../../constant/Constants';
 import RoutesPath from '../../constant/RoutesPath';
 import Strings from '../../constant/Strings';
 import {lightStyles, darkStyles} from './LoginPageStyles';
+import ModalError from '../../components/modalError/ModalError';
+import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
+import BackDrop from '../../components/backDrop/BackDrop';
 
 function LoginPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const [modalError, setModalError] = useState({
+    open: false,
+    title: null,
+    content: null,
+  });
+  const [modalSuccess, setModalSuccess] = useState(false);
+  const [backDrop, setBackDrop] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = () => {
-    navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
+    setBackDrop(true);
+    // navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
   };
 
   return (
@@ -44,7 +55,7 @@ function LoginPage({navigation}) {
           </Text>
         </View>
 
-        <View >
+        <View>
           <InputCustom
             label={Strings.Login.LOGIN_CODE}
             placeholder={Strings.Login.ENTER_LOGIN_CODE}
@@ -61,13 +72,21 @@ function LoginPage({navigation}) {
                   <Icon
                     name="eye"
                     size={25}
-                    color={isDarkMode ? Constants.styles.colorLight : Constants.styles.colorPrimary}
+                    color={
+                      isDarkMode
+                        ? Constants.Styles.colorLight
+                        : Constants.Styles.colorPrimary
+                    }
                   />
                 ) : (
                   <Icon
                     name="eye-off"
                     size={25}
-                    color={isDarkMode ? Constants.styles.colorLight : Constants.styles.colorPrimary}
+                    color={
+                      isDarkMode
+                        ? Constants.Styles.colorLight
+                        : Constants.Styles.colorPrimary
+                    }
                   />
                 )}
               </TouchableOpacity>
@@ -86,6 +105,23 @@ function LoginPage({navigation}) {
           />
         </View>
       </View>
+
+      <ModalSuccess
+        open={modalSuccess}
+        handleClose={() => setModalSuccess(false)}
+      />
+
+      <ModalError
+        open={modalError.open}
+        handleClose={() =>
+          setModalError({
+            ...modalError,
+            open: false,
+          })
+        }
+      />
+
+      <BackDrop open={backDrop} />
     </KeyboardAvoidingView>
   );
 }

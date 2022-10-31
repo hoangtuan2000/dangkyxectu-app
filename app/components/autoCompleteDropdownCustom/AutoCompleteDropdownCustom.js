@@ -35,7 +35,7 @@ function AutoCompleteDropdownCustom({
             {
               fontSize: fontSizeTitle
                 ? fontSizeTitle
-                : Constants.styles.fontSizeLarge,
+                : Constants.Styles.fontSizeLarge,
             },
           ]}>
           {title}
@@ -54,12 +54,12 @@ function AutoCompleteDropdownCustom({
         textInputProps={{
           placeholder: placeholder && placeholder,
           placeholderTextColor: isDarkMode
-            ? Constants.styles.colorWhite
-            : Constants.styles.colorSecondary,
+            ? Constants.Styles.colorWhite
+            : Constants.Styles.colorSecondary,
           style: {
             color: isDarkMode
-              ? Constants.styles.colorWhite
-              : Constants.styles.colorDark,
+              ? Constants.Styles.colorWhite
+              : Constants.Styles.colorDark,
           },
         }}
         suggestionsListMaxHeight={Dimensions.get('window').height * 0.4}
@@ -69,8 +69,8 @@ function AutoCompleteDropdownCustom({
             size={20}
             color={
               isDarkMode
-                ? Constants.styles.colorWhite
-                : Constants.styles.colorDark
+                ? Constants.Styles.colorWhite
+                : Constants.Styles.colorDark
             }
           />
         }
@@ -80,8 +80,8 @@ function AutoCompleteDropdownCustom({
             size={18}
             color={
               isDarkMode
-                ? Constants.styles.colorWhite
-                : Constants.styles.colorDark
+                ? Constants.Styles.colorWhite
+                : Constants.Styles.colorDark
             }
           />
         }
@@ -93,8 +93,8 @@ function AutoCompleteDropdownCustom({
         ]}
         suggestionsListTextStyle={{
           color: isDarkMode
-            ? Constants.styles.colorWhite
-            : Constants.styles.colorDark,
+            ? Constants.Styles.colorWhite
+            : Constants.Styles.colorDark,
         }}
         EmptyResultComponent={
           <Text
