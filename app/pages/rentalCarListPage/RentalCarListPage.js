@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  Modal,
-  Pressable,
-} from 'react-native';
+import {Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
-import {darkStyles, lightStyles} from './RentalCarListPageStyles';
+import {darkStyles, lightStyles} from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarFilterModal from '../../components/carFilterModal/CarFilterModal';
+import ModalError from '../../components/modalError/ModalError';
+import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
+import BackDrop from '../../components/backDrop/BackDrop';
+import {RentalCarListServices} from '../../services/RentalCarListServices';
 
 const DATA = [
   {
@@ -55,9 +51,61 @@ const DATA = [
   },
 ];
 
-function RentalCarListPage() {
+function RentalCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const [modalError, setModalError] = React.useState({
+    open: false,
+    title: null,
+    content: null,
+  });
+  const [modalSuccess, setModalSuccess] = React.useState(false);
+  const [backDrop, setBackDrop] = React.useState(false);
   const [modalVisible, setModalVisible] = React.useState(false);
+
+  const [carList, setCarList] = React.useState([]);
+
+  const getCarList = async () => {
+    console.log('call getCarList');
+    const res = await RentalCarListServices.getCarList()
+    console.log('res', res);
+    // axios success
+    if (res.data) {
+      if (res.data.status == Constants.ApiCode.OK) {
+        setCarList(res.data.data);
+      } else {
+        setModalError({
+          ...modalError,
+          open: true,
+          title: res.data.message,
+        });
+      }
+    }
+    // axios fail
+    else {
+      setModalError({
+        ...modalError,
+        open: true,
+        title:
+          (res.request &&
+            `${Strings.Common.AN_ERROR_OCCURRED} (${res.request.status})`) ||
+          Strings.Common.ERROR,
+        content: res.name || null,
+      });
+    }
+  };
+
+  const run = async () => {
+    // await setBackDrop(true);
+    await getCarList()
+    // await setTimeout(() => {
+    //   setBackDrop(false);
+    // }, 1000);
+  };
+
+  React.useEffect(() => {
+    run();
+  }, []);
+
   return (
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
       <FlatList
@@ -131,6 +179,25 @@ function RentalCarListPage() {
         showModal={modalVisible}
         setShowModal={() => setModalVisible(!modalVisible)}
       />
+
+      <ModalSuccess
+        open={modalSuccess}
+        handleClose={() => setModalSuccess(false)}
+      />
+
+      <ModalError
+        open={modalError.open}
+        handleClose={() =>
+          setModalError({
+            ...modalError,
+            open: false,
+          })
+        }
+        title={modalError.title}
+        content={modalError.content}
+      />
+
+      <BackDrop open={backDrop} />
     </View>
   );
 }

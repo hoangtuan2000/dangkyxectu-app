@@ -6,17 +6,40 @@ import RentedCarScreen from '../rentedCarScreen/RentedCarScreen';
 import AccountScreen from '../accountScreen/AccountScreen';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Constants from '../../constant/Constants';
-import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux';
+import {getDataUser} from '../../asyncStorage/AsyncStorage';
 
 const Tab = createMaterialBottomTabNavigator();
 
 function HomeScreen() {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const currentUser = useSelector(state => state.currentUser.user);
+  // const [role, setRole] = React.useState();
+
+  // const run = async () => {
+  //   let storageUser = await getDataUser();
+  //   setRole(storageUser.role);
+  // };
+
+  React.useLayoutEffect(() => {
+    // run();
+  }, [currentUser]);
+
   return (
     <Tab.Navigator
-      activeColor={isDarkMode ? Constants.Styles.Color.LIGHT : Constants.Styles.Color.PRIMARY}
-      inactiveColor={isDarkMode ? Constants.Styles.Color.DARK : Constants.Styles.Color.SECONDARY}
-      barStyle={{backgroundColor: isDarkMode ? Constants.Styles.colorSecondary : 'white'}}
+      activeColor={
+        isDarkMode
+          ? Constants.Styles.Color.LIGHT
+          : Constants.Styles.Color.PRIMARY
+      }
+      inactiveColor={
+        isDarkMode
+          ? Constants.Styles.Color.DARK
+          : Constants.Styles.Color.SECONDARY
+      }
+      barStyle={{
+        backgroundColor: isDarkMode ? Constants.Styles.colorSecondary : 'white',
+      }}
       screenOptions={({route}) => ({
         headerShown: false,
         tabBarIcon: ({focused, color, size}) => {
@@ -33,16 +56,20 @@ function HomeScreen() {
           return <MaterialIcons name={iconName} size={26} color={color} />;
         },
       })}>
-      <Tab.Screen
-        name={RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN}
-        component={RentalCarListScreen}
-        options={{title: 'Danh Sách Xe'}}
-      />
-      <Tab.Screen
-        name={RoutesPath.Screens.RENTED_CAR_SCREEN}
-        component={RentedCarScreen}
-        options={{title: 'Xe Đã Thuê'}}
-      />
+      {currentUser.role == Constants.Role.USER && (
+        <>
+          <Tab.Screen
+            name={RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN}
+            component={RentalCarListScreen}
+            options={{title: 'Danh Sách Xe'}}
+          />
+          <Tab.Screen
+            name={RoutesPath.Screens.RENTED_CAR_SCREEN}
+            component={RentedCarScreen}
+            options={{title: 'Xe Đã Thuê'}}
+          />
+        </>
+      )}
       <Tab.Screen
         name={RoutesPath.Screens.ACCOUNT_SCREEN}
         component={AccountScreen}

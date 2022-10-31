@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import RoutesPath from './app/constant/RoutesPath';
 import HomeScreen from './app/screens/homeScreen/HomeScreen';
 import LoginScreen from './app/screens/loginScreen/LoginScreen';
-import { store } from './app/redux/store'
-import { Provider } from 'react-redux'
+import {store} from './app/redux/store';
+import {Provider} from 'react-redux';
 import SplashScreen from './app/screens/splashScreen/SplashScreen';
+import {getDataUser} from './app/asyncStorage/AsyncStorage';
 
 const Stack = createNativeStackNavigator();
 

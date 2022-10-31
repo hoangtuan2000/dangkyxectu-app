@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 import InputCustom from '../../components/inputCustom/InputCustom';
@@ -21,10 +21,11 @@ import BackDrop from '../../components/backDrop/BackDrop';
 import helper from '../../common/helper';
 import {LoginServices} from '../../services/LoginServices';
 import {getDataUser, storeDataUser} from '../../asyncStorage/AsyncStorage';
+import { changeCurrentUser } from '../../redux/currentUserSlice/currentUserSlice';
 
 function LoginPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
-
+  const dispatch = useDispatch();
   const [modalError, setModalError] = useState({
     open: false,
     title: null,
@@ -89,6 +90,7 @@ function LoginPage({navigation}) {
         if (res.data.status == Constants.ApiCode.OK) {
           // await dispatch(changeErrorAuthencationToken(null));
           storeDataUser(res.data.data);
+          dispatch(changeCurrentUser(res.data.data));
           navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
         } else {
           setModalError({
@@ -114,23 +116,6 @@ function LoginPage({navigation}) {
       await setBackDrop(false);
     }
   };
-
-  const run = async () => {
-    await setBackDrop(true);
-    let currentUser = await getDataUser();
-    if(currentUser){
-      !helper.isNullOrEmpty(currentUser.token) &&
-      !helper.isNullOrEmpty(currentUser.access_token) &&
-      navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
-    }
-    await setTimeout(() => {
-      setBackDrop(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    run();
-  }, []);
 
   return (
     <KeyboardAvoidingView

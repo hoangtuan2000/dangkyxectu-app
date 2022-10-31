@@ -51,10 +51,21 @@ const Constants = {
     SERVICE_UNAVAILABLE: 503,
   },
 
+  Role: {
+    // ALL: "all",
+    ADMIN: 'admin',
+    USER: 'user',
+    DRIVER: 'driver',
+    ADMIN_USER: 'admin user',
+  },
+
   ApiPath: {
     Login: {
       LOGIN: '/global/login',
     },
+    RentalCarList: {
+      GET_CAR_LIST: "/global/getCarList",
+    }
   },
 };
 
