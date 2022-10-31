@@ -9,7 +9,7 @@ const lightStyles = StyleSheet.create({
   },
   modalView: {
     // flex: 1,
-    backgroundColor: Constants.styles.backgroundLight,
+    backgroundColor: Constants.Styles.BackgroundColor.LIGHT,
     borderRadius: 10,
     margin: 10,
     padding: 10,
@@ -28,7 +28,7 @@ const lightStyles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: Constants.styles.colorSuccess,
+    color: Constants.Styles.Color.SUCCESS,
   },
 });
 
@@ -40,7 +40,7 @@ const darkStyles = StyleSheet.create({
   },
   modalView: {
     // flex: 1,
-    backgroundColor: Constants.styles.backgroundDark,
+    backgroundColor: Constants.Styles.BackgroundColor.DARK,
     borderRadius: 10,
     margin: 10,
     padding: 10,
@@ -59,7 +59,7 @@ const darkStyles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: Constants.styles.colorSuccess,
+    color: Constants.Styles.Color.SUCCESS,
   },
 });
 

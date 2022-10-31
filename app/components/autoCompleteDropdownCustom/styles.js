@@ -3,16 +3,16 @@ import Constants from '../../constant/Constants';
 
 const lightStyles = StyleSheet.create({
   title: {
-    color: Constants.styles.colorDark,
+    color: Constants.Styles.Color.DARK,
   },
   inputContainer: {
-    backgroundColor: Constants.styles.colorLight,
+    backgroundColor: Constants.Styles.Color.LIGHT,
   },
   suggestionsListContainer: {
-    backgroundColor: Constants.styles.colorLight,
+    backgroundColor: Constants.Styles.Color.LIGHT,
   },
   emptryResult: {
-    color: Constants.styles.colorDark,
+    color: Constants.Styles.Color.DARK,
     alignSelf: 'center',
     padding: 10,
   },
@@ -20,16 +20,16 @@ const lightStyles = StyleSheet.create({
 
 const darkStyles = StyleSheet.create({
   title: {
-    color: Constants.styles.colorLight,
+    color: Constants.Styles.Color.LIGHT,
   },
   inputContainer: {
-    backgroundColor: Constants.styles.colorSecondary,
+    backgroundColor: Constants.Styles.Color.SECONDARY,
   },
   suggestionsListContainer: {
-    backgroundColor: Constants.styles.colorSecondary,
+    backgroundColor: Constants.Styles.Color.SECONDARY,
   },
   emptryResult: {
-    color: Constants.styles.colorWhite,
+    color: Constants.Styles.Color.WHITE,
     alignSelf: 'center',
     padding: 10,
   },

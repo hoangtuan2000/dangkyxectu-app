@@ -1,5 +1,6 @@
 const RoutesPath = {
   Screens: {
+    SPLASH_SCREEN: 'SplashScreen',
     LOGIN_SCREEN: 'LoginScreen',
     HOME_SCREEN: 'HomeScreen',
     RENTAL_CAR_LIST_SCREEN: 'RentalCarListScreen',
@@ -7,6 +8,7 @@ const RoutesPath = {
     ACCOUNT_SCREEN: 'AccountScreen',
   },
   Pages: {
+    SPLASH_PAGE: 'SplashPage',
     LOGIN_PAGE: 'LoginPage',
     RENTAL_CAR_LIST_PAGE: 'RentalCarListPage',
     RENTED_CAR_PAGE: 'RentedCarPage',

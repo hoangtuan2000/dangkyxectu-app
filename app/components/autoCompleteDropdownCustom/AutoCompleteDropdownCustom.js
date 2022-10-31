@@ -35,7 +35,7 @@ function AutoCompleteDropdownCustom({
             {
               fontSize: fontSizeTitle
                 ? fontSizeTitle
-                : Constants.Styles.fontSizeLarge,
+                : Constants.Styles.FontSize.LARGE,
             },
           ]}>
           {title}
@@ -54,12 +54,12 @@ function AutoCompleteDropdownCustom({
         textInputProps={{
           placeholder: placeholder && placeholder,
           placeholderTextColor: isDarkMode
-            ? Constants.Styles.colorWhite
-            : Constants.Styles.colorSecondary,
+            ? Constants.Styles.Color.WHITE
+            : Constants.Styles.Color.SECONDARY,
           style: {
             color: isDarkMode
-              ? Constants.Styles.colorWhite
-              : Constants.Styles.colorDark,
+              ? Constants.Styles.Color.WHITE
+              : Constants.Styles.Color.DARK,
           },
         }}
         suggestionsListMaxHeight={Dimensions.get('window').height * 0.4}
@@ -69,8 +69,8 @@ function AutoCompleteDropdownCustom({
             size={20}
             color={
               isDarkMode
-                ? Constants.Styles.colorWhite
-                : Constants.Styles.colorDark
+                ? Constants.Styles.Color.WHITE
+                : Constants.Styles.Color.DARK
             }
           />
         }
@@ -80,8 +80,8 @@ function AutoCompleteDropdownCustom({
             size={18}
             color={
               isDarkMode
-                ? Constants.Styles.colorWhite
-                : Constants.Styles.colorDark
+                ? Constants.Styles.Color.WHITE
+                : Constants.Styles.Color.DARK
             }
           />
         }
@@ -93,8 +93,8 @@ function AutoCompleteDropdownCustom({
         ]}
         suggestionsListTextStyle={{
           color: isDarkMode
-            ? Constants.Styles.colorWhite
-            : Constants.Styles.colorDark,
+            ? Constants.Styles.Color.WHITE
+            : Constants.Styles.Color.DARK,
         }}
         EmptyResultComponent={
           <Text

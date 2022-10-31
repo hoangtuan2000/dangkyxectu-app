@@ -4,25 +4,25 @@ import Constants from '../../constant/Constants';
 const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Constants.styles.backgroundLight,
+    backgroundColor: Constants.Styles.BackgroundColor.LIGHT,
     paddingTop: 5,
     paddingBottom: 5,
   },
   cardContainer: {
-    backgroundColor: Constants.styles.colorLight,
+    backgroundColor: Constants.Styles.Color.LIGHT,
     margin: 5,
     borderRadius: 5,
     padding: 10,
     flexDirection: 'row',
   },
   carSeatNumber: {
-    fontSize: Constants.styles.fontSizeLarge,
-    color: Constants.styles.colorDark,
+    fontSize: Constants.Styles.FontSize.LARGE,
+    color: Constants.Styles.Color.DARK,
     fontWeight: '400',
   },
   text: {
-    fontSize: Constants.styles.fontSizeDefault,
-    color: Constants.styles.colorSecondary,
+    fontSize: Constants.Styles.FontSize.DEFAULT,
+    color: Constants.Styles.Color.SECONDARY,
   },
   imageCar: {
     width: 150,
@@ -46,25 +46,25 @@ const lightStyles = StyleSheet.create({
 const darkStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Constants.styles.backgroundDark,
+    backgroundColor: Constants.Styles.BackgroundColor.DARK,
     paddingTop: 5,
     paddingBottom: 5,
   },
   cardContainer: {
-    backgroundColor: Constants.styles.colorSecondary,
+    backgroundColor: Constants.Styles.Color.SECONDARY,
     margin: 5,
     borderRadius: 5,
     padding: 10,
     flexDirection: 'row',
   },
   carSeatNumber: {
-    fontSize: Constants.styles.fontSizeLarge,
-    color: Constants.styles.colorWhite,
+    fontSize: Constants.Styles.FontSize.LARGE,
+    color: Constants.Styles.Color.WHITE,
     fontWeight: '400',
   },
   text: {
-    fontSize: Constants.styles.fontSizeDefault,
-    color: Constants.styles.colorWhite,
+    fontSize: Constants.Styles.FontSize.DEFAULT,
+    color: Constants.Styles.Color.WHITE,
   },
   imageCar: {
     width: 150,

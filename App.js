@@ -7,6 +7,7 @@ import HomeScreen from './app/screens/homeScreen/HomeScreen';
 import LoginScreen from './app/screens/loginScreen/LoginScreen';
 import { store } from './app/redux/store'
 import { Provider } from 'react-redux'
+import SplashScreen from './app/screens/splashScreen/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,8 +17,12 @@ function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName={RoutesPath.Screens.LOGIN_SCREEN}
+            initialRouteName={RoutesPath.Screens.SPLASH_SCREEN}
             screenOptions={{headerShown: false}}>
+            <Stack.Screen
+              name={RoutesPath.Screens.SPLASH_SCREEN}
+              component={SplashScreen}
+            />
             <Stack.Screen
               name={RoutesPath.Screens.LOGIN_SCREEN}
               component={LoginScreen}

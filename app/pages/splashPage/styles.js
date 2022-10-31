@@ -9,11 +9,12 @@ const lightStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageLogo: {
-    width: 140,
-    height: 140,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
   },
   title: {
+    marginTop: 10,
     fontWeight: 'bold',
     fontSize: 25,
     color: 'black',
@@ -29,14 +30,15 @@ const darkStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageLogo: {
-    width: 140,
-    height: 140,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
   },
   title: {
+    marginTop: 10,
     fontWeight: 'bold',
     fontSize: 25,
-    color: '#dadde3',
+    color: 'black',
     alignSelf: 'center',
   },
 });

@@ -7,10 +7,17 @@ import Strings from '../../constant/Strings';
 import Constants from '../../constant/Constants';
 import {useSelector, useDispatch} from 'react-redux';
 import {changeThemeMode} from '../../redux/themeModeSlice/themeModeSlice';
+import {removeDataUser} from '../../asyncStorage/AsyncStorage';
+import RoutesPath from '../../constant/RoutesPath';
 
-function AccountPage() {
+function AccountPage({navigation}) {
   const dispatch = useDispatch();
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+
+  const logout = () => {
+    removeDataUser();
+    navigation.navigate(RoutesPath.Screens.LOGIN_SCREEN);
+  };
 
   return (
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
@@ -34,16 +41,18 @@ function AccountPage() {
               <MaterialIcons name={'weather-night'} color={'white'} size={20} />
             )
           }
-          bgColor={!isDarkMode && Constants.Styles.colorSecondary}
+          bgColor={!isDarkMode && Constants.Styles.Color.SECONDARY}
           iconPosition="left"
-          textButton={isDarkMode ? Strings.App.LIGHTTHEME : Strings.App.DARKTHEME}
+          textButton={
+            isDarkMode ? Strings.App.LIGHTTHEME : Strings.App.DARKTHEME
+          }
         />
         <ButtonCustom
           icon={<MaterialIcons name={'logout'} color={'white'} size={20} />}
           iconPosition="left"
           textButton={Strings.Common.LOGOUT}
-          onPress={e => console.log(e.target)}
-          bgColor={Constants.Styles.colorError}
+          onPress={() => logout()}
+          bgColor={Constants.Styles.Color.ERROR}
         />
       </View>
     </View>

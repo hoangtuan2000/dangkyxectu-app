@@ -64,7 +64,7 @@ function CarFilterModal({showModal, setShowModal}) {
             }}>
             <ButtonCustom
               onPress={() => setShowModal()}
-              bgColor={Constants.Styles.colorError}
+              bgColor={Constants.Styles.Color.ERROR}
               textButton={Strings.Common.CANCEL}
             />
             <ButtonCustom textButton={Strings.Common.SEARCH} />

@@ -4,7 +4,7 @@ import Constants from '../../constant/Constants';
 const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Constants.styles.backgroundLight,
+    backgroundColor: Constants.Styles.BackgroundColor.LIGHT,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -19,7 +19,7 @@ const lightStyles = StyleSheet.create({
 const darkStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Constants.styles.backgroundDark,
+    backgroundColor: Constants.Styles.BackgroundColor.DARK,
     alignItems: 'center',
     justifyContent: 'center',
   },

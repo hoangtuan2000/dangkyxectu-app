@@ -29,7 +29,7 @@ function ModalError({open, handleClose, title, content}) {
             }}>
             <ButtonCustom
               onPress={handleClose}
-              bgColor={Constants.Styles.colorError}
+              bgColor={Constants.Styles.Color.ERROR}
               textButton={Strings.Common.CLOSE}
               padding={5}
               iconPosition={'right'}
@@ -37,7 +37,7 @@ function ModalError({open, handleClose, title, content}) {
                 <MaterialIcons
                   name="close-circle-outline"
                   size={25}
-                  color={Constants.Styles.colorLight}
+                  color={Constants.Styles.Color.LIGHT}
                 />
               }
             />

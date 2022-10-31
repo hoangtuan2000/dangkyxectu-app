@@ -27,7 +27,7 @@ const lightStyles = StyleSheet.create({
   },
 
   error: {
-    color: Constants.styles.colorError,
+    color: Constants.Styles.Color.ERROR,
     paddingTop: 4,
     fontSize: 14,
     fontWeight: 'bold',
@@ -60,7 +60,7 @@ const darkStyles = StyleSheet.create({
   },
 
   error: {
-    color: Constants.styles.colorError,
+    color: Constants.Styles.Color.ERROR,
     paddingTop: 4,
     fontSize: 14,
     fontWeight: 'bold',

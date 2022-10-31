@@ -41,7 +41,7 @@ function ButtonCustom({
         stylesButton,
         {
           width: widthButton && widthButton,
-          backgroundColor: bgColor ? bgColor : Constants.Styles.colorPrimary,
+          backgroundColor: bgColor ? bgColor : Constants.Styles.Color.PRIMARY,
           padding: padding ? padding : 10,
           paddingLeft: paddingLeft ? paddingLeft : 10,
           paddingRight: paddingRight ? paddingRight : 10,
@@ -57,7 +57,7 @@ function ButtonCustom({
         style={[
           stylesText,
           {
-            color: textColor ? textColor : Constants.Styles.colorWhite,
+            color: textColor ? textColor : Constants.Styles.Color.WHITE,
             fontSize: textSize ? textSize : 16,
             fontWeight: textWeight ? textWeight : 'normal',
           },

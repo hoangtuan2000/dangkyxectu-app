@@ -104,7 +104,7 @@ function RentalCarListPage() {
                   <Text
                     style={{
                       color: 'blue',
-                      fontSize: Constants.Styles.fontSizeLarge,
+                      fontSize: Constants.Styles.FontSize.LARGE,
                     }}>
                     3
                   </Text>

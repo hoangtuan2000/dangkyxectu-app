@@ -17,7 +17,7 @@ function BackDrop({open}) {
         <View style={isDarkMode ? darkStyles.modalView : lightStyles.modalView}>
           <ActivityIndicator
             size={'large'}
-            color={Constants.Styles.colorPrimary}
+            color={Constants.Styles.Color.PRIMARY}
           />
         </View>
       </View>

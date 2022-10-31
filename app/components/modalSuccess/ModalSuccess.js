@@ -30,7 +30,7 @@ function ModalSuccess({open, handleClose}) {
             }}>
             <ButtonCustom
               onPress={handleClose}
-              bgColor={Constants.Styles.colorSuccess}
+              bgColor={Constants.Styles.Color.SUCCESS}
               textButton={Strings.Common.CLOSE}
               padding={5}
               iconPosition={'right'}
@@ -38,7 +38,7 @@ function ModalSuccess({open, handleClose}) {
                 <MaterialIcons
                   name="close-circle-outline"
                   size={25}
-                  color={Constants.Styles.colorLight}
+                  color={Constants.Styles.Color.LIGHT}
                 />
               }
             />

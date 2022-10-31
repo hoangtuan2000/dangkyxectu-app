@@ -11,6 +11,7 @@ const Strings = {
     LOGIN: 'Đăng Nhập',
     LOGOUT: 'Đăng Xuất',
     NO_DATA: 'Không Có Dữ Liệu',
+    AN_ERROR_OCCURRED: "Đã Xảy Ra Lỗi",
     IMAGE: 'Ảnh',
     CAR_TYPE: 'Loại Xe',
     LICENSE_PLATES: 'Biển Số',
@@ -40,6 +41,8 @@ const Strings = {
     ENTER_LOGIN_CODE: 'Nhập Mã Số Đăng Nhập',
     PASSWORD: 'Mật Khẩu',
     ENTER_PASSWORD: 'Nhập Mật Khẩu',
+    ENTER_CODE_PLEASE: 'Vui Lòng Nhập Mã Số',
+    ENTER_PASS_PLEASE: 'Vui Lòng Nhập Mật Khẩu',
   },
 
   RentalCarList: {
