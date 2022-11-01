@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Platform, View} from 'react-native';
+import {Modal, Platform, ScrollView, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
@@ -29,50 +29,57 @@ const DATA2 = [
   {id: '2', title: 'Có Lịch Trình'},
 ];
 
-function CarFilterModal({showModal, setShowModal}) {
+function RentalCarFilterModal({open, handleClose}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedItem2, setSelectedItem2] = React.useState(null);
 
   return (
-    <Modal visible={showModal} animationType="slide" transparent={true}>
+    <Modal
+      visible={open}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={handleClose}>
       <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
         <View style={isDarkMode ? darkStyles.modalView : lightStyles.modalView}>
-          
-          <AutoCompleteDropdownCustom
-            data={DATA}
-            title={'Tìm Kiếm Xe Theo Số Ghế'}
-            setSelectedItem={setSelectedItem}
-            zindex={10}
-            placeholder={Strings.CarFilterModal.ENTER_NUMBER_SEAT}
-          />
-
-          <AutoCompleteDropdownCustom
-            data={DATA2}
-            title={'Sắp Xếp Xe Theo Lịch Trình'}
-            setSelectedItem={setSelectedItem2}
-            zindex={9}
-            placeholder={Strings.CarFilterModal.ENTER_SCHEDULE}
-          />
-
-          <View
-            style={{
-              position: 'absolute',
-              bottom: 10,
-              right: 10,
-              flexDirection: 'row',
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
             }}>
-            <ButtonCustom
-              onPress={() => setShowModal()}
-              bgColor={Constants.Styles.Color.ERROR}
-              textButton={Strings.Common.CANCEL}
+            <AutoCompleteDropdownCustom
+              data={DATA}
+              title={'Tìm Kiếm Xe Theo Số Ghế'}
+              setSelectedItem={setSelectedItem}
+              zindex={10}
+              placeholder={Strings.RentalCarFilterModal.ENTER_NUMBER_SEAT}
             />
-            <ButtonCustom textButton={Strings.Common.SEARCH} />
-          </View>
+
+            <AutoCompleteDropdownCustom
+              data={DATA2}
+              title={'Sắp Xếp Xe Theo Lịch Trình'}
+              setSelectedItem={setSelectedItem2}
+              zindex={9}
+              placeholder={Strings.RentalCarFilterModal.ENTER_SCHEDULE}
+            />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+              }}>
+              <ButtonCustom
+                onPress={handleClose}
+                bgColor={Constants.Styles.Color.ERROR}
+                textButton={Strings.Common.CANCEL}
+              />
+              <ButtonCustom textButton={Strings.Common.SEARCH} />
+            </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
   );
 }
 
-export default CarFilterModal;
+export default RentalCarFilterModal;

@@ -85,12 +85,12 @@ function AutoCompleteDropdownCustom({
             }
           />
         }
-        suggestionsListContainerStyle={[
-          {elevation: zindex},
-          isDarkMode
+        suggestionsListContainerStyle={{
+          ...(isDarkMode
             ? darkStyles.suggestionsListContainer
-            : lightStyles.suggestionsListContainer,
-        ]}
+            : lightStyles.suggestionsListContainer),
+          elevation: zindex,
+        }}
         suggestionsListTextStyle={{
           color: isDarkMode
             ? Constants.Styles.Color.WHITE

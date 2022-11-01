@@ -52,7 +52,7 @@ const Strings = {
     CAR_BRAND: 'Hãng Xe:',
   },
 
-  CarFilterModal: {
+  RentalCarFilterModal: {
     ENTER_NUMBER_SEAT: 'Nhập Số Ghế',
     ENTER_SCHEDULE: 'Nhập Lịch Trình',
   },

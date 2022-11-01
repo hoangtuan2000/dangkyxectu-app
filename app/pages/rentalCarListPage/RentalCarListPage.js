@@ -13,13 +13,13 @@ import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import {darkStyles, lightStyles} from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import CarFilterModal from '../../components/carFilterModal/CarFilterModal';
 import ModalError from '../../components/modalError/ModalError';
 import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
 import BackDrop from '../../components/backDrop/BackDrop';
 import {RentalCarListServices} from '../../services/RentalCarListServices';
 import NoDataView from '../../components/noDataView/NoDataView';
 import {ActivityIndicator} from 'react-native-paper';
+import RentalCarFilterModal from '../../components/rentalcarFilterModal/RentalCarFilterModal';
 
 function RentalCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -270,9 +270,9 @@ function RentalCarListPage({navigation}) {
         <MaterialIcons name="filter-outline" size={26} color={'white'} />
       </TouchableOpacity>
 
-      <CarFilterModal
-        showModal={modalVisible}
-        setShowModal={() => setModalVisible(!modalVisible)}
+      <RentalCarFilterModal
+        open={modalVisible}
+        handleClose={() => setModalVisible(!modalVisible)}
       />
 
       <ModalSuccess
