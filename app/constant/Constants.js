@@ -8,6 +8,7 @@ const Constants = {
       SECONDARY: 'gray',
       ERROR: '#f71919',
       SUCCESS: 'green',
+      WARNING: 'orange'
     },
 
     BackgroundColor: {
@@ -44,6 +45,21 @@ const Constants = {
     DRIVER: 'driver',
     ADMIN_USER: 'admin user',
   },
+
+  Common: {
+    PAGE: 1,
+    LIMIT_ENTRY: 10,
+    CHARACTERS_MIN_LENGTH_LICENSE_PLATES: 7,
+    CHARACTERS_MAX_LENGTH_LICENSE_PLATES: 10,
+    CHARACTERS_MIN_LENGTH_REASON_CANCEL_SCHEDULE: 5,
+    CHARACTERS_MAX_LENGTH_REASON_CANCEL_SCHEDULE: 250,
+    MIN_LENGTH_FULL_NAME: 5,
+    MAX_LENGTH_FULL_NAME: 30,
+    MIN_LENGTH_CODE: 8,
+    MAX_LENGTH_CODE: 8,
+    MIN_LENGTH_PASSWORD: 5,
+    MAX_LENGTH_PASSWORD: 15,
+},
 
   ApiPath: {
     Login: {

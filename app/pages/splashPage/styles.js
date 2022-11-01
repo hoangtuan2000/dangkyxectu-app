@@ -15,9 +15,10 @@ const lightStyles = StyleSheet.create({
   },
   title: {
     marginTop: 10,
+    marginBottom: 15,
     fontWeight: 'bold',
     fontSize: 25,
-    color: 'black',
+    color: Constants.Styles.Color.DARK,
     alignSelf: 'center',
   },
 });
@@ -36,9 +37,10 @@ const darkStyles = StyleSheet.create({
   },
   title: {
     marginTop: 10,
+    marginBottom: 15,
     fontWeight: 'bold',
     fontSize: 25,
-    color: 'black',
+    color: Constants.Styles.Color.WHITE,
     alignSelf: 'center',
   },
 });

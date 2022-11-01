@@ -1,5 +1,12 @@
 import React from 'react';
-import {Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
@@ -11,45 +18,8 @@ import ModalError from '../../components/modalError/ModalError';
 import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
 import BackDrop from '../../components/backDrop/BackDrop';
 import {RentalCarListServices} from '../../services/RentalCarListServices';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d725',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d726',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d727',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d728',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d729',
-    title: 'Third Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e297d72',
-    title: 'Third Item',
-  },
-];
+import NoDataView from '../../components/noDataView/NoDataView';
+import {ActivityIndicator} from 'react-native-paper';
 
 function RentalCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -60,18 +30,47 @@ function RentalCarListPage({navigation}) {
   });
   const [modalSuccess, setModalSuccess] = React.useState(false);
   const [backDrop, setBackDrop] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const [dataInfo, setDataInfo] = React.useState({
+    page: Constants.Common.PAGE,
+    pageSize: Constants.Common.LIMIT_ENTRY,
+    totalRows: 0,
+    totalPages: 0,
+  });
+
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const [carList, setCarList] = React.useState([]);
 
-  const getCarList = async () => {
+  const getCarList = async (
+    loadMoreData = false,
+    page = dataInfo.page,
+    pageSize = dataInfo.pageSize,
+  ) => {
     console.log('call getCarList');
-    const res = await RentalCarListServices.getCarList()
-    // console.log('res', res);
+    let data = {
+      page: page,
+      limitEntry: pageSize,
+    };
+    const res = await RentalCarListServices.getCarList({...data});
     // axios success
     if (res.data) {
       if (res.data.status == Constants.ApiCode.OK) {
-        setCarList(res.data.data);
+        setDataInfo({
+          page: res.data.page,
+          pageSize: res.data.limitEntry,
+          totalRows: res.data.sizeQuerySnapshot,
+          totalPages: Math.ceil(
+            res.data.sizeQuerySnapshot / res.data.limitEntry,
+          ),
+        });
+        if (loadMoreData) {
+          setCarList([...carList, ...res.data.data]);
+        } else {
+          setCarList(res.data.data);
+        }
       } else {
         setModalError({
           ...modalError,
@@ -94,12 +93,29 @@ function RentalCarListPage({navigation}) {
     }
   };
 
+  const onRefresh = async () => {
+    await setBackDrop(true);
+    await setRefreshing(true);
+    await getCarList(false, Constants.Common.PAGE);
+    await setRefreshing(false);
+    await setBackDrop(false);
+  };
+
+  const onLoadMore = async () => {
+    if (dataInfo.page + 1 <= dataInfo.totalPages) {
+      await setIsLoadingMore(true);
+      await getCarList(true, dataInfo.page + 1);
+      await setIsLoadingMore(false);
+    }
+  };
+
   const run = async () => {
-    // await setBackDrop(true);
-    await getCarList()
-    // await setTimeout(() => {
-    //   setBackDrop(false);
-    // }, 1000);
+    await setBackDrop(true);
+    await getCarList();
+    await setTimeout(() => {
+      setBackDrop(false);
+      setIsLoading(false);
+    }, 1000);
   };
 
   React.useEffect(() => {
@@ -108,66 +124,145 @@ function RentalCarListPage({navigation}) {
 
   return (
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
-      <FlatList
-        data={DATA}
-        renderItem={({item, index}) => {
-          return (
-            <View
-              key={index}
-              style={
-                isDarkMode
-                  ? darkStyles.cardContainer
-                  : lightStyles.cardContainer
-              }>
-              <View>
-                <Image
-                  source={{
-                    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5IjpmFd7DlEVpCidRbFGh5F6vxlYKqmdGIg&usqp=CAU',
-                  }}
-                  style={
-                    isDarkMode ? darkStyles.imageCar : lightStyles.imageCar
-                  }
-                />
-              </View>
-              <View style={{marginLeft: 10}}>
-                <Text
-                  style={
-                    isDarkMode
-                      ? darkStyles.carSeatNumber
-                      : lightStyles.carSeatNumber
-                  }>
-                  Xe 32 Chỗ
-                </Text>
-                <Text style={isDarkMode ? darkStyles.text : lightStyles.text}>
-                  {Strings.RentalCarList.CAR_BRAND} Huyndai
-                </Text>
-                <Text style={isDarkMode ? darkStyles.text : lightStyles.text}>
-                  {Strings.RentalCarList.LICENSE_PLATES} 65A-12345
-                </Text>
-                <Text style={isDarkMode ? darkStyles.text : lightStyles.text}>
-                  {Strings.RentalCarList.VEHICLE_CONDITION} Hoạt Động
-                </Text>
-                <Text style={isDarkMode ? darkStyles.text : lightStyles.text}>
-                  {Strings.RentalCarList.SCHEDULE}
-                  <Text
-                    style={{
-                      color: 'blue',
-                      fontSize: Constants.Styles.FontSize.LARGE,
-                    }}>
-                    3
-                  </Text>
-                </Text>
-                <ButtonCustom
-                  onPress={() => console.log('ok')}
-                  textButton={'Đăng Ký Xe'}
-                  widthButton={120}
-                />
-              </View>
-            </View>
-          );
-        }}
-        keyExtractor={item => item.id}
-      />
+      {!isLoading && (
+        <>
+          {carList.length > 0 ? (
+            <FlatList
+              data={carList}
+              keyExtractor={item => item.idCar}
+              // refresh control
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              //  Load more
+              ListFooterComponent={() =>
+                isLoadingMore ? (
+                  <View style={{padding: 20}}>
+                    <ActivityIndicator size="small" color="white" />
+                  </View>
+                ) : null
+              }
+              onEndReached={() => {
+                onLoadMore();
+              }}
+              onEndReachedThreshold={0.05}
+              renderItem={({item}) => {
+                return (
+                  <View
+                    key={item.idCar}
+                    style={
+                      isDarkMode
+                        ? darkStyles.cardContainer
+                        : lightStyles.cardContainer
+                    }>
+                    <View>
+                      <Image
+                        source={{
+                          uri: item.image,
+                        }}
+                        style={
+                          isDarkMode
+                            ? darkStyles.imageCar
+                            : lightStyles.imageCar
+                        }
+                      />
+                    </View>
+                    <View style={{marginLeft: 10}}>
+                      <Text
+                        style={
+                          isDarkMode
+                            ? darkStyles.carSeatNumber
+                            : lightStyles.carSeatNumber
+                        }>
+                        {`${item.nameCarType} ${item.seatNumber} Chổ`}
+                      </Text>
+                      <Text
+                        style={isDarkMode ? darkStyles.text : lightStyles.text}>
+                        {Strings.RentalCarList.CAR_BRAND} {item.nameCarBrand}
+                      </Text>
+                      <Text
+                        style={isDarkMode ? darkStyles.text : lightStyles.text}>
+                        {Strings.RentalCarList.LICENSE_PLATES}{' '}
+                        {item.licensePlates}
+                      </Text>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'flex-start',
+                          alignItems: 'center',
+                          marginBottom: 5,
+                        }}>
+                        <Text
+                          style={
+                            isDarkMode ? darkStyles.text : lightStyles.text
+                          }>
+                          {Strings.RentalCarList.VEHICLE_CONDITION}
+                        </Text>
+                        <View
+                          style={{
+                            backgroundColor: Constants.Styles.Color.SUCCESS,
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                            borderRadius: 5,
+                          }}>
+                          <Text
+                            style={[
+                              isDarkMode ? darkStyles.text : lightStyles.text,
+                              {color: 'white'},
+                            ]}>
+                            {item.nameCarStatus}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'flex-start',
+                          alignItems: 'center',
+                        }}>
+                        <Text
+                          style={
+                            isDarkMode ? darkStyles.text : lightStyles.text
+                          }>
+                          {Strings.RentalCarList.SCHEDULE}
+                        </Text>
+                        <View
+                          style={{
+                            backgroundColor:
+                              item.totalSchedule == 0
+                                ? 'green'
+                                : Constants.Styles.Color.WARNING,
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                            borderRadius: 5,
+                          }}>
+                          <Text
+                            style={[
+                              isDarkMode ? darkStyles.text : lightStyles.text,
+                              {color: 'white'},
+                            ]}>
+                            {item.totalSchedule}
+                          </Text>
+                        </View>
+                      </View>
+
+                      <ButtonCustom
+                        onPress={() => console.log('ok')}
+                        textButton={'Đăng Ký Xe'}
+                        padding={8}
+                      />
+                    </View>
+                  </View>
+                );
+              }}
+            />
+          ) : (
+            <NoDataView />
+          )}
+        </>
+      )}
 
       <TouchableOpacity
         onPress={() => setModalVisible(!modalVisible)}

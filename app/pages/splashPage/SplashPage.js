@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Image, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import RoutesPath from '../../constant/RoutesPath';
-import BackDrop from '../../components/backDrop/BackDrop';
 import {lightStyles, darkStyles} from './styles';
 import helper from '../../common/helper';
 import {
@@ -15,14 +14,14 @@ import {
   deleteCurrentUser,
 } from '../../redux/currentUserSlice/currentUserSlice';
 import {changeThemeMode} from '../../redux/themeModeSlice/themeModeSlice';
+import {ActivityIndicator} from 'react-native-paper';
+import Constants from '../../constant/Constants';
 
 function SplashPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const dispatch = useDispatch();
-  const [backDrop, setBackDrop] = React.useState(false);
 
   const run = async () => {
-    await setBackDrop(true);
     let darkMode = await getDarkModeStorage();
     dispatch(changeThemeMode(helper.convertStringBooleanToBoolean(darkMode)));
 
@@ -32,12 +31,10 @@ function SplashPage({navigation}) {
         !helper.isNullOrEmpty(currentUser.token) &&
         !helper.isNullOrEmpty(currentUser.access_token)
       ) {
-        await setBackDrop(false);
         dispatch(changeCurrentUser(currentUser));
         navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
       }
     } else {
-      await setBackDrop(false);
       dispatch(deleteCurrentUser());
       navigation.navigate(RoutesPath.Screens.LOGIN_SCREEN);
     }
@@ -56,7 +53,10 @@ function SplashPage({navigation}) {
       <Text style={isDarkMode ? darkStyles.title : lightStyles.title}>
         {Strings.App.TITLE}
       </Text>
-      <BackDrop open={backDrop} />
+      <ActivityIndicator
+        size={'large'}
+        color={Constants.Styles.Color.PRIMARY}
+      />
     </View>
   );
 }

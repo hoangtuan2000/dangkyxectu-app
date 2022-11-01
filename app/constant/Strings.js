@@ -38,7 +38,7 @@ const Strings = {
 
   Login: {
     LOGIN_CODE: 'Mã Số Đăng Nhập',
-    ENTER_LOGIN_CODE: 'Nhập Mã Số Đăng Nhập',
+    ENTER_LOGIN_CODE: 'Nhập Mã Số',
     PASSWORD: 'Mật Khẩu',
     ENTER_PASSWORD: 'Nhập Mật Khẩu',
     ENTER_CODE_PLEASE: 'Vui Lòng Nhập Mã Số',

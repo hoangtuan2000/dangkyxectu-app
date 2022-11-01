@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  errorAuthencation: 'Phiên Đăng Nhập Của Bạn Đã Hết Hạn',
+  errorAuthencation: null,
 };
 
 export const globalSlice = createSlice({
