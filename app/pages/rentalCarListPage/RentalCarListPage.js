@@ -67,7 +67,7 @@ function RentalCarListPage({navigation}) {
   const getCarList = async () => {
     console.log('call getCarList');
     const res = await RentalCarListServices.getCarList()
-    console.log('res', res);
+    // console.log('res', res);
     // axios success
     if (res.data) {
       if (res.data.status == Constants.ApiCode.OK) {

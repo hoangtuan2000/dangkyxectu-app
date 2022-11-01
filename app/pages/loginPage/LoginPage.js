@@ -14,17 +14,21 @@ import InputCustom from '../../components/inputCustom/InputCustom';
 import Constants from '../../constant/Constants';
 import RoutesPath from '../../constant/RoutesPath';
 import Strings from '../../constant/Strings';
-import {lightStyles, darkStyles} from './LoginPageStyles';
+import {lightStyles, darkStyles} from './styles';
 import ModalError from '../../components/modalError/ModalError';
 import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
 import BackDrop from '../../components/backDrop/BackDrop';
 import helper from '../../common/helper';
 import {LoginServices} from '../../services/LoginServices';
-import {getDataUser, storeDataUser} from '../../asyncStorage/AsyncStorage';
-import { changeCurrentUser } from '../../redux/currentUserSlice/currentUserSlice';
+import {setDataUserStorage} from '../../asyncStorage/AsyncStorage';
+import {changeCurrentUser} from '../../redux/currentUserSlice/currentUserSlice';
+import {changeErrorAuthencation} from '../../redux/globalSlice/globalSlice';
 
 function LoginPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const errorAuthencation = useSelector(
+    state => state.global.errorAuthencation,
+  );
   const dispatch = useDispatch();
   const [modalError, setModalError] = useState({
     open: false,
@@ -34,7 +38,7 @@ function LoginPage({navigation}) {
   const [modalSuccess, setModalSuccess] = useState(false);
   const [backDrop, setBackDrop] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
 
   const [dataSendApi, setDataSendApi] = useState({
     code: null,
@@ -88,9 +92,9 @@ function LoginPage({navigation}) {
       if (res.data) {
         // login success
         if (res.data.status == Constants.ApiCode.OK) {
-          // await dispatch(changeErrorAuthencationToken(null));
-          storeDataUser(res.data.data);
-          dispatch(changeCurrentUser(res.data.data));
+          await dispatch(changeErrorAuthencation(null));
+          await setDataUserStorage(res.data.data);
+          await dispatch(changeCurrentUser(res.data.data));
           navigation.navigate(RoutesPath.Screens.HOME_SCREEN);
         } else {
           setModalError({
@@ -134,6 +138,27 @@ function LoginPage({navigation}) {
             {Strings.App.TITLE}
           </Text>
         </View>
+
+        {errorAuthencation && (
+          <View
+            style={isDarkMode ? darkStyles.viewError : lightStyles.viewError}>
+              <Icon
+                name="information-circle"
+                size={22}
+                color={
+                  'white'
+                }
+                style={{marginRight: 5}}
+              />
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: 'bold',
+              }}>
+              {errorAuthencation}
+            </Text>
+          </View>
+        )}
 
         <View>
           <InputCustom

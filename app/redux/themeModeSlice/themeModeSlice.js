@@ -8,8 +8,8 @@ export const themeModeSlice = createSlice({
   name: 'themeModeRedux',
   initialState,
   reducers: {
-    changeThemeMode: state => {
-      state.darkMode = !state.darkMode;
+    changeThemeMode: (state, action) => {
+      state.darkMode = action.payload;
     },
   },
 });

@@ -92,6 +92,10 @@ const helper = {
             new Date(new Date().toDateString())
         );
     },
+
+    convertStringBooleanToBoolean: (stringBoolean) => {
+        return stringBoolean.toString() == "true";
+    },
 };
 
 export default helper;

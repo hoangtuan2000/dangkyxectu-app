@@ -19,6 +19,14 @@ const lightStyles = StyleSheet.create({
     color: 'black',
     alignSelf: 'center',
   },
+  viewError: {
+    backgroundColor: Constants.Styles.Color.ERROR,
+    borderRadius: 10,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 });
 
 const darkStyles = StyleSheet.create({
@@ -38,6 +46,14 @@ const darkStyles = StyleSheet.create({
     fontSize: 25,
     color: '#dadde3',
     alignSelf: 'center',
+  },
+  viewError: {
+    backgroundColor: Constants.Styles.Color.ERROR,
+    borderRadius: 10,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 });
 

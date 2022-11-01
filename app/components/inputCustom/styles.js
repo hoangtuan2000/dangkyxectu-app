@@ -6,7 +6,7 @@ const lightStyles = StyleSheet.create({
     fontSize: 16,
     color: 'black',
   },
-  
+
   wrapper: {
     height: 42,
     borderWidth: 1,
@@ -24,6 +24,7 @@ const lightStyles = StyleSheet.create({
   textInput: {
     flex: 1,
     width: '100%',
+    color: Constants.Styles.Color.DARK,
   },
 
   error: {
@@ -57,6 +58,7 @@ const darkStyles = StyleSheet.create({
   textInput: {
     flex: 1,
     width: '100%',
+    color: Constants.Styles.Color.WHITE,
   },
 
   error: {

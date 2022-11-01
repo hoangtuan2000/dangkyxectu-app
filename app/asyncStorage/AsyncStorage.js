@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const keyStoreUser = '@currentUser';
+const keyStoreDarkMode = '@darkMode';
 
-const storeDataUser = async value => {
+const setDataUserStorage = async value => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(keyStoreUser, jsonValue);
@@ -12,7 +13,7 @@ const storeDataUser = async value => {
   }
 };
 
-const getDataUser = async () => {
+const getDataUserStorage = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem(keyStoreUser);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -21,7 +22,7 @@ const getDataUser = async () => {
   }
 };
 
-const removeDataUser = async () => {
+const removeDataUserStorage = async () => {
   try {
     await AsyncStorage.removeItem(keyStoreUser);
     return true;
@@ -30,4 +31,28 @@ const removeDataUser = async () => {
   }
 };
 
-export {storeDataUser, getDataUser, removeDataUser};
+const setDarkModeStorage = async value => {
+  try {
+    await AsyncStorage.setItem(keyStoreDarkMode, value.toString());
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const getDarkModeStorage = async () => {
+  try {
+    const value = await AsyncStorage.getItem(keyStoreDarkMode);
+    return value;
+  } catch (e) {
+    return false;
+  }
+};
+
+export {
+  setDataUserStorage,
+  getDataUserStorage,
+  removeDataUserStorage,
+  setDarkModeStorage,
+  getDarkModeStorage
+};

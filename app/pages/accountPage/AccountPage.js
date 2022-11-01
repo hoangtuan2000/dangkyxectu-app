@@ -7,15 +7,19 @@ import Strings from '../../constant/Strings';
 import Constants from '../../constant/Constants';
 import {useSelector, useDispatch} from 'react-redux';
 import {changeThemeMode} from '../../redux/themeModeSlice/themeModeSlice';
-import {removeDataUser} from '../../asyncStorage/AsyncStorage';
+import {
+  removeDataUserStorage,
+  setDarkModeStorage,
+} from '../../asyncStorage/AsyncStorage';
 import RoutesPath from '../../constant/RoutesPath';
 
 function AccountPage({navigation}) {
   const dispatch = useDispatch();
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const [darkMode, setDarkMode] = React.useState(isDarkMode);
 
   const logout = () => {
-    removeDataUser();
+    removeDataUserStorage();
     navigation.navigate(RoutesPath.Screens.LOGIN_SCREEN);
   };
 
@@ -29,7 +33,11 @@ function AccountPage({navigation}) {
       </Text>
       <View style={{width: 160}}>
         <ButtonCustom
-          onPress={() => dispatch(changeThemeMode())}
+          onPress={() => {
+            dispatch(changeThemeMode(!darkMode));
+            setDarkModeStorage(!darkMode);
+            setDarkMode(!darkMode);
+          }}
           icon={
             isDarkMode ? (
               <MaterialIcons

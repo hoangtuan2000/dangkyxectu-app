@@ -9,14 +9,22 @@ import {store} from './app/redux/store';
 import {Provider} from 'react-redux';
 import SplashScreen from './app/screens/splashScreen/SplashScreen';
 import {getDataUser} from './app/asyncStorage/AsyncStorage';
+import {useNavigation} from '@react-navigation/native';
+import {AxiosInterceptorsSetup} from './app/common/axiosConfig';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
+  const AxiosInterceptorNavigate = () => {
+    let navigate = useNavigation();
+    AxiosInterceptorsSetup(navigate);
+    return <></>;
+  };
   return (
     <Provider store={store}>
       <SafeAreaProvider>
         <NavigationContainer>
+          <AxiosInterceptorNavigate />
           <Stack.Navigator
             initialRouteName={RoutesPath.Screens.SPLASH_SCREEN}
             screenOptions={{headerShown: false}}>

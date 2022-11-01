@@ -5,9 +5,16 @@ import RoutesPath from '../../constant/RoutesPath';
 import BackDrop from '../../components/backDrop/BackDrop';
 import {lightStyles, darkStyles} from './styles';
 import helper from '../../common/helper';
-import {getDataUser} from '../../asyncStorage/AsyncStorage';
+import {
+  getDarkModeStorage,
+  getDataUserStorage,
+} from '../../asyncStorage/AsyncStorage';
 import Strings from '../../constant/Strings';
-import {changeCurrentUser, deleteCurrentUser} from '../../redux/currentUserSlice/currentUserSlice';
+import {
+  changeCurrentUser,
+  deleteCurrentUser,
+} from '../../redux/currentUserSlice/currentUserSlice';
+import {changeThemeMode} from '../../redux/themeModeSlice/themeModeSlice';
 
 function SplashPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -16,7 +23,10 @@ function SplashPage({navigation}) {
 
   const run = async () => {
     await setBackDrop(true);
-    let currentUser = await getDataUser();
+    let darkMode = await getDarkModeStorage();
+    dispatch(changeThemeMode(helper.convertStringBooleanToBoolean(darkMode)));
+
+    let currentUser = await getDataUserStorage();
     if (currentUser) {
       if (
         !helper.isNullOrEmpty(currentUser.token) &&
@@ -28,7 +38,7 @@ function SplashPage({navigation}) {
       }
     } else {
       await setBackDrop(false);
-      dispatch(deleteCurrentUser())
+      dispatch(deleteCurrentUser());
       navigation.navigate(RoutesPath.Screens.LOGIN_SCREEN);
     }
   };
