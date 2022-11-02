@@ -22,7 +22,7 @@ function SplashPage({navigation}) {
   const dispatch = useDispatch();
 
   const run = async () => {
-    let darkMode = await getDarkModeStorage();
+    let darkMode = (await getDarkModeStorage()) || false;
     dispatch(changeThemeMode(helper.convertStringBooleanToBoolean(darkMode)));
 
     let currentUser = await getDataUserStorage();

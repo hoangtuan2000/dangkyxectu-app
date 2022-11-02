@@ -1,9 +1,6 @@
-import React, { useState } from 'react'
-import { Text, View } from 'react-native'
-import SelectBox from 'react-native-multi-selectbox'
-import { xorBy } from 'lodash'
-
-// Options data must contain 'item' & 'id' keys
+import React from 'react';
+import {Text, View} from 'react-native';
+import MultiSelectBox from '../../components/multiSelectBox/MultiSelectBox';
 
 const K_OPTIONS = [
   {
@@ -59,45 +56,23 @@ const K_OPTIONS = [
     item: 'Leicester City FC',
     id: 'LEI',
   },
-]
+];
 
 function RentedCarPage() {
-  const [selectedTeam, setSelectedTeam] = useState({})
-  const [selectedTeams, setSelectedTeams] = useState([])
+  const [selectedTeams, setSelectedTeams] = React.useState([]);
+
+  console.log('selectedTeams', selectedTeams);
+
   return (
-    <View style={{ margin: 30 }}>
-      <View style={{ width: '100%', alignItems: 'center' }}>
-        <Text style={{ fontSize: 30, paddingBottom: 20 }}>Demos</Text>
-      </View>
-      <Text style={{ fontSize: 20, paddingBottom: 10 }}>Select Demo</Text>
-      <SelectBox
-        label="Select single"
-        options={K_OPTIONS}
-        value={selectedTeam}
-        onChange={(val) => onChange(val)}
-        hideInputFilter={false}
-      />
-      <View style={{ height: 40 }} />
-      <Text style={{ fontSize: 20, paddingBottom: 10 }}>MultiSelect Demo</Text>
-      <SelectBox
-        label="Select multiple"
-        options={K_OPTIONS}
-        selectedValues={selectedTeams}
-        onMultiSelect={onMultiChange}
-        onTapClose={onMultiChange}
-        isMulti
+    <View>
+      <MultiSelectBox
+        data={K_OPTIONS}
+        label='test'
+        inputPlaceholder={'test placeholder'}
+        onMultiChange={(value) => console.log('value', value)}
       />
     </View>
-  )
-
-  function onMultiChange() {
-    return (item) => setSelectedTeams(xorBy(selectedTeams, [item], 'id'))
-  }
-
-  function onChange(val) {
-    setSelectedTeam(val)
-    // return (val) => setSelectedTeam(val)
-  }
+  );
 }
 
-export default RentedCarPage
+export default RentedCarPage;

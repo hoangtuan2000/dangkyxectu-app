@@ -6,6 +6,7 @@ import ButtonCustom from '../buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoCompleteDropdownCustom';
+import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
 
 const DATA = [
   {id: '1', title: 'Xe 4 Chổ'},
@@ -29,10 +30,67 @@ const DATA2 = [
   {id: '2', title: 'Có Lịch Trình'},
 ];
 
+const K_OPTIONS = [
+  {
+    item: 'Juventus',
+    id: 'JUVE',
+  },
+  {
+    item: 'Real Madrid',
+    id: 'RM',
+  },
+  {
+    item: 'Barcelona',
+    id: 'BR',
+  },
+  {
+    item: 'PSG',
+    id: 'PSG',
+  },
+  {
+    item: 'FC Bayern Munich',
+    id: 'FBM',
+  },
+  {
+    item: 'Manchester United FC',
+    id: 'MUN',
+  },
+  {
+    item: 'Manchester City FC',
+    id: 'MCI',
+  },
+  {
+    item: 'Everton FC',
+    id: 'EVE',
+  },
+  {
+    item: 'Tottenham Hotspur FC',
+    id: 'TOT',
+  },
+  {
+    item: 'Chelsea FC',
+    id: 'CHE',
+  },
+  {
+    item: 'Liverpool FC',
+    id: 'LIV',
+  },
+  {
+    item: 'Arsenal FC',
+    id: 'ARS',
+  },
+
+  {
+    item: 'Leicester City FC',
+    id: 'LEI',
+  },
+];
+
 function RentalCarFilterModal({open, handleClose}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedItem2, setSelectedItem2] = React.useState(null);
+  const [selectedTeams, setSelectedTeams] = React.useState([]);
 
   return (
     <Modal
@@ -60,6 +118,13 @@ function RentalCarFilterModal({open, handleClose}) {
               setSelectedItem={setSelectedItem2}
               zindex={9}
               placeholder={Strings.RentalCarFilterModal.ENTER_SCHEDULE}
+            />
+
+            <MultiSelectBox
+              data={K_OPTIONS}
+              label='Sắp Xếp Xe Theo Lịch Trình'
+              inputPlaceholder={'test placeholder'}
+              onMultiChange={value => console.log('RentalCarFilterModal', value)}
             />
 
             <View
