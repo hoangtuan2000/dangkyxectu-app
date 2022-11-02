@@ -14,13 +14,12 @@ function MultiSelectBox({
   listEmptyText,
   fontSizeLabel,
   onMultiChange = () => {},
+  value
 }) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
-  const [selectedTeams, setSelectedTeams] = React.useState([]);
 
   const onChange = item => {
-    setSelectedTeams(xorBy(selectedTeams, [item], 'id'));
-    onMultiChange(xorBy(selectedTeams, [item], 'id'));
+    onMultiChange(xorBy(value, [item], 'id'));
   };
 
   return (
@@ -30,7 +29,7 @@ function MultiSelectBox({
         inputPlaceholder={inputPlaceholder}
         listEmptyText={listEmptyText || Strings.Common.NO_DATA}
         options={data}
-        selectedValues={selectedTeams}
+        selectedValues={value}
         onMultiSelect={item => onChange(item)}
         onTapClose={item => onChange(item)}
         isMulti

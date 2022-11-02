@@ -12,6 +12,7 @@ import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoCompleteDropdownCustom';
 import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
 import {RadioButton} from 'react-native-paper';
@@ -21,7 +22,16 @@ import ModalError from '../modalError/ModalError';
 import BackDrop from '../backDrop/BackDrop';
 import {GlobalServices} from '../../services/GlobalServices';
 
-function RentalCarFilterModal({open, handleClose}) {
+function RentalCarFilterModal({
+  open,
+  handleClose,
+  onSubmit = () => {},
+  handleRefreshDataFilter,
+  defaultHaveTrip,
+  defaultLicensePlates,
+  defaultCarBrand,
+  defaultCarType,
+}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [modalError, setModalError] = React.useState({
     open: false,
@@ -31,19 +41,14 @@ function RentalCarFilterModal({open, handleClose}) {
   const [backDrop, setBackDrop] = React.useState(false);
 
   const [dataSendApi, setDataSendApi] = React.useState({
-    // carType: defaultCarType ? [...defaultCarType] : [],
-    // carBrand: defaultCarBrand ? [...defaultCarBrand] : [],
-    // licensePlates: defaultLicensePlates || null,
-    // haveTrip: defaultHaveTrip || null,
+    carType: defaultCarType ? [...defaultCarType] : [],
+    carBrand: defaultCarBrand ? [...defaultCarBrand] : [],
+    licensePlates: defaultLicensePlates || null,
+    haveTrip: defaultHaveTrip || null,
   });
 
   const [carTypeList, setCarTypeList] = React.useState([]);
   const [carBrandList, setCarBrandList] = React.useState([]);
-
-  const [selectedItem, setSelectedItem] = React.useState(null);
-  const [selectedItem2, setSelectedItem2] = React.useState(null);
-  const [selectedTeams, setSelectedTeams] = React.useState([]);
-  const [value, setValue] = React.useState('first');
 
   const getCommon = async () => {
     const res = await GlobalServices.getCommon({
@@ -91,6 +96,55 @@ function RentalCarFilterModal({open, handleClose}) {
     }
   };
 
+  const handleChangeHaveTrip = e => {
+    setDataSendApi({
+      ...dataSendApi,
+      haveTrip: e,
+    });
+  };
+
+  const handleChangeLicensePlates = e => {
+    setDataSendApi({
+      ...dataSendApi,
+      licensePlates: e,
+    });
+  };
+
+  const handleSelectBrand = e => {
+    setDataSendApi({
+      ...dataSendApi,
+      carBrand: e,
+    });
+  };
+
+  const handleSelectType = e => {
+    setDataSendApi({
+      ...dataSendApi,
+      carType: e,
+    });
+  };
+
+  const handleRefreshFilter = () => {
+    // call function => return submit
+    let data = {
+      carType: [],
+      carBrand: [],
+      licensePlates: null,
+      haveTrip: null,
+    };
+    onSubmit(data);
+    //refresh data
+    setDataSendApi(data);
+    //call function
+    handleRefreshDataFilter();
+    handleClose();
+  };
+
+  const handleSubmit = () => {
+    onSubmit(dataSendApi);
+    handleClose();
+  };
+
   const run = async () => {
     await setBackDrop(true);
     (await open) && getCommon();
@@ -126,10 +180,11 @@ function RentalCarFilterModal({open, handleClose}) {
                 {Strings.RentalCarFilterModal.TITLE}
               </Text>
 
+              {/* HAVE TRIP */}
               <RadioGroup
                 title={Strings.RentalCarFilterModal.HAVE_SCHEDULE}
-                checkDefault={1}
-                onCheck={e => console.log('e', e)}
+                onCheck={e => handleChangeHaveTrip(e)}
+                value={dataSendApi.haveTrip}
                 items={[
                   {
                     value: true,
@@ -142,31 +197,30 @@ function RentalCarFilterModal({open, handleClose}) {
                 ]}
               />
 
+              {/* LICENSE PLATES */}
               <InputCustom
                 label={Strings.RentalCarFilterModal.LICENSE_PLATES}
                 styleLabel={{fontSize: Constants.Styles.FontSize.LARGE}}
                 placeholder={Strings.RentalCarFilterModal.ENTER_LICENSE_PLATES}
                 style={{fontSize: 16}}
-                // onChangeText={e => handleChangeCode(e)}
-                // value={dataSendApi.code}
+                onChangeText={e => handleChangeLicensePlates(e)}
+                value={dataSendApi.licensePlates}
               />
 
               <MultiSelectBox
                 data={carBrandList}
                 label={Strings.RentalCarFilterModal.BRAND}
                 inputPlaceholder={Strings.RentalCarFilterModal.CHOOSE_BRAND}
-                onMultiChange={value =>
-                  console.log('RentalCarFilterModal', value)
-                }
+                onMultiChange={value => handleSelectBrand(value)}
+                value={dataSendApi.carBrand}
               />
 
               <MultiSelectBox
                 data={carTypeList}
                 label={Strings.RentalCarFilterModal.CAR_TYPE}
                 inputPlaceholder={Strings.RentalCarFilterModal.CHOOSE_CAR_TYPE}
-                onMultiChange={value =>
-                  console.log('RentalCarFilterModal', value)
-                }
+                onMultiChange={value => handleSelectType(value)}
+                value={dataSendApi.carType}
               />
 
               <View
@@ -180,7 +234,15 @@ function RentalCarFilterModal({open, handleClose}) {
                   bgColor={Constants.Styles.Color.ERROR}
                   textButton={Strings.Common.CANCEL}
                 />
-                <ButtonCustom textButton={Strings.Common.SEARCH} />
+                <ButtonCustom
+                  onPress={handleRefreshFilter}
+                  textButton={Strings.Common.REFRESH}
+                  bgColor={Constants.Styles.Color.WARNING}
+                />
+                <ButtonCustom
+                  onPress={handleSubmit}
+                  textButton={Strings.Common.SEARCH}
+                />
               </View>
             </View>
           </ScrollView>

@@ -33,6 +33,7 @@ const Strings = {
     NUMBER_PHONE: 'Số Điện Thoại',
     CANCEL: 'Hủy',
     SEARCH: 'Tìm Kiếm',
+    REFRESH: 'Làm Mới',
     CLOSE: 'Đóng',
   },
 

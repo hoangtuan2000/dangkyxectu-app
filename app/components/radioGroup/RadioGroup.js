@@ -3,17 +3,13 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Constants from '../../constant/Constants';
 import {RadioButton} from 'react-native-paper';
 import {useSelector} from 'react-redux';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import helper from '../../common/helper';
 
-function RadioGroup({title, items, checkDefault, onCheck = () => {}}) {
+function RadioGroup({title, items, onCheck = () => {}, value}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
-  const [value, setValue] = React.useState(
-    items.length > 0 && checkDefault >= 0 && checkDefault <= items.length - 1
-      ? items[checkDefault].value
-      : null,
-  );
 
   const handleCheck = val => {
-    setValue(val);
     onCheck(val);
   };
 
@@ -34,6 +30,7 @@ function RadioGroup({title, items, checkDefault, onCheck = () => {}}) {
         <View
           style={{
             flexDirection: 'row',
+            alignItems: 'center',
           }}>
           {items.map((item, index) => {
             return (
@@ -44,7 +41,7 @@ function RadioGroup({title, items, checkDefault, onCheck = () => {}}) {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginRight: 5,
+                  marginRight: 10,
                 }}>
                 <RadioButton value={item.value} />
                 <Text
@@ -59,6 +56,12 @@ function RadioGroup({title, items, checkDefault, onCheck = () => {}}) {
               </TouchableOpacity>
             );
           })}
+
+          {!helper.isNullOrEmpty(value) && (
+            <TouchableOpacity onPress={() => handleCheck(null)}>
+              <MaterialIcons name="close-circle" size={26} color={'red'} />
+            </TouchableOpacity>
+          )}
         </View>
       </RadioButton.Group>
     </View>

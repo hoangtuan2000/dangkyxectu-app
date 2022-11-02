@@ -20,6 +20,7 @@ import {RentalCarListServices} from '../../services/RentalCarListServices';
 import NoDataView from '../../components/noDataView/NoDataView';
 import {ActivityIndicator} from 'react-native-paper';
 import RentalCarFilterModal from '../../components/rentalcarFilterModal/RentalCarFilterModal';
+import helper from '../../common/helper';
 
 function RentalCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -33,6 +34,7 @@ function RentalCarListPage({navigation}) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+
   const [dataInfo, setDataInfo] = React.useState({
     page: Constants.Common.PAGE,
     pageSize: Constants.Common.LIMIT_ENTRY,
@@ -40,7 +42,15 @@ function RentalCarListPage({navigation}) {
     totalPages: 0,
   });
 
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [totalDataFilter, setTotalDataFilter] = React.useState(null);
+  const [dataFilter, setDataFilter] = React.useState({
+    carType: [],
+    carBrand: [],
+    licensePlates: null,
+    haveTrip: null,
+  });
+
+  const [rentalCarFilterModal, setRentalCarFilterModal] = React.useState(false);
 
   const [carList, setCarList] = React.useState([]);
 
@@ -48,11 +58,20 @@ function RentalCarListPage({navigation}) {
     loadMoreData = false,
     page = dataInfo.page,
     pageSize = dataInfo.pageSize,
+    carType,
+    carBrand,
+    licensePlates,
+    haveTrip,
   ) => {
+    await setBackDrop(true)
     console.log('call getCarList');
     let data = {
       page: page,
       limitEntry: pageSize,
+      carType,
+      carBrand,
+      licensePlates,
+      haveTrip,
     };
     const res = await RentalCarListServices.getCarList({...data});
     // axios success
@@ -91,14 +110,13 @@ function RentalCarListPage({navigation}) {
         content: res.name || null,
       });
     }
+    await setBackDrop(false)
   };
 
   const onRefresh = async () => {
-    await setBackDrop(true);
     await setRefreshing(true);
     await getCarList(false, Constants.Common.PAGE);
     await setRefreshing(false);
-    await setBackDrop(false);
   };
 
   const onLoadMore = async () => {
@@ -109,11 +127,47 @@ function RentalCarListPage({navigation}) {
     }
   };
 
+  const handleFilter = e => {
+    //format data to send API
+    let carType = [];
+    let carBrand = [];
+    if (helper.isArray(e.carType) && e.carType.length > 0) {
+      carType = e.carType.map(item => {
+        return item.id;
+      });
+    }
+    if (helper.isArray(e.carBrand) && e.carBrand.length > 0) {
+      carBrand = e.carBrand.map(item => {
+        return item.id;
+      });
+    }
+    //reset page and pageSize => call getCarListForAdmin function
+    getCarList(
+      false,
+      Constants.Common.PAGE,
+      dataInfo.pageSize,
+      carType,
+      carBrand,
+      e.licensePlates,
+      e.haveTrip,
+    );
+    // save data filter in dialogRentalCarFilter => default value in dialogRentalCarFilter
+    setDataFilter({
+      carType: [...e.carType],
+      carBrand: [...e.carBrand],
+      licensePlates: e.licensePlates,
+      haveTrip: e.haveTrip,
+    });
+    // show total data to filter in UI => button filter
+    let total = carType.length + carBrand.length;
+    if (e.licensePlates) total += 1;
+    if (e.haveTrip) total += 1;
+    setTotalDataFilter(total > 0 ? total : null);
+  };
+
   const run = async () => {
-    await setBackDrop(true);
     await getCarList();
     await setTimeout(() => {
-      setBackDrop(false);
       setIsLoading(false);
     }, 1000);
   };
@@ -265,14 +319,20 @@ function RentalCarListPage({navigation}) {
       )}
 
       <TouchableOpacity
-        onPress={() => setModalVisible(!modalVisible)}
+        onPress={() => setRentalCarFilterModal(!rentalCarFilterModal)}
         style={isDarkMode ? darkStyles.filterButton : lightStyles.filterButton}>
         <MaterialIcons name="filter-outline" size={26} color={'white'} />
       </TouchableOpacity>
 
       <RentalCarFilterModal
-        open={modalVisible}
-        handleClose={() => setModalVisible(!modalVisible)}
+        open={rentalCarFilterModal}
+        handleClose={() => setRentalCarFilterModal(!rentalCarFilterModal)}
+        onSubmit={e => handleFilter(e)}
+        handleRefreshDataFilter={e => console.log(e)}
+        defaultCarType={dataFilter.carType}
+        defaultCarBrand={dataFilter.carBrand}
+        defaultLicensePlates={dataFilter.licensePlates}
+        defaultHaveTrip={dataFilter.haveTrip}
       />
 
       <ModalSuccess
