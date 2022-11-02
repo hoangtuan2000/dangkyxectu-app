@@ -11,7 +11,7 @@ const Strings = {
     LOGIN: 'Đăng Nhập',
     LOGOUT: 'Đăng Xuất',
     NO_DATA: 'Không Có Dữ Liệu',
-    AN_ERROR_OCCURRED: "Đã Xảy Ra Lỗi",
+    AN_ERROR_OCCURRED: 'Đã Xảy Ra Lỗi',
     IMAGE: 'Ảnh',
     CAR_TYPE: 'Loại Xe',
     LICENSE_PLATES: 'Biển Số',
@@ -53,6 +53,10 @@ const Strings = {
   },
 
   RentalCarFilterModal: {
+    TITLE: 'Bộ Lọc Xe',
+    HAVE_SCHEDULE: 'Lịch Trình',
+
+    
     ENTER_NUMBER_SEAT: 'Nhập Số Ghế',
     ENTER_SCHEDULE: 'Nhập Lịch Trình',
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Modal, Platform, ScrollView, View} from 'react-native';
+import {Modal, ScrollView, View, Text, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
@@ -7,6 +7,8 @@ import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoCompleteDropdownCustom';
 import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
+import {RadioButton} from 'react-native-paper';
+import RadioGroup from '../radioGroup/RadioGroup';
 
 const DATA = [
   {id: '1', title: 'Xe 4 Chổ'},
@@ -88,9 +90,11 @@ const K_OPTIONS = [
 
 function RentalCarFilterModal({open, handleClose}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedItem2, setSelectedItem2] = React.useState(null);
   const [selectedTeams, setSelectedTeams] = React.useState([]);
+  const [value, setValue] = React.useState('first');
 
   return (
     <Modal
@@ -104,6 +108,92 @@ function RentalCarFilterModal({open, handleClose}) {
             contentContainerStyle={{
               flexGrow: 1,
             }}>
+            <Text
+              style={{
+                alignSelf: 'center',
+                fontSize: 20,
+                marginBottom: 10,
+                color: Constants.Styles.Color.PRIMARY,
+                fontWeight: 'bold',
+              }}>
+              {Strings.RentalCarFilterModal.TITLE}
+            </Text>
+
+            {/* <View>
+              <Text
+                style={{
+                  fontSize: Constants.Styles.FontSize.LARGE,
+                  color: isDarkMode
+                    ? Constants.Styles.Color.WHITE
+                    : Constants.Styles.Color.DARK,
+                }}>
+                Có Lịch Trình
+              </Text>
+              <RadioButton.Group
+                onValueChange={newValue => setValue(newValue)}
+                value={value}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}>
+                  <TouchableOpacity
+                    onPress={() => setValue('first')}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: 5,
+                    }}>
+                    <RadioButton value="first" />
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        color: isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.DARK,
+                      }}>
+                      First
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setValue('second')}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginRight: 5,
+                    }}>
+                    <RadioButton value="second" />
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        color: isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.DARK,
+                      }}>
+                      Second
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </RadioButton.Group>
+            </View> */}
+
+            <RadioGroup
+              title={Strings.RentalCarFilterModal.HAVE_SCHEDULE}
+              checkDefault={1}
+              onCheck={e => console.log('e', e)}
+              items={[
+                {
+                  value: true,
+                  label: 'Có',
+                },
+                {
+                  value: false,
+                  label: 'Không',
+                },
+              ]}
+            />
+
             <AutoCompleteDropdownCustom
               data={DATA}
               title={'Tìm Kiếm Xe Theo Số Ghế'}
@@ -122,9 +212,11 @@ function RentalCarFilterModal({open, handleClose}) {
 
             <MultiSelectBox
               data={K_OPTIONS}
-              label='Sắp Xếp Xe Theo Lịch Trình'
+              label="Sắp Xếp Xe Theo Lịch Trình"
               inputPlaceholder={'test placeholder'}
-              onMultiChange={value => console.log('RentalCarFilterModal', value)}
+              onMultiChange={value =>
+                console.log('RentalCarFilterModal', value)
+              }
             />
 
             <View
