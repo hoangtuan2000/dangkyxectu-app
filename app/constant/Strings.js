@@ -54,11 +54,13 @@ const Strings = {
 
   RentalCarFilterModal: {
     TITLE: 'Bộ Lọc Xe',
-    HAVE_SCHEDULE: 'Lịch Trình',
-
-    
-    ENTER_NUMBER_SEAT: 'Nhập Số Ghế',
-    ENTER_SCHEDULE: 'Nhập Lịch Trình',
+    HAVE_SCHEDULE: 'Có Lịch Trình',
+    LICENSE_PLATES: 'Biển Số Xe',
+    ENTER_LICENSE_PLATES: '-- Nhập Biển Số --',
+    BRAND: 'Thương Hiệu',
+    CHOOSE_BRAND: '-- Chọn Thương Hiệu --',
+    CAR_TYPE: 'Loại Xe',
+    CHOOSE_CAR_TYPE: '-- Chọn Loại Xe --',
   },
 };
 

@@ -8,7 +8,7 @@ const Constants = {
       SECONDARY: 'gray',
       ERROR: '#f71919',
       SUCCESS: 'green',
-      WARNING: 'orange'
+      WARNING: 'orange',
     },
 
     BackgroundColor: {
@@ -59,15 +59,18 @@ const Constants = {
     MAX_LENGTH_CODE: 8,
     MIN_LENGTH_PASSWORD: 5,
     MAX_LENGTH_PASSWORD: 15,
-},
+  },
 
   ApiPath: {
+    Common: {
+      GET_COMMON: '/global/getCommon',
+    },
     Login: {
       LOGIN: '/global/login',
     },
     RentalCarList: {
-      GET_CAR_LIST: "/global/getCarList",
-    }
+      GET_CAR_LIST: '/global/getCarList',
+    },
   },
 };
 

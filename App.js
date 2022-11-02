@@ -12,6 +12,10 @@ import {getDataUser} from './app/asyncStorage/AsyncStorage';
 import {useNavigation} from '@react-navigation/native';
 import {AxiosInterceptorsSetup} from './app/common/axiosConfig';
 
+// HIDE WANRING SCROLL NESTED
+// import {LogBox} from 'react-native';
+// LogBox.ignoreAllLogs();
+
 const Stack = createNativeStackNavigator();
 
 function App() {

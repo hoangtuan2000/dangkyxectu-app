@@ -14,6 +14,7 @@ function InputCustom({
   label,
   error,
   width,
+  styleLabel,
   ...props
 }) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -47,7 +48,7 @@ function InputCustom({
         {width: width && width},
       ]}>
       {label && (
-        <Text style={isDarkMode ? darkStyles.label : lightStyles.label}>
+        <Text style={[isDarkMode ? darkStyles.label : lightStyles.label, styleLabel]}>
           {label}
         </Text>
       )}

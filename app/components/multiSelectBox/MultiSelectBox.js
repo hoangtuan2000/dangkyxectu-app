@@ -24,7 +24,7 @@ function MultiSelectBox({
   };
 
   return (
-    <View>
+    <View style={{marginBottom: 10}}>
       <SelectBox
         label={label}
         inputPlaceholder={inputPlaceholder}
@@ -92,6 +92,7 @@ function MultiSelectBox({
             : Constants.Styles.Color.DARK,
           fontSize: 16,
         }}
+        listOptionProps={{nestedScrollEnabled: true}}
       />
     </View>
   );

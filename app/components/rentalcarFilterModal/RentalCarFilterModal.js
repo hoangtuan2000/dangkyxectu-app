@@ -1,5 +1,12 @@
 import React from 'react';
-import {Modal, ScrollView, View, Text, TouchableOpacity} from 'react-native';
+import {
+  Modal,
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
@@ -9,92 +16,90 @@ import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoComple
 import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
 import {RadioButton} from 'react-native-paper';
 import RadioGroup from '../radioGroup/RadioGroup';
-
-const DATA = [
-  {id: '1', title: 'Xe 4 Chổ'},
-  {id: '2', title: 'Xe 7 Chổ'},
-  {id: '3', title: 'Xe 16 Chổ'},
-  {id: '4', title: 'Xe 32 Chổ'},
-  {id: '5', title: 'Xe 35 Chổ'},
-  {id: '6', title: 'Xe 35 Chổ'},
-  {id: '7', title: 'Xe 35 Chổ'},
-  {id: '8', title: 'Xe 35 Chổ'},
-  {id: '9', title: 'Xe 35 Chổ'},
-  {id: '10', title: 'Xe 35 Chổ'},
-  {id: '11', title: 'Xe 35 Chổ'},
-  {id: '12', title: 'Xe 35 Chổ'},
-  {id: '13', title: 'Xe 35 Chổ'},
-  {id: '14', title: 'Xe 37 Chổ'},
-];
-
-const DATA2 = [
-  {id: '1', title: 'Không Có Lịch Trình'},
-  {id: '2', title: 'Có Lịch Trình'},
-];
-
-const K_OPTIONS = [
-  {
-    item: 'Juventus',
-    id: 'JUVE',
-  },
-  {
-    item: 'Real Madrid',
-    id: 'RM',
-  },
-  {
-    item: 'Barcelona',
-    id: 'BR',
-  },
-  {
-    item: 'PSG',
-    id: 'PSG',
-  },
-  {
-    item: 'FC Bayern Munich',
-    id: 'FBM',
-  },
-  {
-    item: 'Manchester United FC',
-    id: 'MUN',
-  },
-  {
-    item: 'Manchester City FC',
-    id: 'MCI',
-  },
-  {
-    item: 'Everton FC',
-    id: 'EVE',
-  },
-  {
-    item: 'Tottenham Hotspur FC',
-    id: 'TOT',
-  },
-  {
-    item: 'Chelsea FC',
-    id: 'CHE',
-  },
-  {
-    item: 'Liverpool FC',
-    id: 'LIV',
-  },
-  {
-    item: 'Arsenal FC',
-    id: 'ARS',
-  },
-
-  {
-    item: 'Leicester City FC',
-    id: 'LEI',
-  },
-];
+import InputCustom from '../inputCustom/InputCustom';
+import ModalError from '../modalError/ModalError';
+import BackDrop from '../backDrop/BackDrop';
+import {GlobalServices} from '../../services/GlobalServices';
 
 function RentalCarFilterModal({open, handleClose}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const [modalError, setModalError] = React.useState({
+    open: false,
+    title: null,
+    content: null,
+  });
+  const [backDrop, setBackDrop] = React.useState(false);
+
+  const [dataSendApi, setDataSendApi] = React.useState({
+    // carType: defaultCarType ? [...defaultCarType] : [],
+    // carBrand: defaultCarBrand ? [...defaultCarBrand] : [],
+    // licensePlates: defaultLicensePlates || null,
+    // haveTrip: defaultHaveTrip || null,
+  });
+
+  const [carTypeList, setCarTypeList] = React.useState([]);
+  const [carBrandList, setCarBrandList] = React.useState([]);
 
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [selectedItem2, setSelectedItem2] = React.useState(null);
   const [selectedTeams, setSelectedTeams] = React.useState([]);
   const [value, setValue] = React.useState('first');
+
+  const getCommon = async () => {
+    const res = await GlobalServices.getCommon({
+      group: 'car_type, car_brand',
+    });
+    // axios success
+    if (res.data) {
+      if (res.data.status == Constants.ApiCode.OK) {
+        setCarTypeList(
+          res.data.data.car_type.map(val => {
+            return {
+              item: `${val.name} ${val.seatNumber} Chổ`,
+              id: val.idCarType,
+            };
+          }),
+        );
+        setCarBrandList(
+          res.data.data.car_brand.map(val => {
+            return {
+              item: val.name,
+              id: val.idCarBrand,
+            };
+          }),
+        );
+      } else {
+        setModalError({
+          ...modalError,
+          open: true,
+          title: res.data.message,
+          content: null,
+        });
+      }
+    }
+    // axios fail
+    else {
+      setModalError({
+        ...modalError,
+        open: true,
+        title:
+          (res.request &&
+            `${Strings.Common.AN_ERROR_OCCURRED} (${res.request.status})`) ||
+          Strings.Common.ERROR,
+        content: res.name || null,
+      });
+    }
+  };
+
+  const run = async () => {
+    await setBackDrop(true);
+    (await open) && getCommon();
+    await setBackDrop(false);
+  };
+
+  React.useEffect(() => {
+    run();
+  }, [open]);
 
   return (
     <Modal
@@ -105,134 +110,94 @@ function RentalCarFilterModal({open, handleClose}) {
       <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
         <View style={isDarkMode ? darkStyles.modalView : lightStyles.modalView}>
           <ScrollView
+            nestedScrollEnabled={true}
             contentContainerStyle={{
               flexGrow: 1,
             }}>
-            <Text
-              style={{
-                alignSelf: 'center',
-                fontSize: 20,
-                marginBottom: 10,
-                color: Constants.Styles.Color.PRIMARY,
-                fontWeight: 'bold',
-              }}>
-              {Strings.RentalCarFilterModal.TITLE}
-            </Text>
-
-            {/* <View>
+            <View>
               <Text
                 style={{
-                  fontSize: Constants.Styles.FontSize.LARGE,
-                  color: isDarkMode
-                    ? Constants.Styles.Color.WHITE
-                    : Constants.Styles.Color.DARK,
+                  alignSelf: 'center',
+                  fontSize: 20,
+                  marginBottom: 10,
+                  color: Constants.Styles.Color.PRIMARY,
+                  fontWeight: 'bold',
                 }}>
-                Có Lịch Trình
+                {Strings.RentalCarFilterModal.TITLE}
               </Text>
-              <RadioButton.Group
-                onValueChange={newValue => setValue(newValue)}
-                value={value}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity
-                    onPress={() => setValue('first')}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginRight: 5,
-                    }}>
-                    <RadioButton value="first" />
-                    <Text
-                      style={{
-                        fontSize: 17,
-                        color: isDarkMode
-                          ? Constants.Styles.Color.WHITE
-                          : Constants.Styles.Color.DARK,
-                      }}>
-                      First
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => setValue('second')}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginRight: 5,
-                    }}>
-                    <RadioButton value="second" />
-                    <Text
-                      style={{
-                        fontSize: 17,
-                        color: isDarkMode
-                          ? Constants.Styles.Color.WHITE
-                          : Constants.Styles.Color.DARK,
-                      }}>
-                      Second
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </RadioButton.Group>
-            </View> */}
 
-            <RadioGroup
-              title={Strings.RentalCarFilterModal.HAVE_SCHEDULE}
-              checkDefault={1}
-              onCheck={e => console.log('e', e)}
-              items={[
-                {
-                  value: true,
-                  label: 'Có',
-                },
-                {
-                  value: false,
-                  label: 'Không',
-                },
-              ]}
-            />
-
-            <AutoCompleteDropdownCustom
-              data={DATA}
-              title={'Tìm Kiếm Xe Theo Số Ghế'}
-              setSelectedItem={setSelectedItem}
-              zindex={10}
-              placeholder={Strings.RentalCarFilterModal.ENTER_NUMBER_SEAT}
-            />
-
-            <AutoCompleteDropdownCustom
-              data={DATA2}
-              title={'Sắp Xếp Xe Theo Lịch Trình'}
-              setSelectedItem={setSelectedItem2}
-              zindex={9}
-              placeholder={Strings.RentalCarFilterModal.ENTER_SCHEDULE}
-            />
-
-            <MultiSelectBox
-              data={K_OPTIONS}
-              label="Sắp Xếp Xe Theo Lịch Trình"
-              inputPlaceholder={'test placeholder'}
-              onMultiChange={value =>
-                console.log('RentalCarFilterModal', value)
-              }
-            />
-
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                alignItems: 'flex-end',
-              }}>
-              <ButtonCustom
-                onPress={handleClose}
-                bgColor={Constants.Styles.Color.ERROR}
-                textButton={Strings.Common.CANCEL}
+              <RadioGroup
+                title={Strings.RentalCarFilterModal.HAVE_SCHEDULE}
+                checkDefault={1}
+                onCheck={e => console.log('e', e)}
+                items={[
+                  {
+                    value: true,
+                    label: 'Có',
+                  },
+                  {
+                    value: false,
+                    label: 'Không',
+                  },
+                ]}
               />
-              <ButtonCustom textButton={Strings.Common.SEARCH} />
+
+              <InputCustom
+                label={Strings.RentalCarFilterModal.LICENSE_PLATES}
+                styleLabel={{fontSize: Constants.Styles.FontSize.LARGE}}
+                placeholder={Strings.RentalCarFilterModal.ENTER_LICENSE_PLATES}
+                style={{fontSize: 16}}
+                // onChangeText={e => handleChangeCode(e)}
+                // value={dataSendApi.code}
+              />
+
+              <MultiSelectBox
+                data={carBrandList}
+                label={Strings.RentalCarFilterModal.BRAND}
+                inputPlaceholder={Strings.RentalCarFilterModal.CHOOSE_BRAND}
+                onMultiChange={value =>
+                  console.log('RentalCarFilterModal', value)
+                }
+              />
+
+              <MultiSelectBox
+                data={carTypeList}
+                label={Strings.RentalCarFilterModal.CAR_TYPE}
+                inputPlaceholder={Strings.RentalCarFilterModal.CHOOSE_CAR_TYPE}
+                onMultiChange={value =>
+                  console.log('RentalCarFilterModal', value)
+                }
+              />
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                  alignItems: 'flex-end',
+                }}>
+                <ButtonCustom
+                  onPress={handleClose}
+                  bgColor={Constants.Styles.Color.ERROR}
+                  textButton={Strings.Common.CANCEL}
+                />
+                <ButtonCustom textButton={Strings.Common.SEARCH} />
+              </View>
             </View>
           </ScrollView>
+
+          <ModalError
+            open={modalError.open}
+            handleClose={() =>
+              setModalError({
+                ...modalError,
+                open: false,
+              })
+            }
+            title={modalError.title}
+            content={modalError.content}
+          />
+
+          <BackDrop open={backDrop} />
         </View>
       </View>
     </Modal>
