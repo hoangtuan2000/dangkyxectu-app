@@ -9,6 +9,7 @@ const Constants = {
       ERROR: '#f71919',
       SUCCESS: 'green',
       WARNING: 'orange',
+      GRAY: 'gray'
     },
 
     BackgroundColor: {
@@ -44,6 +45,10 @@ const Constants = {
     USER: 'user',
     DRIVER: 'driver',
     ADMIN_USER: 'admin user',
+  },
+
+  DateFormat: {
+    ddMMyyyy: 'dd/MM/yyyy',
   },
 
   Common: {

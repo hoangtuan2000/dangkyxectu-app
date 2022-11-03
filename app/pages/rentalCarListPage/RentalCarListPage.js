@@ -21,6 +21,7 @@ import NoDataView from '../../components/noDataView/NoDataView';
 import {ActivityIndicator} from 'react-native-paper';
 import RentalCarFilterModal from '../../components/rentalcarFilterModal/RentalCarFilterModal';
 import helper from '../../common/helper';
+import RoutesPath from '../../constant/RoutesPath';
 
 function RentalCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -63,8 +64,7 @@ function RentalCarListPage({navigation}) {
     licensePlates,
     haveTrip,
   ) => {
-    await setBackDrop(true)
-    console.log('call getCarList');
+    await setBackDrop(true);
     let data = {
       page: page,
       limitEntry: pageSize,
@@ -110,21 +110,62 @@ function RentalCarListPage({navigation}) {
         content: res.name || null,
       });
     }
-    await setBackDrop(false)
+    await setBackDrop(false);
   };
 
   const onRefresh = async () => {
     await setRefreshing(true);
-    await getCarList(false, Constants.Common.PAGE);
+    let data = await handleFormatDataFilter();
+    await getCarList(
+      false,
+      Constants.Common.PAGE,
+      dataInfo.pageSize,
+      data.carType,
+      data.carBrand,
+      data.licensePlates,
+      data.haveTrip,
+    );
     await setRefreshing(false);
   };
 
   const onLoadMore = async () => {
     if (dataInfo.page + 1 <= dataInfo.totalPages) {
       await setIsLoadingMore(true);
-      await getCarList(true, dataInfo.page + 1);
+      let data = await handleFormatDataFilter();
+      await getCarList(
+        true,
+        dataInfo.page + 1,
+        dataInfo.pageSize,
+        data.carType,
+        data.carBrand,
+        data.licensePlates,
+        data.haveTrip,
+      );
       await setIsLoadingMore(false);
     }
+  };
+
+  const handleFormatDataFilter = () => {
+    //format data to send API
+    let carType = [];
+    let carBrand = [];
+    if (helper.isArray(dataFilter.carType) && dataFilter.carType.length > 0) {
+      carType = dataFilter.carType.map(item => {
+        return item.id;
+      });
+    }
+    if (helper.isArray(dataFilter.carBrand) && dataFilter.carBrand.length > 0) {
+      carBrand = e.carBrand.map(item => {
+        return item.id;
+      });
+    }
+
+    return {
+      carType,
+      carBrand,
+      licensePlates: dataFilter.licensePlates,
+      haveTrip: dataFilter.haveTrip,
+    };
   };
 
   const handleFilter = e => {
@@ -141,7 +182,7 @@ function RentalCarListPage({navigation}) {
         return item.id;
       });
     }
-    //reset page and pageSize => call getCarListForAdmin function
+
     getCarList(
       false,
       Constants.Common.PAGE,
@@ -151,17 +192,17 @@ function RentalCarListPage({navigation}) {
       e.licensePlates,
       e.haveTrip,
     );
-    // save data filter in dialogRentalCarFilter => default value in dialogRentalCarFilter
+
     setDataFilter({
       carType: [...e.carType],
       carBrand: [...e.carBrand],
       licensePlates: e.licensePlates,
       haveTrip: e.haveTrip,
     });
-    // show total data to filter in UI => button filter
+
     let total = carType.length + carBrand.length;
     if (e.licensePlates) total += 1;
-    if (e.haveTrip) total += 1;
+    if (!helper.isNullOrEmpty(e.haveTrip)) total += 1;
     setTotalDataFilter(total > 0 ? total : null);
   };
 
@@ -184,11 +225,11 @@ function RentalCarListPage({navigation}) {
             <FlatList
               data={carList}
               keyExtractor={item => item.idCar}
-              // refresh control
+              // REFRESH CONTROL
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              //  Load more
+              // LOAD MORE
               ListFooterComponent={() =>
                 isLoadingMore ? (
                   <View style={{padding: 20}}>
@@ -303,8 +344,8 @@ function RentalCarListPage({navigation}) {
                       </View>
 
                       <ButtonCustom
-                        onPress={() => console.log('ok')}
-                        textButton={'Đăng Ký Xe'}
+                        onPress={() => navigation.navigate(RoutesPath.Pages.SCHEDULE_REGISTRATION, {idCar: item.idCar})}
+                        textButton={Strings.RentalCarList.CAR_REGISTRATION}
                         padding={8}
                       />
                     </View>
@@ -320,8 +361,23 @@ function RentalCarListPage({navigation}) {
 
       <TouchableOpacity
         onPress={() => setRentalCarFilterModal(!rentalCarFilterModal)}
-        style={isDarkMode ? darkStyles.filterButton : lightStyles.filterButton}>
+        style={[
+          isDarkMode ? darkStyles.filterButton : lightStyles.filterButton,
+          // {position: 'absolute'},
+        ]}>
         <MaterialIcons name="filter-outline" size={26} color={'white'} />
+        {totalDataFilter && (
+          <MaterialIcons
+            name="information"
+            size={20}
+            color={'#f55656'}
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+            }}
+          />
+        )}
       </TouchableOpacity>
 
       <RentalCarFilterModal

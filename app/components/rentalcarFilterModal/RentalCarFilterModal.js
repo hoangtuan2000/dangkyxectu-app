@@ -4,18 +4,13 @@ import {
   ScrollView,
   View,
   Text,
-  TouchableOpacity,
-  FlatList,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoCompleteDropdownCustom';
 import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
-import {RadioButton} from 'react-native-paper';
 import RadioGroup from '../radioGroup/RadioGroup';
 import InputCustom from '../inputCustom/InputCustom';
 import ModalError from '../modalError/ModalError';
@@ -125,7 +120,6 @@ function RentalCarFilterModal({
   };
 
   const handleRefreshFilter = () => {
-    // call function => return submit
     let data = {
       carType: [],
       carBrand: [],
@@ -133,9 +127,7 @@ function RentalCarFilterModal({
       haveTrip: null,
     };
     onSubmit(data);
-    //refresh data
     setDataSendApi(data);
-    //call function
     handleRefreshDataFilter();
     handleClose();
   };
@@ -207,6 +199,7 @@ function RentalCarFilterModal({
                 value={dataSendApi.licensePlates}
               />
 
+              {/* CAR BRAND */}
               <MultiSelectBox
                 data={carBrandList}
                 label={Strings.RentalCarFilterModal.BRAND}
@@ -215,6 +208,7 @@ function RentalCarFilterModal({
                 value={dataSendApi.carBrand}
               />
 
+              {/* CAR TYPE */}
               <MultiSelectBox
                 data={carTypeList}
                 label={Strings.RentalCarFilterModal.CAR_TYPE}

@@ -11,6 +11,7 @@ const RoutesPath = {
     SPLASH_PAGE: 'SplashPage',
     LOGIN_PAGE: 'LoginPage',
     RENTAL_CAR_LIST_PAGE: 'RentalCarListPage',
+    SCHEDULE_REGISTRATION: 'ScheduleRegistration',
     RENTED_CAR_PAGE: 'RentedCarPage',
     ACCOUNT_PAGE: 'AccountPage',
   },

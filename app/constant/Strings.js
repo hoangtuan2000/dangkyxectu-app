@@ -37,6 +37,17 @@ const Strings = {
     CLOSE: 'Đóng',
   },
 
+  ModalChooseAddress: {
+    ADDRESS: 'Địa Chỉ',
+    ENTER_ADDRESS: '-- Nhập Địa Chỉ --',
+    PROVINCE: 'Tỉnh/Thành Phố',
+    CHOOSE_PROVINCE: '-- Chọn Tỉnh/Thành Phố --',
+    DISTRICT: 'Quận/Huyện',
+    CHOOSE_DISTRICT: '-- Chọn Quận/Huyện --',
+    WARD: 'Xã/Phường',
+    CHOOSE_WARD: '-- Chọn Xã/Phường --',
+  },
+
   Login: {
     LOGIN_CODE: 'Mã Số Đăng Nhập',
     ENTER_LOGIN_CODE: 'Nhập Mã Số',
@@ -51,6 +62,7 @@ const Strings = {
     VEHICLE_CONDITION: 'Tình Trạng Xe: ',
     SCHEDULE: 'Lịch Trình: ',
     CAR_BRAND: 'Hãng Xe:',
+    CAR_REGISTRATION: 'Đăng Ký Xe',
   },
 
   RentalCarFilterModal: {
@@ -62,6 +74,10 @@ const Strings = {
     CHOOSE_BRAND: '-- Chọn Thương Hiệu --',
     CAR_TYPE: 'Loại Xe',
     CHOOSE_CAR_TYPE: '-- Chọn Loại Xe --',
+  },
+
+  ScheduleRegistration: {
+    TITLE: 'Đăng Ký Lịch Trình',
   },
 };
 

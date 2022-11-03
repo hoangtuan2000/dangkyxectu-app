@@ -7,16 +7,31 @@ import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import {lightStyles, darkStyles} from './styles';
 
-function AutoCompleteDropdownCustom({
-  data,
-  setSelectedItem,
-  title,
-  style,
-  marginBottom,
-  fontSizeTitle,
-  placeholder,
-  zindex,
-}) {
+// function AutoCompleteDropdownCustom({
+//   data,
+//   value,
+//   onchange = () => {},
+//   title,
+//   style,
+//   marginBottom,
+//   fontSizeTitle,
+//   placeholder,
+//   zindex,
+// }) {
+
+const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
+  const {
+    data,
+    value,
+    onchange = () => {},
+    title,
+    style,
+    marginBottom,
+    fontSizeTitle,
+    placeholder,
+    zindex,
+  } = props;
+
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
   return (
@@ -43,10 +58,11 @@ function AutoCompleteDropdownCustom({
       )}
 
       <AutocompleteDropdown
+        ref={ref} // use call clear value
         clearOnFocus={false}
         closeOnBlur={true}
-        // initialValue={{id: '2'}}
-        onSelectItem={setSelectedItem}
+        onSelectItem={val => onchange(val)}
+        initialValue={value || ''}
         dataSet={data}
         inputContainerStyle={
           isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer
@@ -66,7 +82,7 @@ function AutoCompleteDropdownCustom({
         ChevronIconComponent={
           <Feather
             name="chevron-down"
-            size={20}
+            size={24}
             color={
               isDarkMode
                 ? Constants.Styles.Color.WHITE
@@ -77,7 +93,7 @@ function AutoCompleteDropdownCustom({
         ClearIconComponent={
           <Feather
             name="x-circle"
-            size={18}
+            size={22}
             color={
               isDarkMode
                 ? Constants.Styles.Color.WHITE
@@ -107,6 +123,6 @@ function AutoCompleteDropdownCustom({
       />
     </View>
   );
-}
+});
 
 export default AutoCompleteDropdownCustom;

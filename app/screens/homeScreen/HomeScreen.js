@@ -38,7 +38,7 @@ function HomeScreen() {
           : Constants.Styles.Color.SECONDARY
       }
       barStyle={{
-        backgroundColor: isDarkMode ? Constants.Styles.colorSecondary : 'white',
+        backgroundColor: isDarkMode ? Constants.Styles.Color.SECONDARY : 'white',
       }}
       screenOptions={({route}) => ({
         headerShown: false,
