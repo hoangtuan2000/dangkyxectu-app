@@ -9,7 +9,7 @@ const Constants = {
       ERROR: '#f71919',
       SUCCESS: 'green',
       WARNING: 'orange',
-      GRAY: 'gray'
+      GRAY: 'gray',
     },
 
     BackgroundColor: {
@@ -54,6 +54,7 @@ const Constants = {
   Common: {
     PAGE: 1,
     LIMIT_ENTRY: 10,
+    LENGTH_COMMON: 250,
     CHARACTERS_MIN_LENGTH_LICENSE_PLATES: 7,
     CHARACTERS_MAX_LENGTH_LICENSE_PLATES: 10,
     CHARACTERS_MIN_LENGTH_REASON_CANCEL_SCHEDULE: 5,
@@ -75,6 +76,8 @@ const Constants = {
     },
     RentalCarList: {
       GET_CAR_LIST: '/global/getCarList',
+      GET_SCHEDULE_DATE_FOR_CAR: '/global/getScheduledDateForCar',
+      CREATE_SCHEDULE: "/global/createSchedule",
     },
   },
 };

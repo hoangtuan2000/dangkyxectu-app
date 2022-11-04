@@ -142,14 +142,12 @@ function LoginPage({navigation}) {
         {errorAuthencation && (
           <View
             style={isDarkMode ? darkStyles.viewError : lightStyles.viewError}>
-              <Icon
-                name="information-circle"
-                size={22}
-                color={
-                  'white'
-                }
-                style={{marginRight: 5}}
-              />
+            <Icon
+              name="information-circle"
+              size={22}
+              color={'white'}
+              style={{marginRight: 5}}
+            />
             <Text
               style={{
                 color: 'white',
@@ -179,31 +177,8 @@ function LoginPage({navigation}) {
             label={Strings.Login.PASSWORD}
             placeholder={Strings.Login.ENTER_PASSWORD}
             secureTextEntry={showPassword}
-            icon={
-              <TouchableOpacity onPress={() => setShowPassword(show => !show)}>
-                {showPassword ? (
-                  <Icon
-                    name="eye-off"
-                    size={25}
-                    color={
-                      isDarkMode
-                        ? Constants.Styles.Color.LIGHT
-                        : Constants.Styles.Color.PRIMARY
-                    }
-                  />
-                ) : (
-                  <Icon
-                    name="eye"
-                    size={25}
-                    color={
-                      isDarkMode
-                        ? Constants.Styles.Color.LIGHT
-                        : Constants.Styles.Color.PRIMARY
-                    }
-                  />
-                )}
-              </TouchableOpacity>
-            }
+            icon={showPassword ? 'eye-off' : 'eye'}
+            onPressIcon={() => setShowPassword(show => !show)}
           />
         </View>
 

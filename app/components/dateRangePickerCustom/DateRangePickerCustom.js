@@ -4,18 +4,31 @@ import DatePicker from 'react-native-neat-date-picker';
 import {useSelector} from 'react-redux';
 import Constants from '../../constant/Constants';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Strings from '../../constant/Strings';
+import helper from '../../common/helper';
+import {lightStyles, darkStyles} from './styles';
 
 const DateRangePickerCustom = ({
   open,
   handleOpen,
   handleClose,
+  label,
+  styleLabel,
   disabledDays,
+  minDate,
   placeholder,
   defaultStartDate,
   defaultEndDate,
+  error,
+  helperText,
+  styleHelperText,
   onSubmit = () => {},
 }) => {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+
+  placeholder = placeholder || Strings.Common.CHOOSE_DATE_PLEASE;
+  defaultStartDate = defaultStartDate && new Date(defaultStartDate);
+  defaultEndDate = defaultEndDate && new Date(defaultEndDate);
 
   const onCancelRange = () => {
     handleClose();
@@ -30,46 +43,92 @@ const DateRangePickerCustom = ({
   };
 
   return (
-    <View style={{width: '100%', marginBottom: 10}}>
+    <View style={{width: '100%', marginTop: 10}}>
+      {label && (
+        <Text
+          style={[
+            isDarkMode ? darkStyles.label : lightStyles.label,
+            styleLabel,
+          ]}>
+          {label}
+        </Text>
+      )}
       <TouchableOpacity
         onPress={handleOpen}
         style={{
           backgroundColor: isDarkMode
             ? Constants.Styles.Color.SECONDARY
             : Constants.Styles.Color.WHITE,
-          borderColor: isDarkMode
+          borderColor: error
+            ? isDarkMode
+              ? Constants.Styles.Color.WARNING
+              : Constants.Styles.Color.ERROR
+            : isDarkMode
             ? Constants.Styles.Color.WHITE
             : Constants.Styles.Color.SECONDARY,
           borderWidth: 1,
-          padding: 10,
-          borderRadius: 5,
+          padding: 7,
+          borderRadius: 8,
           width: '100%',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
+          marginTop: 3,
         }}>
-        <Text
-          style={{
-            color: isDarkMode
-              ? Constants.Styles.Color.WHITE
-              : Constants.Styles.Color.DARK,
-            fontSize: 17,
-          }}>
-          {defaultStartDate && defaultEndDate
-            ? `${defaultStartDate} - ${defaultEndDate}`
-            : placeholder && `${placeholder}`}
-        </Text>
+        {defaultStartDate && defaultEndDate && (
+          <Text
+            style={{
+              color: isDarkMode
+                ? Constants.Styles.Color.WHITE
+                : Constants.Styles.Color.DARK,
+              fontSize: 17,
+            }}>
+            {`${defaultStartDate.toLocaleDateString(
+              'en-GB',
+            )} - ${defaultEndDate.toLocaleDateString('en-GB')}`}
+          </Text>
+        )}
+
+        {!defaultStartDate && !defaultEndDate && (
+          <Text
+            style={{
+              color: error
+                ? isDarkMode
+                  ? Constants.Styles.Color.WARNING
+                  : Constants.Styles.Color.ERROR
+                : isDarkMode
+                ? Constants.Styles.Color.WHITE
+                : Constants.Styles.Color.SECONDARY,
+              fontSize: 17,
+            }}>
+            {placeholder}
+          </Text>
+        )}
 
         <MaterialIcons
           name="calendar-month"
           size={26}
           color={
-            isDarkMode
+            error
+              ? isDarkMode
+                ? Constants.Styles.Color.WARNING
+                : Constants.Styles.Color.ERROR
+              : isDarkMode
               ? Constants.Styles.Color.WHITE
               : Constants.Styles.Color.PRIMARY
           }
         />
       </TouchableOpacity>
+
+      {helperText && error && (
+        <Text
+          style={[
+            isDarkMode ? darkStyles.textError : lightStyles.textError,
+            styleHelperText,
+          ]}>
+          {helperText}
+        </Text>
+      )}
 
       <DatePicker
         isVisible={open}
@@ -78,6 +137,9 @@ const DateRangePickerCustom = ({
         onConfirm={onConfirmRange}
         language={'vn'}
         disabledDays={disabledDays}
+        minDate={minDate}
+        startDate={defaultStartDate}
+        endDate={defaultEndDate}
         colorOptions={{
           backgroundColor: isDarkMode
             ? Constants.Styles.BackgroundColor.DARK

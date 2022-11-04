@@ -5,8 +5,6 @@ import {lightStyles, darkStyles} from './styles';
 import ButtonCustom from '../buttonCustom/ButtonCustom';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
-import MultiSelectBox from '../multiSelectBox/MultiSelectBox';
-import RadioGroup from '../radioGroup/RadioGroup';
 import InputCustom from '../inputCustom/InputCustom';
 import ModalError from '../modalError/ModalError';
 import BackDrop from '../backDrop/BackDrop';
@@ -27,6 +25,7 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
     notValidateAddress, // used to filter the address => no need check condition the address
   } = props;
 
+  const provinceRef = React.useRef();
   const districtRef = React.useRef();
   const wardRef = React.useRef();
 
@@ -68,6 +67,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
             };
           }),
         ]);
+
+        return res.data.data;
       } else {
         setModalError({
           ...modalError,
@@ -75,6 +76,7 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
           title: res.data.message,
           content: null,
         });
+        return false;
       }
     }
     // axios fail
@@ -88,11 +90,19 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
           Strings.Common.ERROR,
         content: res.name || null,
       });
+      return false;
     }
   };
 
+  const handleChangeAddress = e => {
+    setSelectedAddress({
+      ...selectedAddress,
+      address: e,
+    });
+  };
+
   const handleChooseProvince = async value => {
-    // call clear value autocomplte district and ward
+    // // call clear value autocomplte district and ward
     districtRef.current.clear();
     wardRef.current.clear();
 
@@ -168,8 +178,17 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
     });
   };
 
+  const handleSubmit = () => {
+    onSubmit(selectedAddress);
+    handleClose();
+  };
+
   React.useImperativeHandle(ref, () => ({
     handleResetAddress() {
+      // call clear value autocomplte province, district and ward
+      provinceRef.current.clear();
+      districtRef.current.clear();
+      wardRef.current.clear();
       setSelectedAddress({
         address: defaultAddress
           ? defaultAddress
@@ -185,13 +204,62 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
 
   const run = async () => {
     await setBackDrop(true);
-    (await open) && getCommon();
+    if (defaultAddress && defaultProvince && defaultDistrict && defaultWard && open) {
+      let result = await getCommon();
+      if (defaultProvince) {
+        let districtOfProvince = result.district.filter(item => {
+          if (item.idProvince == defaultProvince.id) {
+            return item;
+          }
+        });
+        // FORMAT
+        districtOfProvince = districtOfProvince.map(item => {
+          return {
+            id: item.idDistrict,
+            title: item.name,
+            idProvince: item.idProvince,
+          };
+        });
+        setShowDistrict(districtOfProvince);
+      }
+      if (defaultDistrict) {
+        let wardOfDistrict = result.ward.filter(item => {
+          if (item.idDistrict == defaultDistrict.id) {
+            return item;
+          }
+        });
+        // FORMAT
+        wardOfDistrict = wardOfDistrict.map(item => {
+          return {
+            id: item.idWard,
+            title: item.name,
+            idDistrict: item.idDistrict,
+          };
+        });
+        setShowWard(wardOfDistrict);
+      }
+
+      setSelectedAddress({
+        address: defaultAddress ? defaultAddress : null,
+        province: defaultProvince ? defaultProvince : null,
+        district: defaultDistrict ? defaultDistrict : null,
+        ward: defaultWard ? defaultWard : null,
+      });
+      onSubmit({
+        address: defaultAddress,
+        province: defaultProvince,
+        district: defaultDistrict,
+        ward: defaultWard,
+      });
+    } else {
+      (await open) && getCommon();
+    }
     await setBackDrop(false);
   };
 
   React.useEffect(() => {
     run();
-  }, [open]);
+  }, [open, defaultAddress, defaultProvince, defaultDistrict, defaultWard]);
 
   return (
     <Modal
@@ -224,8 +292,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 styleLabel={{fontSize: Constants.Styles.FontSize.LARGE}}
                 placeholder={Strings.ModalChooseAddress.ENTER_ADDRESS}
                 style={{fontSize: 16}}
-                // onChangeText={e => handleChangeLicensePlates(e)}
-                // value={dataSendApi.licensePlates}
+                onChangeText={e => handleChangeAddress(e)}
+                value={selectedAddress.address}
               />
 
               {/* PROVINCE */}
@@ -235,6 +303,7 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
                 value={selectedAddress.province}
                 onchange={e => handleChooseProvince(e)}
+                ref={provinceRef}
               />
 
               {/* DISTRICT */}
@@ -269,12 +338,7 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                   textButton={Strings.Common.CANCEL}
                 />
                 <ButtonCustom
-                  // onPress={handleRefreshFilter}
-                  textButton={Strings.Common.REFRESH}
-                  bgColor={Constants.Styles.Color.WARNING}
-                />
-                <ButtonCustom
-                  // onPress={handleSubmit}
+                  onPress={handleSubmit}
                   textButton={Strings.Common.SEARCH}
                 />
               </View>

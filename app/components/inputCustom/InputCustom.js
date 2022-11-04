@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 import Constants from '../../constant/Constants';
 import {lightStyles, darkStyles} from './styles';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function InputCustom({
   onChangeText,
@@ -13,8 +14,10 @@ function InputCustom({
   placeholder,
   label,
   error,
+  helperText,
   width,
   styleLabel,
+  onPressIcon,
   ...props
 }) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -27,12 +30,16 @@ function InputCustom({
       } else if (iconPosition === 'right') {
         return 'row-reverse';
       }
+    } else {
+      return 'row-reverse';
     }
   };
 
   const getBorderColor = () => {
     if (error) {
-      return 'red';
+      return isDarkMode
+        ? Constants.Styles.Color.WARNING
+        : Constants.Styles.Color.ERROR;
     }
 
     if (focused) {
@@ -48,7 +55,11 @@ function InputCustom({
         {width: width && width},
       ]}>
       {label && (
-        <Text style={[isDarkMode ? darkStyles.label : lightStyles.label, styleLabel]}>
+        <Text
+          style={[
+            isDarkMode ? darkStyles.label : lightStyles.label,
+            styleLabel,
+          ]}>
           {label}
         </Text>
       )}
@@ -59,7 +70,25 @@ function InputCustom({
           {alignItems: icon ? 'center' : 'baseline'},
           {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
         ]}>
-        <View>{icon && icon}</View>
+        <View>
+          {icon && (
+            <TouchableOpacity onPress={onPressIcon && onPressIcon}>
+              <MaterialIcons
+                name={icon}
+                size={26}
+                color={
+                  error
+                    ? isDarkMode
+                      ? Constants.Styles.Color.WARNING
+                      : Constants.Styles.Color.ERROR
+                    : isDarkMode
+                    ? Constants.Styles.Color.WHITE
+                    : Constants.Styles.Color.PRIMARY
+                }
+              />
+            </TouchableOpacity>
+          )}
+        </View>
 
         <TextInput
           style={[
@@ -69,7 +98,15 @@ function InputCustom({
           onChangeText={onChangeText}
           value={value}
           placeholder={placeholder}
-          placeholderTextColor={isDarkMode ? Constants.Styles.Color.LIGHT : Constants.Styles.Color.SECONDARY}
+          placeholderTextColor={
+            error
+              ? isDarkMode
+                ? Constants.Styles.Color.WARNING
+                : Constants.Styles.Color.ERROR
+              : isDarkMode
+              ? Constants.Styles.Color.LIGHT
+              : Constants.Styles.Color.SECONDARY
+          }
           onFocus={() => {
             setFocused(true);
           }}
@@ -80,9 +117,9 @@ function InputCustom({
         />
       </View>
 
-      {error && (
+      {error && helperText && (
         <Text style={isDarkMode ? darkStyles.error : lightStyles.error}>
-          {error}
+          {helperText}
         </Text>
       )}
     </View>

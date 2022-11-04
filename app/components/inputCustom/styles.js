@@ -25,6 +25,7 @@ const lightStyles = StyleSheet.create({
     flex: 1,
     width: '100%',
     color: Constants.Styles.Color.DARK,
+    fontSize: 17
   },
 
   error: {
@@ -59,10 +60,11 @@ const darkStyles = StyleSheet.create({
     flex: 1,
     width: '100%',
     color: Constants.Styles.Color.WHITE,
+    fontSize: 17
   },
 
   error: {
-    color: Constants.Styles.Color.ERROR,
+    color: Constants.Styles.Color.WARNING,
     paddingTop: 4,
     fontSize: 14,
     fontWeight: 'bold',

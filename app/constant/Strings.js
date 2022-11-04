@@ -1,3 +1,5 @@
+import Constants from './Constants';
+
 const Strings = {
   App: {
     TITLE: 'Hệ Thống Đăng Ký Xe',
@@ -34,7 +36,12 @@ const Strings = {
     CANCEL: 'Hủy',
     SEARCH: 'Tìm Kiếm',
     REFRESH: 'Làm Mới',
+    REGISTER: 'Đăng Ký',
     CLOSE: 'Đóng',
+    CHOOSE_DATE_PLEASE: '-- Vui Lòng Chọn Ngày --',
+    TIME: 'Thời Gian',
+    SUPPORT_PHONE: 'Số Điện Thoại Không Đúng Định Dạng',
+    MAX_LENGTH: `Tối Đa ${Constants.Common.LENGTH_COMMON} Ký Tự`,
   },
 
   ModalChooseAddress: {
@@ -78,6 +85,21 @@ const Strings = {
 
   ScheduleRegistration: {
     TITLE: 'Đăng Ký Lịch Trình',
+    REASON: 'Mục Đích Sử Dụng Xe',
+    ENTER_REASON: '-- Nhập Mục Đích Sử Dụng Xe --',
+    START_LOCATION: 'Vị Trí Bắt Đầu',
+    CHOOSE_START_LOCATION: '-- Chọn Địa Chỉ Bắt Đầu --',
+    END_LOCATION: 'Vị Trí Kết Thúc',
+    CHOOSE_END_LOCATION: '-- Chọn Địa Chỉ Kết Thúc --',
+    NOTE: 'Ghi Chú',
+    ENTER_NOTE: '-- Nhập Ghi Chú --',
+    PHONE: 'Điện Thoại',
+    ENTER_PHONE: '-- Nhập Điện Thoại --',
+    SUPPORT_DATE: 'Vui lòng chọn ngày',
+    SUPPORT_START_LOCATION: 'Vui lòng chọn vị trí bắt đầu',
+    SUPPORT_END_LOCATION: 'Vui lòng chọn vị trí kết thúc',
+    SUPPORT_REASON: 'Vui lòng nhập mục đích',
+    SUPPORT_PHONE: 'Vui lòng nhập số điện thoại',
   },
 };
 

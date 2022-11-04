@@ -10,8 +10,8 @@ const lightStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Constants.Styles.BackgroundColor.LIGHT,
-    paddingTop: 5,
-    paddingBottom: 5,
+    // paddingTop: 5,
+    // paddingBottom: 5,
   },
   title: {
     fontSize: Constants.Styles.FontSize.LARGE,
@@ -35,8 +35,8 @@ const darkStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Constants.Styles.BackgroundColor.DARK,
-    paddingTop: 5,
-    paddingBottom: 5,
+    // paddingTop: 5,
+    // paddingBottom: 5,
   },
   title: {
     fontSize: Constants.Styles.FontSize.LARGE,

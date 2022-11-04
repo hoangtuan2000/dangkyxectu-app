@@ -58,9 +58,9 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
       )}
 
       <AutocompleteDropdown
-        ref={ref} // use call clear value
+        ref={ref} // use call clear value,
         clearOnFocus={false}
-        closeOnBlur={true}
+        closeOnBlur={false}
         onSelectItem={val => onchange(val)}
         initialValue={value || ''}
         dataSet={data}
@@ -97,7 +97,7 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
             color={
               isDarkMode
                 ? Constants.Styles.Color.WHITE
-                : Constants.Styles.Color.DARK
+                : Constants.Styles.Color.ERROR
             }
           />
         }
