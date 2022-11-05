@@ -23,7 +23,7 @@ function MultiSelectBox({
   };
 
   return (
-    <View style={{marginBottom: 10}}>
+    <View style={{marginTop: 10}}>
       <SelectBox
         label={label}
         inputPlaceholder={inputPlaceholder}
@@ -55,7 +55,7 @@ function MultiSelectBox({
             : Constants.Styles.FontSize.LARGE,
         }}
         containerStyle={{
-          ...(isDarkMode ? darkStyles.container : lightStyles.container),
+          ...(isDarkMode ? darkStyles.viewContainer : lightStyles.viewContainer),
           paddingLeft: 10,
           paddingTop: 10,
           borderRadius: 5,

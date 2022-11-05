@@ -4,7 +4,7 @@ const RoutesPath = {
     LOGIN_SCREEN: 'LoginScreen',
     HOME_SCREEN: 'HomeScreen',
     RENTAL_CAR_LIST_SCREEN: 'RentalCarListScreen',
-    RENTED_CAR_SCREEN: 'RentedCarScreen',
+    RENTED_CAR_LIST_SCREEN: 'RentedCarListScreen',
     ACCOUNT_SCREEN: 'AccountScreen',
   },
   Pages: {
@@ -12,7 +12,7 @@ const RoutesPath = {
     LOGIN_PAGE: 'LoginPage',
     RENTAL_CAR_LIST_PAGE: 'RentalCarListPage',
     SCHEDULE_REGISTRATION: 'ScheduleRegistration',
-    RENTED_CAR_PAGE: 'RentedCarPage',
+    RENTED_CAR_LIST_PAGE: 'RentedCarListPage',
     ACCOUNT_PAGE: 'AccountPage',
   },
 };

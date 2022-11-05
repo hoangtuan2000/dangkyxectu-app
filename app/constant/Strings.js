@@ -42,6 +42,8 @@ const Strings = {
     TIME: 'Thời Gian',
     SUPPORT_PHONE: 'Số Điện Thoại Không Đúng Định Dạng',
     MAX_LENGTH: `Tối Đa ${Constants.Common.LENGTH_COMMON} Ký Tự`,
+    DETAIL: 'Chi Tiết',
+    CHOOSE_ADDRESS: 'Chọn Địa Chỉ',
   },
 
   ModalChooseAddress: {
@@ -53,6 +55,10 @@ const Strings = {
     CHOOSE_DISTRICT: '-- Chọn Quận/Huyện --',
     WARD: 'Xã/Phường',
     CHOOSE_WARD: '-- Chọn Xã/Phường --',
+    ENTER_ADDRESS_PLEASE: 'Vui lòng nhập địa chỉ',
+    CHOOSE_PROVINCE_PLEASE: 'Vui lòng chọn Tỉnh/Thành Phố',
+    CHOOSE_DISTRICT_PLEASE: 'Vui lòng chọn Quận/Huyện',
+    CHOOSE_WARD_PLEASE: 'Vui lòng chọn Xã/Phường',
   },
 
   Login: {
@@ -104,6 +110,26 @@ const Strings = {
     STATUS: 'Tình Trạng: ',
     COLOR: 'Màu Sắc: ',
     BRAND: 'Thương Hiệu: ',
+  },
+
+  RentedCarList: {
+    SCHEDULE: 'Lịch Trình',
+    TIME: 'Thời Gian: ',
+    REASON: 'Lý Do:',
+    CAR_TYPE: 'Loại Xe:',
+    STATUS: 'Trạng Thái: ',
+  },
+
+  RentedCarFilterModal: {
+    TITLE: 'Bộ Lọc Lịch Trình',
+    SCHEDULE_CODE: 'Mã Lịch Trình',
+    ENTER_SCHEDULE_CODE: '-- Nhập Mã --',
+    STATUS: 'Trạng Thái',
+    CHOOSE_STATUS: '-- Chọn Trạng Thái --',
+    CAR_TYPE: 'Loại Xe',
+    CHOOSE_CAR_TYPE: '-- Chọn Loại Xe --',
+    ADDRESS: 'Địa Chỉ',
+    CHOOSE_ADDRESS: '-- Chọn Địa Chỉ --',
   },
 };
 

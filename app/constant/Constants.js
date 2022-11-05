@@ -81,6 +81,9 @@ const Constants = {
       CREATE_SCHEDULE: '/global/createSchedule',
       GET_CAR: '/global/getCar',
     },
+    RentedCarList: {
+      GET_USER_REGISTERED_SCHEDULE_LIST: '/user/getUserRegisteredScheduleList',
+    },
   },
 
   CarStatus: {
@@ -109,6 +112,55 @@ const Constants = {
       WORK: 'green',
       STOP_WORKING: 'red',
       MAINTENANCE: 'orange',
+    },
+  },
+
+  ScheduleStatus: {
+    PENDING: 'Chờ Duyệt',
+    APPROVED: 'Đã Duyệt',
+    COMPLETE: 'Hoàn Thành',
+    CANCELLED: 'Đã Hủy',
+    REFUSE: 'Từ Chối',
+    RECEIVED: 'Đã Nhận',
+    MOVING: 'Đang Di Chuyển',
+  },
+  ScheduleStatusCode: {
+    PENDING: 1,
+    APPROVED: 2,
+    COMPLETE: 3,
+    CANCELLED: 4,
+    REFUSE: 5,
+    RECEIVED: 6,
+    MOVING: 7,
+  },
+
+  ColorOfScheduleStatus: {
+    TextNoBackground: {
+      PENDING: '#d400ff',
+      APPROVED: 'green',
+      COMPLETE: 'Blue',
+      CANCELLED: 'gray',
+      REFUSE: 'red',
+      RECEIVED: '#03a882',
+      MOVING: '#ab8e00',
+    },
+    Text: {
+      PENDING: 'black',
+      APPROVED: 'white',
+      COMPLETE: 'white',
+      CANCELLED: 'white',
+      REFUSE: 'white',
+      RECEIVED: 'white',
+      MOVING: 'white',
+    },
+    Background: {
+      PENDING: '#ffcffb',
+      APPROVED: 'green',
+      COMPLETE: 'blue',
+      CANCELLED: 'gray',
+      REFUSE: 'red',
+      RECEIVED: '#03a882',
+      MOVING: '#ab8e00',
     },
   },
 };

@@ -1,19 +1,19 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RoutesPath from '../../constant/RoutesPath';
-import RentedCarPage from '../../pages/rentedCarPage/RentedCarPage';
+import RentedCarListPage from '../../pages/rentedCarListPage/RentedCarListPage';
 
 const Stack = createNativeStackNavigator();
 
-function RentedCarScreen() {
+function RentedCarListScreen() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name={RoutesPath.Pages.RENTED_CAR_PAGE}
-        component={RentedCarPage}
+        name={RoutesPath.Pages.RENTED_CAR_LIST_PAGE}
+        component={RentedCarListPage}
       />
     </Stack.Navigator>
   );
 }
 
-export default RentedCarScreen;
+export default RentedCarListScreen;

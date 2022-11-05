@@ -222,6 +222,7 @@ function RentalCarFilterModal({
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                   alignItems: 'flex-end',
+                  marginTop: 10
                 }}>
                 <ButtonCustom
                   onPress={handleClose}

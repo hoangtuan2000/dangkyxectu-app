@@ -6,7 +6,15 @@ const lightStyles = StyleSheet.create({
     color: Constants.Styles.Color.DARK,
   },
   container: {
-    backgroundColor: Constants.Styles.Color.LIGHT,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: Constants.Styles.Color.SECONDARY,
+    backgroundColor: Constants.Styles.Color.WHITE,
+  },
+  viewContainer: {
+    borderWidth: 1,
+    borderColor: Constants.Styles.Color.SECONDARY,
+    backgroundColor: Constants.Styles.Color.WHITE,
   },
 });
 
@@ -15,6 +23,14 @@ const darkStyles = StyleSheet.create({
     color: Constants.Styles.Color.LIGHT,
   },
   container: {
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: Constants.Styles.Color.WHITE,
+    backgroundColor: Constants.Styles.Color.SECONDARY,
+  },
+  viewContainer: {
+    borderWidth: 1,
+    borderColor: Constants.Styles.Color.WHITE,
     backgroundColor: Constants.Styles.Color.SECONDARY,
   },
 });

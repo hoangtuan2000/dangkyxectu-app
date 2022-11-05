@@ -6,18 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import {lightStyles, darkStyles} from './styles';
-
-// function AutoCompleteDropdownCustom({
-//   data,
-//   value,
-//   onchange = () => {},
-//   title,
-//   style,
-//   marginBottom,
-//   fontSizeTitle,
-//   placeholder,
-//   zindex,
-// }) {
+import { useFocusEffect } from '@react-navigation/native';
 
 const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
   const {
@@ -25,6 +14,8 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
     value,
     onchange = () => {},
     title,
+    error,
+    helperText,
     style,
     marginBottom,
     fontSizeTitle,
@@ -64,12 +55,26 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
         onSelectItem={val => onchange(val)}
         initialValue={value || ''}
         dataSet={data}
-        inputContainerStyle={
-          isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer
-        }
+        inputContainerStyle={[
+          isDarkMode ? darkStyles.inputContainer : lightStyles.inputContainer,
+          {
+            borderWidth: 1,
+            borderColor: error
+              ? isDarkMode
+                ? Constants.Styles.Color.WARNING
+                : Constants.Styles.Color.ERROR
+              : isDarkMode
+              ? Constants.Styles.Color.WHITE
+              : Constants.Styles.Color.SECONDARY,
+          },
+        ]}
         textInputProps={{
           placeholder: placeholder && placeholder,
-          placeholderTextColor: isDarkMode
+          placeholderTextColor: error
+            ? isDarkMode
+              ? Constants.Styles.Color.WARNING
+              : Constants.Styles.Color.ERROR
+            : isDarkMode
             ? Constants.Styles.Color.WHITE
             : Constants.Styles.Color.SECONDARY,
           style: {
@@ -84,7 +89,11 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
             name="chevron-down"
             size={24}
             color={
-              isDarkMode
+              error
+                ? isDarkMode
+                  ? Constants.Styles.Color.WARNING
+                  : Constants.Styles.Color.ERROR
+                : isDarkMode
                 ? Constants.Styles.Color.WHITE
                 : Constants.Styles.Color.DARK
             }
@@ -106,6 +115,10 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
             ? darkStyles.suggestionsListContainer
             : lightStyles.suggestionsListContainer),
           elevation: zindex,
+          borderWidth: 1,
+          borderColor: isDarkMode
+            ? Constants.Styles.Color.WHITE
+            : Constants.Styles.Color.SECONDARY,
         }}
         suggestionsListTextStyle={{
           color: isDarkMode
@@ -121,6 +134,13 @@ const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
           </Text>
         }
       />
+
+      {helperText && error && (
+        <Text
+          style={[isDarkMode ? darkStyles.textError : lightStyles.textError]}>
+          {helperText}
+        </Text>
+      )}
     </View>
   );
 });

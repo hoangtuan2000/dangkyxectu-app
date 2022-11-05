@@ -6,15 +6,20 @@ const lightStyles = StyleSheet.create({
     color: Constants.Styles.Color.DARK,
   },
   inputContainer: {
-    backgroundColor: Constants.Styles.Color.LIGHT,
+    backgroundColor: Constants.Styles.Color.WHITE,
   },
   suggestionsListContainer: {
-    backgroundColor: Constants.Styles.Color.LIGHT,
+    backgroundColor: Constants.Styles.Color.WHITE,
   },
   emptryResult: {
     color: Constants.Styles.Color.DARK,
     alignSelf: 'center',
     padding: 10,
+  },
+  textError: {
+    fontSize: 15,
+    color: Constants.Styles.Color.ERROR,
+    fontWeight: 'bold'
   },
 });
 
@@ -32,6 +37,11 @@ const darkStyles = StyleSheet.create({
     color: Constants.Styles.Color.WHITE,
     alignSelf: 'center',
     padding: 10,
+  },
+  textError: {
+    fontSize: 15,
+    color: Constants.Styles.Color.WARNING,
+    fontWeight: 'bold'
   },
 });
 

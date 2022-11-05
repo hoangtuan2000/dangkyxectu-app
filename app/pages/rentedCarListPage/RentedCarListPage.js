@@ -16,14 +16,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalError from '../../components/modalError/ModalError';
 import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
 import BackDrop from '../../components/backDrop/BackDrop';
-import {RentalCarListServices} from '../../services/RentalCarListServices';
 import NoDataView from '../../components/noDataView/NoDataView';
 import {ActivityIndicator} from 'react-native-paper';
-import RentalCarFilterModal from '../../components/rentalcarFilterModal/RentalCarFilterModal';
 import helper from '../../common/helper';
 import RoutesPath from '../../constant/RoutesPath';
+import {RentedCarListServices} from '../../services/user/RentedCarListServices';
+import RentedCarFilterModal from '../../components/user/rentedcarFilterModal/RentedCarFilterModal';
 
-function RentalCarListPage({navigation}) {
+function RentedCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [modalError, setModalError] = React.useState({
     open: false,
@@ -45,35 +45,48 @@ function RentalCarListPage({navigation}) {
 
   const [totalDataFilter, setTotalDataFilter] = React.useState(null);
   const [dataFilter, setDataFilter] = React.useState({
+    status: [],
     carType: [],
-    carBrand: [],
-    licensePlates: null,
-    haveTrip: null,
+    scheduleCode: null,
+    startDate: null,
+    endDate: null,
+    address: null,
+    ward: null,
+    district: null,
+    province: null,
   });
 
   const [rentalCarFilterModal, setRentalCarFilterModal] = React.useState(false);
 
-  const [carList, setCarList] = React.useState([]);
+  const [scheduleList, setScheduleList] = React.useState([]);
 
-  const getCarList = async (
+  const getUserRegisteredScheduleList = async (
     loadMoreData = false,
     page = dataInfo.page,
     pageSize = dataInfo.pageSize,
+    status,
     carType,
-    carBrand,
-    licensePlates,
-    haveTrip,
+    scheduleCode,
+    address,
+    idWard,
+    startDate,
+    endDate,
   ) => {
     await setBackDrop(true);
-    let data = {
+    const data = {
       page: page,
       limitEntry: pageSize,
+      status,
       carType,
-      carBrand,
-      licensePlates,
-      haveTrip,
+      scheduleCode,
+      address,
+      idWard,
+      startDate,
+      endDate,
     };
-    const res = await RentalCarListServices.getCarList({...data});
+    const res = await RentedCarListServices.getUserRegisteredScheduleList({
+      ...data,
+    });
     // axios success
     if (res.data) {
       if (res.data.status == Constants.ApiCode.OK) {
@@ -86,15 +99,16 @@ function RentalCarListPage({navigation}) {
           ),
         });
         if (loadMoreData) {
-          setCarList([...carList, ...res.data.data]);
+          setScheduleList([...scheduleList, ...res.data.data]);
         } else {
-          setCarList(res.data.data);
+          setScheduleList(res.data.data);
         }
       } else {
         setModalError({
           ...modalError,
           open: true,
           title: res.data.message,
+          content: null,
         });
       }
     }
@@ -116,14 +130,17 @@ function RentalCarListPage({navigation}) {
   const onRefresh = async () => {
     await setRefreshing(true);
     let data = await handleFormatDataFilter();
-    await getCarList(
+    await getUserRegisteredScheduleList(
       false,
       Constants.Common.PAGE,
       dataInfo.pageSize,
+      data.status,
       data.carType,
-      data.carBrand,
-      data.licensePlates,
-      data.haveTrip,
+      data.scheduleCode,
+      data.address,
+      data.idWard,
+      data.startDate,
+      data.endDate,
     );
     await setRefreshing(false);
   };
@@ -132,14 +149,17 @@ function RentalCarListPage({navigation}) {
     if (dataInfo.page + 1 <= dataInfo.totalPages) {
       await setIsLoadingMore(true);
       let data = await handleFormatDataFilter();
-      await getCarList(
+      await getUserRegisteredScheduleList(
         true,
         dataInfo.page + 1,
         dataInfo.pageSize,
+        data.status,
         data.carType,
-        data.carBrand,
-        data.licensePlates,
-        data.haveTrip,
+        data.scheduleCode,
+        data.address,
+        data.idWard,
+        data.startDate,
+        data.endDate,
       );
       await setIsLoadingMore(false);
     }
@@ -147,76 +167,91 @@ function RentalCarListPage({navigation}) {
 
   const handleFormatDataFilter = () => {
     //format data to send API
+    let status = [];
     let carType = [];
-    let carBrand = [];
+    if (helper.isArray(dataFilter.status) && dataFilter.status.length > 0) {
+      status = dataFilter.status.map(item => {
+        return item.id;
+      });
+    }
     if (helper.isArray(dataFilter.carType) && dataFilter.carType.length > 0) {
       carType = dataFilter.carType.map(item => {
         return item.id;
       });
     }
-    if (helper.isArray(dataFilter.carBrand) && dataFilter.carBrand.length > 0) {
-      carBrand = e.carBrand.map(item => {
-        return item.id;
-      });
-    }
 
     return {
+      status,
       carType,
-      carBrand,
-      licensePlates: dataFilter.licensePlates,
-      haveTrip: dataFilter.haveTrip,
+      scheduleCode: dataFilter.scheduleCode,
+      address: dataFilter.address,
+      idWard: dataFilter.ward && dataFilter.ward.id,
+      startDate: dataFilter.startDate,
+      endDate: dataFilter.endDate,
     };
   };
 
   const handleFilter = e => {
-    //format data to send API
+    // //format data to send API
     let carType = [];
-    let carBrand = [];
+    let status = [];
     if (helper.isArray(e.carType) && e.carType.length > 0) {
       carType = e.carType.map(item => {
         return item.id;
       });
     }
-    if (helper.isArray(e.carBrand) && e.carBrand.length > 0) {
-      carBrand = e.carBrand.map(item => {
+    if (helper.isArray(e.status) && e.status.length > 0) {
+      status = e.status.map(item => {
         return item.id;
       });
     }
-
-    getCarList(
+    getUserRegisteredScheduleList(
       false,
       Constants.Common.PAGE,
       dataInfo.pageSize,
+      status,
       carType,
-      carBrand,
-      e.licensePlates,
-      e.haveTrip,
+      e.scheduleCode,
+      e.address,
+      e.ward && e.ward.id,
+      e.startDate,
+      e.endDate,
     );
-
     setDataFilter({
+      status: [...e.status],
       carType: [...e.carType],
-      carBrand: [...e.carBrand],
-      licensePlates: e.licensePlates,
-      haveTrip: e.haveTrip,
+      scheduleCode: e.scheduleCode,
+      address: e.address,
+      ward: e.ward,
+      district: e.district,
+      province: e.province,
+      startDate: e.startDate,
+      endDate: e.endDate,
     });
-
-    let total = carType.length + carBrand.length;
-    if (e.licensePlates) total += 1;
-    if (!helper.isNullOrEmpty(e.haveTrip)) total += 1;
+    // show total data to filter in UI => button filter
+    let total = status.length + carType.length;
+    if (e.scheduleCode) total += 1;
+    if (e.ward || e.address) total += 1;
+    if (e.startDate && e.endDate) total += 1;
     setTotalDataFilter(total > 0 ? total : null);
   };
 
   const handleRefreshDataFilter = () => {
     setDataFilter({
+      status: [],
       carType: [],
-      carBrand: [],
-      licensePlates: null,
-      haveTrip: null,
+      scheduleCode: null,
+      startDate: null,
+      endDate: null,
+      address: null,
+      ward: null,
+      district: null,
+      province: null,
     });
   };
 
   const run = async () => {
-    await getCarList();
+    await getUserRegisteredScheduleList();
     await setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -230,10 +265,10 @@ function RentalCarListPage({navigation}) {
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
       {!isLoading && (
         <>
-          {carList.length > 0 ? (
+          {scheduleList.length > 0 ? (
             <FlatList
-              data={carList}
-              keyExtractor={item => item.idCar}
+              data={scheduleList}
+              keyExtractor={item => item.idSchedule}
               // REFRESH CONTROL
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -251,9 +286,24 @@ function RentalCarListPage({navigation}) {
               }}
               onEndReachedThreshold={0.05}
               renderItem={({item}) => {
+                let bgColor = null;
+                let textColor = isDarkMode
+                  ? Constants.Styles.Color.WHITE
+                  : Constants.Styles.Color.DARK;
+                const objScheduleStatus = Constants.ScheduleStatusCode;
+                for (const property in objScheduleStatus) {
+                  if (
+                    item.idScheduleStatus == `${objScheduleStatus[property]}`
+                  ) {
+                    bgColor =
+                      Constants.ColorOfScheduleStatus.Background[property];
+                    textColor = Constants.ColorOfScheduleStatus.Text[property];
+                    break;
+                  }
+                }
                 return (
                   <View
-                    key={item.idCar}
+                    key={item.idSchedule}
                     style={
                       isDarkMode
                         ? darkStyles.cardContainer
@@ -278,11 +328,37 @@ function RentalCarListPage({navigation}) {
                             ? darkStyles.carSeatNumber
                             : lightStyles.carSeatNumber
                         }>
-                        {`${item.nameCarType} ${item.seatNumber} Chổ`}
+                        {Strings.RentedCarList.SCHEDULE} {item.idSchedule}
+                      </Text>
+
+                      <View style={{flex: 1, flexDirection: 'row'}}>
+                        <Text
+                          style={
+                            isDarkMode ? darkStyles.text : lightStyles.text
+                          }>
+                          {Strings.RentedCarList.TIME}
+                        </Text>
+                        <Text
+                          style={[
+                            isDarkMode ? darkStyles.text : lightStyles.text,
+                            {fontWeight: 'bold', fontSize: 15},
+                          ]}>
+                          {`${helper.formatDateStringFromTimeStamp(
+                            item.startDate,
+                          )}-${helper.formatDateStringFromTimeStamp(
+                            item.endDate,
+                          )}`}
+                        </Text>
+                      </View>
+
+                      <Text
+                        style={isDarkMode ? darkStyles.text : lightStyles.text}>
+                        {Strings.RentedCarList.REASON} {item.reason}
                       </Text>
                       <Text
                         style={isDarkMode ? darkStyles.text : lightStyles.text}>
-                        {Strings.RentalCarList.CAR_BRAND} {item.nameCarBrand}
+                        {Strings.RentedCarList.CAR_TYPE}{' '}
+                        {`${item.carType} ${item.seatNumber} Chổ`}
                       </Text>
                       <Text
                         style={isDarkMode ? darkStyles.text : lightStyles.text}>
@@ -301,11 +377,11 @@ function RentalCarListPage({navigation}) {
                           style={
                             isDarkMode ? darkStyles.text : lightStyles.text
                           }>
-                          {Strings.RentalCarList.VEHICLE_CONDITION}
+                          {Strings.RentedCarList.STATUS}
                         </Text>
                         <View
                           style={{
-                            backgroundColor: Constants.Styles.Color.SUCCESS,
+                            backgroundColor: bgColor,
                             paddingLeft: 5,
                             paddingRight: 5,
                             borderRadius: 5,
@@ -313,41 +389,9 @@ function RentalCarListPage({navigation}) {
                           <Text
                             style={[
                               isDarkMode ? darkStyles.text : lightStyles.text,
-                              {color: 'white'},
+                              {color: textColor},
                             ]}>
-                            {item.nameCarStatus}
-                          </Text>
-                        </View>
-                      </View>
-
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'flex-start',
-                          alignItems: 'center',
-                        }}>
-                        <Text
-                          style={
-                            isDarkMode ? darkStyles.text : lightStyles.text
-                          }>
-                          {Strings.RentalCarList.SCHEDULE}
-                        </Text>
-                        <View
-                          style={{
-                            backgroundColor:
-                              item.totalSchedule == 0
-                                ? 'green'
-                                : Constants.Styles.Color.WARNING,
-                            paddingLeft: 5,
-                            paddingRight: 5,
-                            borderRadius: 5,
-                          }}>
-                          <Text
-                            style={[
-                              isDarkMode ? darkStyles.text : lightStyles.text,
-                              {color: 'white'},
-                            ]}>
-                            {item.totalSchedule}
+                            {item.scheduleStatus}
                           </Text>
                         </View>
                       </View>
@@ -355,11 +399,14 @@ function RentalCarListPage({navigation}) {
                       <ButtonCustom
                         onPress={() =>
                           navigation.navigate(
-                            RoutesPath.Pages.SCHEDULE_REGISTRATION,
-                            {idCar: item.idCar},
+                            RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN,
+                            {
+                              screen: RoutesPath.Pages.SCHEDULE_REGISTRATION,
+                              params: {idCar: 2},
+                            },
                           )
                         }
-                        textButton={Strings.RentalCarList.CAR_REGISTRATION}
+                        textButton={Strings.Common.DETAIL}
                         padding={8}
                       />
                     </View>
@@ -394,15 +441,20 @@ function RentalCarListPage({navigation}) {
         )}
       </TouchableOpacity>
 
-      <RentalCarFilterModal
+      <RentedCarFilterModal
         open={rentalCarFilterModal}
         handleClose={() => setRentalCarFilterModal(!rentalCarFilterModal)}
         onSubmit={e => handleFilter(e)}
         handleRefreshDataFilter={handleRefreshDataFilter}
+        defaultScheduleCode={dataFilter.scheduleCode}
         defaultCarType={dataFilter.carType}
-        defaultCarBrand={dataFilter.carBrand}
-        defaultLicensePlates={dataFilter.licensePlates}
-        defaultHaveTrip={dataFilter.haveTrip}
+        defaultStatus={dataFilter.status}
+        defaultStartDate={dataFilter.startDate}
+        defaultEndDate={dataFilter.endDate}
+        defaultAddress={dataFilter.address}
+        defaultWard={dataFilter.ward}
+        defaultDistrict={dataFilter.district}
+        defaultProvince={dataFilter.province}
       />
 
       <ModalSuccess
@@ -427,4 +479,4 @@ function RentalCarListPage({navigation}) {
   );
 }
 
-export default RentalCarListPage;
+export default RentedCarListPage;

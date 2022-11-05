@@ -10,10 +10,11 @@ import ModalError from '../modalError/ModalError';
 import BackDrop from '../backDrop/BackDrop';
 import {GlobalServices} from '../../services/GlobalServices';
 import AutoCompleteDropdownCustom from '../autoCompleteDropdownCustom/AutoCompleteDropdownCustom';
+import helper from '../../common/helper';
 
 const ModalChooseAddress = React.forwardRef((props, ref) => {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
-  const {
+  let {
     open,
     handleClose,
     title,
@@ -35,6 +36,14 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
     content: null,
   });
   const [backDrop, setBackDrop] = React.useState(false);
+
+  const [errorData, setErrorData] = React.useState({
+    address: false,
+    province: false,
+    district: false,
+    ward: false,
+    helperAddress: null,
+  });
 
   const [selectedAddress, setSelectedAddress] = React.useState({
     address: defaultAddress ? defaultAddress : notValidateAddress ? '' : null,
@@ -178,9 +187,109 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
     });
   };
 
-  const handleSubmit = () => {
-    onSubmit(selectedAddress);
-    handleClose();
+  const handleValidateDate = () => {
+    if (notValidateAddress) {
+      if (
+        helper.isNullOrEmpty(selectedAddress.province) ||
+        helper.isNullOrEmpty(selectedAddress.district) ||
+        helper.isNullOrEmpty(selectedAddress.ward)
+      ) {
+        setErrorData({
+          province: helper.isNullOrEmpty(selectedAddress.province)
+            ? true
+            : false,
+          district: helper.isNullOrEmpty(selectedAddress.district)
+            ? true
+            : false,
+          ward: helper.isNullOrEmpty(selectedAddress.ward) ? true : false,
+        });
+        return false;
+      } else if (
+        selectedAddress.address &&
+        !helper.isValidStringLength(
+          selectedAddress.address,
+          Constants.Common.LENGTH_COMMON,
+        )
+      ) {
+        setErrorData({
+          address: !helper.isValidStringLength(
+            selectedAddress.address,
+            Constants.Common.LENGTH_COMMON,
+          )
+            ? true
+            : false,
+          helperAddress: !helper.isValidStringLength(
+            selectedAddress.address,
+            Constants.Common.LENGTH_COMMON,
+          )
+            ? Strings.Common.MAX_LENGTH
+            : null,
+        });
+        return false;
+      } else {
+        return true;
+      }
+    } else {
+      if (
+        helper.isNullOrEmpty(selectedAddress.address) ||
+        helper.isNullOrEmpty(selectedAddress.province) ||
+        helper.isNullOrEmpty(selectedAddress.district) ||
+        helper.isNullOrEmpty(selectedAddress.ward)
+      ) {
+        setErrorData({
+          address: helper.isNullOrEmpty(selectedAddress.address) ? true : false,
+          helperAddress: helper.isNullOrEmpty(selectedAddress.address)
+            ? Strings.ModalChooseAddress.ENTER_ADDRESS_PLEASE
+            : null,
+          province: helper.isNullOrEmpty(selectedAddress.province)
+            ? true
+            : false,
+          district: helper.isNullOrEmpty(selectedAddress.district)
+            ? true
+            : false,
+          ward: helper.isNullOrEmpty(selectedAddress.ward) ? true : false,
+        });
+        return false;
+      } else if (
+        !helper.isValidStringLength(
+          selectedAddress.address,
+          Constants.Common.LENGTH_COMMON,
+        )
+      ) {
+        setErrorData({
+          address: !helper.isValidStringLength(
+            selectedAddress.address,
+            Constants.Common.LENGTH_COMMON,
+          )
+            ? true
+            : false,
+          helperAddress: !helper.isValidStringLength(
+            selectedAddress.address,
+            Constants.Common.LENGTH_COMMON,
+          )
+            ? Strings.Common.MAX_LENGTH
+            : null,
+        });
+        return false;
+      } else {
+        return true;
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    let resultValid = await handleValidateDate();
+    if (resultValid) {
+      onSubmit({
+        address: helper.isNullOrEmpty(selectedAddress.address)
+          ? ''
+          : selectedAddress.address,
+        province: selectedAddress.province,
+        district: selectedAddress.district,
+        ward: selectedAddress.ward,
+      });
+      handleClose();
+    }
   };
 
   React.useImperativeHandle(ref, () => ({
@@ -204,7 +313,10 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
 
   const run = async () => {
     await setBackDrop(true);
-    if (defaultAddress && defaultProvince && defaultDistrict && defaultWard && open) {
+    if (
+      (defaultAddress || (defaultProvince && defaultDistrict && defaultWard)) &&
+      open
+    ) {
       let result = await getCommon();
       if (defaultProvince) {
         let districtOfProvince = result.district.filter(item => {
@@ -294,6 +406,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 style={{fontSize: 16}}
                 onChangeText={e => handleChangeAddress(e)}
                 value={selectedAddress.address}
+                error={errorData.address}
+                helperText={errorData.helperAddress}
               />
 
               {/* PROVINCE */}
@@ -303,6 +417,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
                 value={selectedAddress.province}
                 onchange={e => handleChooseProvince(e)}
+                error={errorData.province}
+                helperText={Strings.ModalChooseAddress.CHOOSE_PROVINCE_PLEASE}
                 ref={provinceRef}
               />
 
@@ -313,6 +429,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 placeholder={Strings.ModalChooseAddress.CHOOSE_DISTRICT}
                 value={selectedAddress.district}
                 onchange={e => handleChooseDistrict(e)}
+                error={errorData.district}
+                helperText={Strings.ModalChooseAddress.CHOOSE_DISTRICT_PLEASE}
                 ref={districtRef}
               />
 
@@ -323,6 +441,8 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 placeholder={Strings.ModalChooseAddress.CHOOSE_WARD}
                 value={selectedAddress.ward}
                 onchange={e => handleChooseWard(e)}
+                error={errorData.ward}
+                helperText={Strings.ModalChooseAddress.CHOOSE_WARD_PLEASE}
                 ref={wardRef}
               />
 
