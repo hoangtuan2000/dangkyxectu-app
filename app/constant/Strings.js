@@ -100,6 +100,10 @@ const Strings = {
     SUPPORT_END_LOCATION: 'Vui lòng chọn vị trí kết thúc',
     SUPPORT_REASON: 'Vui lòng nhập mục đích',
     SUPPORT_PHONE: 'Vui lòng nhập số điện thoại',
+    LICENSE_PLATES: 'Biển Số Xe: ',
+    STATUS: 'Tình Trạng: ',
+    COLOR: 'Màu Sắc: ',
+    BRAND: 'Thương Hiệu: ',
   },
 };
 

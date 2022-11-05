@@ -64,6 +64,7 @@ function ScheduleRegistration({route, navigation}) {
   const [showStartAddress, setShowStartAddress] = React.useState();
   const [showEndAddress, setShowEndAddress] = React.useState();
   const [disableDateSchedule, setDisableDateSchedule] = React.useState([]);
+  const [car, setCar] = React.useState([]);
 
   const [errorData, setErrorData] = React.useState({
     idCar: false,
@@ -94,6 +95,38 @@ function ScheduleRegistration({route, navigation}) {
     idWardStartLocation: defaultStartAddress.ward.idWard,
     idWardEndLocation: null,
   });
+
+  const getCar = async idCar => {
+    const res = await RentalCarListServices.getCar({
+      idCar: idCar,
+    });
+
+    // axios success
+    if (res.data) {
+      if (res.data.status == Constants.ApiCode.OK) {
+        setCar([...res.data.data]);
+      } else {
+        setModalError({
+          ...modalError,
+          open: true,
+          title: res.data.message,
+          content: null,
+        });
+      }
+    }
+    // axios fail
+    else {
+      setModalError({
+        ...modalError,
+        open: true,
+        title:
+          (res.request &&
+            `${Strings.Common.AN_ERROR_OCCURRED} (${res.request.status})`) ||
+          Strings.Common.ERROR,
+        content: res.name || null,
+      });
+    }
+  };
 
   const getScheduledDateForCar = async idCar => {
     const res = await RentalCarListServices.getScheduledDateForCar({
@@ -376,8 +409,7 @@ function ScheduleRegistration({route, navigation}) {
 
   const run = async () => {
     await setBackDrop(true);
-    // await getCommon();
-    // await getCar(idCar);
+    await getCar(idCar);
     await getScheduledDateForCar(idCar);
     await setTimeout(() => {
       setBackDrop(false);
@@ -400,30 +432,94 @@ function ScheduleRegistration({route, navigation}) {
           {Strings.ScheduleRegistration.TITLE}
         </Text>
 
-        {/* IMAGE */}
-        <Image
-          source={{
-            uri: `https://firebasestorage.googleapis.com/v0/b/hethongdangkyxectu-ff0cb.appspot.com/o/imagesCar%2Fhonda_xe_ban_tai_4_cho.jfif?alt=media&token=faa22305-7ea3-4c2b-a5ff-13763bc1da78`,
-          }}
-          style={isDarkMode ? darkStyles.imageCar : lightStyles.imageCar}
-        />
+        {car.map(item => {
+          let bgColor = null;
+          let textColor = isDarkMode
+            ? Constants.Styles.Color.WHITE
+            : Constants.Styles.Color.DARK;
+          const objCarStatus = Constants.CarStatusCode;
+          for (const property in objCarStatus) {
+              if (item.idCarStatus == `${objCarStatus[property]}`) {
+                  bgColor =
+                      Constants.ColorOfCarStatus.Background[property];
+                  textColor =
+                      Constants.ColorOfCarStatus.TextHaveBackground[
+                          property
+                      ];
+                  break;
+              }
+          }
+          return (
+            <>
+              <Image
+                source={{
+                  uri: item.image,
+                }}
+                style={isDarkMode ? darkStyles.imageCar : lightStyles.imageCar}
+              />
+              <View style={{marginLeft: 10, marginRight: 10}}>
+                <Text
+                  style={
+                    isDarkMode
+                      ? darkStyles.textCarType
+                      : lightStyles.textCarType
+                  }>{`${item.nameCarType} ${item.seatNumber} Chổ`}</Text>
 
-        <View style={{marginLeft: 10, marginRight: 10}}>
-          {/* CAR TYPE */}
-          <Text>XE CON 4 CHỔ</Text>
+                <Text
+                  style={
+                    isDarkMode
+                      ? darkStyles.textContent
+                      : lightStyles.textContent
+                  }>
+                  {Strings.ScheduleRegistration.LICENSE_PLATES}{' '}
+                  {item.licensePlates}
+                </Text>
 
-          {/* LICENSE PLATES */}
-          <Text>BIỂN SỐ XE: 65A-123456</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={
+                      isDarkMode
+                        ? darkStyles.textContent
+                        : lightStyles.textContent
+                    }>
+                    {Strings.ScheduleRegistration.STATUS}
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: bgColor,
+                      paddingHorizontal: 8,
+                      paddingVertical: 2,
+                      borderRadius: 10,
+                    }}>
+                    <Text style={{color: textColor}}>{item.nameCarStatus}</Text>
+                  </View>
+                </View>
 
-          {/* CAR STATUS */}
-          <Text>TÌNH TRẠNG: HOẠT ĐỘNG</Text>
+                <Text
+                  style={
+                    isDarkMode
+                      ? darkStyles.textContent
+                      : lightStyles.textContent
+                  }>
+                  {Strings.ScheduleRegistration.COLOR} {item.nameCarColor}
+                </Text>
 
-          {/* CAR COLOR */}
-          <Text>MÀU SẮC: HOẠT ĐỘNG</Text>
-
-          {/* CAR BRAND */}
-          <Text>THƯƠNG HIỆU: HOẠT ĐỘNG</Text>
-        </View>
+                <Text
+                  style={
+                    isDarkMode
+                      ? darkStyles.textContent
+                      : lightStyles.textContent
+                  }>
+                  {Strings.ScheduleRegistration.BRAND} {item.nameCarBrand}
+                </Text>
+              </View>
+            </>
+          );
+        })}
 
         <View style={{paddingHorizontal: 10}}>
           {/* CHOOSE DATE */}

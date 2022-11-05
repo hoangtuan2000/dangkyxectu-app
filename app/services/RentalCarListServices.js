@@ -19,6 +19,22 @@ const RentalCarListServices = {
         return err;
       });
   },
+  getCar: async (data) => {
+    const token = store.getState().currentUser.user.token;
+    const accessToken = store.getState().currentUser.user.access_token;
+    return await axiosInstance
+      .post(Constants.ApiPath.RentalCarList.GET_CAR, data, {
+        headers: {
+          Authorization: `${accessToken} ${token}`,
+        },
+      })
+      .then(res => {
+        return res;
+      })
+      .catch(err => {
+        return err;
+      });
+  },
   getScheduledDateForCar: async (data) => {
     const token = store.getState().currentUser.user.token;
     const accessToken = store.getState().currentUser.user.access_token;

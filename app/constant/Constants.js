@@ -21,6 +21,7 @@ const Constants = {
       SMALL: 10,
       DEFAULT: 14,
       LARGE: 18,
+      TOO_BIG: 20,
     },
   },
 
@@ -77,7 +78,37 @@ const Constants = {
     RentalCarList: {
       GET_CAR_LIST: '/global/getCarList',
       GET_SCHEDULE_DATE_FOR_CAR: '/global/getScheduledDateForCar',
-      CREATE_SCHEDULE: "/global/createSchedule",
+      CREATE_SCHEDULE: '/global/createSchedule',
+      GET_CAR: '/global/getCar',
+    },
+  },
+
+  CarStatus: {
+    WORK: 'Hoạt Động',
+    STOP_WORKING: 'Ngừng Hoạt Động',
+    MAINTENANCE: 'Bảo Trì',
+  },
+  CarStatusCode: {
+    WORK: 1,
+    STOP_WORKING: 2,
+    MAINTENANCE: 3,
+  },
+
+  ColorOfCarStatus: {
+    Text: {
+      WORK: 'green',
+      STOP_WORKING: 'red',
+      MAINTENANCE: 'orange',
+    },
+    TextHaveBackground: {
+      WORK: 'white',
+      STOP_WORKING: 'white',
+      MAINTENANCE: 'white',
+    },
+    Background: {
+      WORK: 'green',
+      STOP_WORKING: 'red',
+      MAINTENANCE: 'orange',
     },
   },
 };
