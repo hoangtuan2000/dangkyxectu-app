@@ -6,7 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Constants from '../../constant/Constants';
 import Strings from '../../constant/Strings';
 import {lightStyles, darkStyles} from './styles';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
 const AutoCompleteDropdownCustom = React.forwardRef((props, ref) => {
   const {

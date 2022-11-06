@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import Constants from '../../constant/Constants';
+import Constants from '../../../constant/Constants';
 
 const lightStyles = StyleSheet.create({
   container: {

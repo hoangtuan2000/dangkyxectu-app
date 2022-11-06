@@ -15,6 +15,7 @@ const Constants = {
     BackgroundColor: {
       DARK: '#2b2b2a',
       LIGHT: 'white',
+      LIGHT_GRAY: '#d4d4d4',
     },
 
     FontSize: {
@@ -83,6 +84,11 @@ const Constants = {
     },
     RentedCarList: {
       GET_USER_REGISTERED_SCHEDULE_LIST: '/user/getUserRegisteredScheduleList',
+    },
+    UpdateSchedulePending: {
+      GET_SCHEDULE: '/global/getSchedule',
+      GET_SCHEDULE_DATE_FOR_CAR: '/global/getScheduledDateForCar',
+      UPDATE_SCHEDULE_PENDING: '/user/updateSchedulePending',
     },
   },
 

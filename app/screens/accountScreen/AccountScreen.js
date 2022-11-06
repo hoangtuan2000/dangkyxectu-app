@@ -9,7 +9,7 @@ function AccountScreen() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name={RoutesPath.Pages.ACCOUNT_PAGE}
+        name={RoutesPath.Pages.ACCOUNT}
         component={AccountPage}
       />
     </Stack.Navigator>

@@ -66,6 +66,8 @@ function ScheduleRegistration({route, navigation}) {
   const [disableDateSchedule, setDisableDateSchedule] = React.useState([]);
   const [car, setCar] = React.useState([]);
 
+  
+
   const [errorData, setErrorData] = React.useState({
     idCar: false,
     date: false,

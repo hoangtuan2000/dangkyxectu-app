@@ -7,6 +7,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Strings from '../../constant/Strings';
 import helper from '../../common/helper';
 import {lightStyles, darkStyles} from './styles';
+import moment from 'moment';
+import 'moment/locale/vi'; // without this line it didn't work
+
+moment().locale('vi');
 
 const DateRangePickerCustom = ({
   open,
@@ -83,9 +87,9 @@ const DateRangePickerCustom = ({
                 : Constants.Styles.Color.DARK,
               fontSize: 17,
             }}>
-            {`${defaultStartDate.toLocaleDateString(
-              'en-GB',
-            )} - ${defaultEndDate.toLocaleDateString('en-GB')}`}
+            {`${moment(defaultStartDate).format('L')} - ${moment(
+              defaultEndDate,
+            ).format('L')}`}
           </Text>
         )}
 

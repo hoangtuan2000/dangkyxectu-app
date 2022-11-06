@@ -7,7 +7,7 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import Constants from '../../constant/Constants';
 import {useSelector} from 'react-redux';
 import {getDataUser} from '../../asyncStorage/AsyncStorage';
-import RentedCarListScreen from '../rentedCarListScreen/RentedCarListScreen';
+import RentedCarListScreen from '../user/rentedCarListScreen/RentedCarListScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 

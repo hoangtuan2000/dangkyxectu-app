@@ -1,3 +1,8 @@
+import moment from "moment/moment"
+import 'moment/locale/vi'  // without this line it didn't work
+
+moment().locale('vi')
+
 const helper = {
     isNullOrEmpty: (value) => {
         return value === undefined || value === null || value === "";
@@ -46,14 +51,14 @@ const helper = {
     },
 
     formatDateStringFromTimeStamp: (timeStamp) => {
-        timeStamp = parseInt(timeStamp);
-        return new Date(timeStamp * 1000).toLocaleDateString("en-GB");
+        timeStamp = parseInt(timeStamp)
+        return moment(timeStamp * 1000).format('L');
     },
 
     formatDateTimeStringFromTimeStamp: (timeStamp) => {
         timeStamp = parseInt(timeStamp);
-        let date = new Date(timeStamp * 1000).toLocaleDateString("en-GB");
-        let time = new Date(timeStamp * 1000).toLocaleTimeString("en-US");
+        let date = moment(timeStamp * 1000).format('L');
+        let time = moment(timeStamp * 1000).format('LTS');
         return timeStamp ? `${date} ${time}` : false;
     },
 

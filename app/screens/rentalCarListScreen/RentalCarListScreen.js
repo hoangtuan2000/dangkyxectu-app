@@ -10,7 +10,7 @@ function RentalCarListScreen() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen
-        name={RoutesPath.Pages.RENTAL_CAR_LIST_PAGE}
+        name={RoutesPath.Pages.RENTAL_CAR_LIST}
         component={RentalCarListPage}
       />
       <Stack.Screen

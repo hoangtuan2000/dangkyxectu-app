@@ -10,7 +10,7 @@ function SplashScreen() {
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name={RoutesPath.Pages.SPLASH_PAGE} component={SplashPage} />
+            <Stack.Screen name={RoutesPath.Pages.SPLASH} component={SplashPage} />
         </Stack.Navigator>
     )
 }

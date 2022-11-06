@@ -137,7 +137,6 @@ function RentedCarFilterModal({
   };
 
   const handleShowAddress = e => {
-    console.log('e', e);
     const address = `${e.address} - ${e.ward.title} - ${e.district.title} - ${e.province.title}`;
     setShowAddress(address);
     setDataSendApi({

@@ -8,20 +8,20 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
-import Constants from '../../constant/Constants';
-import Strings from '../../constant/Strings';
+import ButtonCustom from '../../../components/buttonCustom/ButtonCustom';
+import Constants from '../../../constant/Constants';
+import Strings from '../../../constant/Strings';
 import {darkStyles, lightStyles} from './styles';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalError from '../../components/modalError/ModalError';
-import ModalSuccess from '../../components/modalSuccess/ModalSuccess';
-import BackDrop from '../../components/backDrop/BackDrop';
-import NoDataView from '../../components/noDataView/NoDataView';
+import ModalError from '../../../components/modalError/ModalError';
+import ModalSuccess from '../../../components/modalSuccess/ModalSuccess';
+import BackDrop from '../../../components/backDrop/BackDrop';
+import NoDataView from '../../../components/noDataView/NoDataView';
 import {ActivityIndicator} from 'react-native-paper';
-import helper from '../../common/helper';
-import RoutesPath from '../../constant/RoutesPath';
-import {RentedCarListServices} from '../../services/user/RentedCarListServices';
-import RentedCarFilterModal from '../../components/user/rentedcarFilterModal/RentedCarFilterModal';
+import helper from '../../../common/helper';
+import RoutesPath from '../../../constant/RoutesPath';
+import {RentedCarListServices} from '../../../services/user/RentedCarListServices';
+import RentedCarFilterModal from '../../../components/user/rentedcarFilterModal/RentedCarFilterModal';
 
 function RentedCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -250,6 +250,22 @@ function RentedCarListPage({navigation}) {
     });
   };
 
+  const handleGetDataWithFilter = async () => {
+    let data = await handleFormatDataFilter();
+    await getUserRegisteredScheduleList(
+      false,
+      Constants.Common.PAGE,
+      Constants.Common.LIMIT_ENTRY,
+      data.status,
+      data.carType,
+      data.scheduleCode,
+      data.address,
+      data.idWard,
+      data.startDate,
+      data.endDate,
+    );
+  }
+
   const run = async () => {
     await getUserRegisteredScheduleList();
     await setTimeout(() => {
@@ -399,14 +415,14 @@ function RentedCarListPage({navigation}) {
                       <ButtonCustom
                         onPress={() =>
                           navigation.navigate(
-                            RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN,
+                            RoutesPath.Pages.UPDATE_SCHEDULE_PENDING,
                             {
-                              screen: RoutesPath.Pages.SCHEDULE_REGISTRATION,
-                              params: {idCar: 2},
+                              idSchedule: item.idSchedule,
+                              handleGetDataWithFilter: () => handleGetDataWithFilter()
                             },
                           )
                         }
-                        textButton={Strings.Common.DETAIL}
+                        textButton={Strings.Common.UPDATE}
                         padding={8}
                       />
                     </View>
@@ -424,7 +440,6 @@ function RentedCarListPage({navigation}) {
         onPress={() => setRentalCarFilterModal(!rentalCarFilterModal)}
         style={[
           isDarkMode ? darkStyles.filterButton : lightStyles.filterButton,
-          // {position: 'absolute'},
         ]}>
         <MaterialIcons name="filter-outline" size={26} color={'white'} />
         {totalDataFilter && (

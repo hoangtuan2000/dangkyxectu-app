@@ -10,7 +10,7 @@ function LoginScreen() {
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name={RoutesPath.Pages.LOGIN_PAGE} component={LoginPage} />
+            <Stack.Screen name={RoutesPath.Pages.LOGIN} component={LoginPage} />
         </Stack.Navigator>
     )
 }

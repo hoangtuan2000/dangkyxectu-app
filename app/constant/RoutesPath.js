@@ -8,12 +8,13 @@ const RoutesPath = {
     ACCOUNT_SCREEN: 'AccountScreen',
   },
   Pages: {
-    SPLASH_PAGE: 'SplashPage',
-    LOGIN_PAGE: 'LoginPage',
-    RENTAL_CAR_LIST_PAGE: 'RentalCarListPage',
+    SPLASH: 'SplashPage',
+    LOGIN: 'LoginPage',
+    RENTAL_CAR_LIST: 'RentalCarListPage',
     SCHEDULE_REGISTRATION: 'ScheduleRegistration',
-    RENTED_CAR_LIST_PAGE: 'RentedCarListPage',
-    ACCOUNT_PAGE: 'AccountPage',
+    RENTED_CAR_LIST: 'RentedCarListPage',
+    UPDATE_SCHEDULE_PENDING: 'UpdateSchedulePendingPage',
+    ACCOUNT: 'AccountPage',
   },
 };
 

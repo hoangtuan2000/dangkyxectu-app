@@ -24,6 +24,7 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
     defaultDistrict,
     defaultWard,
     notValidateAddress, // used to filter the address => no need check condition the address
+    // isDefaultBegin,
   } = props;
 
   const provinceRef = React.useRef();
@@ -314,8 +315,10 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
   const run = async () => {
     await setBackDrop(true);
     if (
-      (defaultAddress || (defaultProvince && defaultDistrict && defaultWard)) &&
-      open
+      defaultAddress ||
+      (defaultProvince && defaultDistrict && defaultWard)
+      // &&
+      // open
     ) {
       let result = await getCommon();
       if (defaultProvince) {
@@ -410,41 +413,131 @@ const ModalChooseAddress = React.forwardRef((props, ref) => {
                 helperText={errorData.helperAddress}
               />
 
+              {/* {isDefault ? (
+                <>
+                  {defaultProvince && (
+                    <AutoCompleteDropdownCustom
+                      data={provinceList}
+                      title={Strings.ModalChooseAddress.PROVINCE}
+                      placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
+                      value={defaultProvince}
+                      onchange={e => handleChooseProvince(e)}
+                      error={errorData.province}
+                      helperText={
+                        Strings.ModalChooseAddress.CHOOSE_PROVINCE_PLEASE
+                      }
+                      ref={provinceRef}
+                    />
+                  )}
+
+                  {defaultDistrict && selectedAddress.province && (
+                    <AutoCompleteDropdownCustom
+                      data={showDistrict}
+                      title={Strings.ModalChooseAddress.DISTRICT}
+                      placeholder={Strings.ModalChooseAddress.CHOOSE_DISTRICT}
+                      value={selectedAddress.district}
+                      onchange={e => handleChooseDistrict(e)}
+                      error={errorData.district}
+                      helperText={
+                        Strings.ModalChooseAddress.CHOOSE_DISTRICT_PLEASE
+                      }
+                      ref={districtRef}
+                    />
+                  )}
+
+                  {defaultWard &&  selectedAddress.district && (
+                    <AutoCompleteDropdownCustom
+                      data={showWard}
+                      title={Strings.ModalChooseAddress.WARD}
+                      placeholder={Strings.ModalChooseAddress.CHOOSE_WARD}
+                      value={selectedAddress.ward}
+                      onchange={e => handleChooseWard(e)}
+                      error={errorData.ward}
+                      helperText={Strings.ModalChooseAddress.CHOOSE_WARD_PLEASE}
+                      ref={wardRef}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <AutoCompleteDropdownCustom
+                    data={provinceList}
+                    title={Strings.ModalChooseAddress.PROVINCE}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
+                    value={selectedAddress.province}
+                    onchange={e => handleChooseProvince(e)}
+                    error={errorData.province}
+                    helperText={
+                      Strings.ModalChooseAddress.CHOOSE_PROVINCE_PLEASE
+                    }
+                    ref={provinceRef}
+                  />
+
+                  <AutoCompleteDropdownCustom
+                    data={showDistrict}
+                    title={Strings.ModalChooseAddress.DISTRICT}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_DISTRICT}
+                    value={selectedAddress.district}
+                    onchange={e => handleChooseDistrict(e)}
+                    error={errorData.district}
+                    helperText={
+                      Strings.ModalChooseAddress.CHOOSE_DISTRICT_PLEASE
+                    }
+                    ref={districtRef}
+                  />
+
+                  <AutoCompleteDropdownCustom
+                    data={showWard}
+                    title={Strings.ModalChooseAddress.WARD}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_WARD}
+                    value={selectedAddress.ward}
+                    onchange={e => handleChooseWard(e)}
+                    error={errorData.ward}
+                    helperText={Strings.ModalChooseAddress.CHOOSE_WARD_PLEASE}
+                    ref={wardRef}
+                  />
+                </>
+              )} */}
+
               {/* PROVINCE */}
               <AutoCompleteDropdownCustom
-                data={provinceList}
-                title={Strings.ModalChooseAddress.PROVINCE}
-                placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
-                value={selectedAddress.province}
-                onchange={e => handleChooseProvince(e)}
-                error={errorData.province}
-                helperText={Strings.ModalChooseAddress.CHOOSE_PROVINCE_PLEASE}
-                ref={provinceRef}
-              />
+                    data={provinceList}
+                    title={Strings.ModalChooseAddress.PROVINCE}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_PROVINCE}
+                    value={selectedAddress.province}
+                    onchange={e => handleChooseProvince(e)}
+                    error={errorData.province}
+                    helperText={
+                      Strings.ModalChooseAddress.CHOOSE_PROVINCE_PLEASE
+                    }
+                    ref={provinceRef}
+                  />
 
-              {/* DISTRICT */}
-              <AutoCompleteDropdownCustom
-                data={showDistrict}
-                title={Strings.ModalChooseAddress.DISTRICT}
-                placeholder={Strings.ModalChooseAddress.CHOOSE_DISTRICT}
-                value={selectedAddress.district}
-                onchange={e => handleChooseDistrict(e)}
-                error={errorData.district}
-                helperText={Strings.ModalChooseAddress.CHOOSE_DISTRICT_PLEASE}
-                ref={districtRef}
-              />
+                  {/* DISTRICT */}
+                  <AutoCompleteDropdownCustom
+                    data={showDistrict}
+                    title={Strings.ModalChooseAddress.DISTRICT}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_DISTRICT}
+                    value={selectedAddress.district}
+                    onchange={e => handleChooseDistrict(e)}
+                    error={errorData.district}
+                    helperText={
+                      Strings.ModalChooseAddress.CHOOSE_DISTRICT_PLEASE
+                    }
+                    ref={districtRef}
+                  />
 
-              {/* WARD */}
-              <AutoCompleteDropdownCustom
-                data={showWard}
-                title={Strings.ModalChooseAddress.WARD}
-                placeholder={Strings.ModalChooseAddress.CHOOSE_WARD}
-                value={selectedAddress.ward}
-                onchange={e => handleChooseWard(e)}
-                error={errorData.ward}
-                helperText={Strings.ModalChooseAddress.CHOOSE_WARD_PLEASE}
-                ref={wardRef}
-              />
+                  {/* WARD */}
+                  <AutoCompleteDropdownCustom
+                    data={showWard}
+                    title={Strings.ModalChooseAddress.WARD}
+                    placeholder={Strings.ModalChooseAddress.CHOOSE_WARD}
+                    value={selectedAddress.ward}
+                    onchange={e => handleChooseWard(e)}
+                    error={errorData.ward}
+                    helperText={Strings.ModalChooseAddress.CHOOSE_WARD_PLEASE}
+                    ref={wardRef}
+                  />
 
               <View
                 style={{
