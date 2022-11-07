@@ -22,6 +22,7 @@ import helper from '../../../common/helper';
 import RoutesPath from '../../../constant/RoutesPath';
 import {RentedCarListServices} from '../../../services/user/RentedCarListServices';
 import RentedCarFilterModal from '../../../components/user/rentedcarFilterModal/RentedCarFilterModal';
+import ModalConfirmationCancel from '../../../components/modalConfirmationCancel/ModalConfirmationCancel';
 
 function RentedCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -35,7 +36,8 @@ function RentedCarListPage({navigation}) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
-
+  const [modalConfirmationCancel, setModalConfirmationCancel] =
+    React.useState({open: false, idSchedule: null});
   const [dataInfo, setDataInfo] = React.useState({
     page: Constants.Common.PAGE,
     pageSize: Constants.Common.LIMIT_ENTRY,
@@ -266,6 +268,15 @@ function RentedCarListPage({navigation}) {
     );
   };
 
+  const onCancelSchedule = e => {
+    // call dialog confirm => submit
+    setModalConfirmationCancel({
+      ...modalConfirmationCancel,
+      open: true,
+      idSchedule: e,
+    });
+  };
+
   const run = async () => {
     await getUserRegisteredScheduleList();
     await setTimeout(() => {
@@ -340,20 +351,32 @@ function RentedCarListPage({navigation}) {
                             : lightStyles.imageCar
                         }
                       />
-                      <ButtonCustom
-                        onPress={() => handleGetDataWithFilter()}
-                        textButton={Strings.Common.CANCEL}
-                        bgColor={Constants.Styles.Color.ERROR}
-                        padding={8}
-                        iconPosition={'right'}
-                        icon={
-                          <MaterialIcons
-                            name={'delete-outline'}
-                            size={26}
-                            color={Constants.Styles.Color.WHITE}
+
+                      {/* CANCEL SCHEDULE BUTTON */}
+                      {(item.idScheduleStatus ==
+                        Constants.ScheduleStatusCode.PENDING ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.APPROVED ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.RECEIVED) &&
+                        helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
+                          item.startDate,
+                        ) && (
+                          <ButtonCustom
+                            onPress={() => onCancelSchedule(item.idSchedule)}
+                            textButton={Strings.Common.CANCEL}
+                            bgColor={Constants.Styles.Color.ERROR}
+                            padding={8}
+                            iconPosition={'right'}
+                            icon={
+                              <MaterialIcons
+                                name={'delete-outline'}
+                                size={26}
+                                color={Constants.Styles.Color.WHITE}
+                              />
+                            }
                           />
-                        }
-                      />
+                        )}
                     </View>
                     <View style={{marginLeft: 10, flex: 1}}>
                       <Text
@@ -606,6 +629,19 @@ function RentedCarListPage({navigation}) {
         defaultWard={dataFilter.ward}
         defaultDistrict={dataFilter.district}
         defaultProvince={dataFilter.province}
+      />
+
+      <ModalConfirmationCancel
+        open={modalConfirmationCancel.open}
+        handleClose={() =>
+          setModalConfirmationCancel({
+            ...modalConfirmationCancel,
+            open: false,
+          })
+        }
+        idSchedule={modalConfirmationCancel.idSchedule}
+        handleOpenModalSuccessOfParent={() => setModalSuccess(true)}
+        handleGetDataWithFilter={() => handleGetDataWithFilter()}
       />
 
       <ModalSuccess

@@ -46,6 +46,15 @@ const Strings = {
     CHOOSE_ADDRESS: 'Chọn Địa Chỉ',
     DO_YOU_WANT_TO_UPDATE: 'Bạn Có Muốn Cập Nhật?',
     UPDATE_CONFIRMATION: 'Xác Nhận Cập Nhật',
+    CONFIRMATION: 'Xác Nhận',
+  },
+
+  ModalConfirmationCancel: {
+    DO_YOU_WANT_TO_CANCEL_SCHEDULE: 'Bạn Có Muốn Hủy Lịch Trình?',
+    RESON_CANCEL_CONFIRMATION: 'Lý Do Hủy Lịch Trình: ',
+    ENTER_REASON: '-- Nhập Lý Do --',
+    PLEASE_CHOOSE_REASON: 'Vui Lòng Chọn Lý Do',
+    PLEASE_ENTER_REASON: 'Vui Lòng Nhập Lý Do',
   },
 
   ModalChooseAddress: {
@@ -157,7 +166,7 @@ const Strings = {
     INFO_DRIVER: 'Thông Tin Tài Xế: ',
     FULL_NAME: 'Họ Tên: ',
     PHONE: 'Điện Thoại: ',
-    EMAIL: 'Email: '
+    EMAIL: 'Email: ',
   },
 
   RentedCarList: {

@@ -6,7 +6,7 @@ import {useSelector} from 'react-redux';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import helper from '../../common/helper';
 
-function RadioGroup({title, items, onCheck = () => {}, value}) {
+function RadioGroup({title, items, onCheck = () => {}, value, showClear = true, flexDirection, alignItems}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
   const handleCheck = val => {
@@ -29,8 +29,8 @@ function RadioGroup({title, items, onCheck = () => {}, value}) {
         value={value}>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            flexDirection: flexDirection ? flexDirection : 'row',
+            alignItems: alignItems ? alignItems : 'center',
           }}>
           {items.map((item, index) => {
             return (
@@ -57,7 +57,7 @@ function RadioGroup({title, items, onCheck = () => {}, value}) {
             );
           })}
 
-          {!helper.isNullOrEmpty(value) && (
+          {!helper.isNullOrEmpty(value) && showClear && (
             <TouchableOpacity onPress={() => handleCheck(null)}>
               <MaterialIcons name="close-circle" size={26} color={'red'} />
             </TouchableOpacity>

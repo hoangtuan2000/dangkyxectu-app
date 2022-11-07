@@ -85,6 +85,7 @@ const Constants = {
     },
     RentedCarList: {
       GET_USER_REGISTERED_SCHEDULE_LIST: '/user/getUserRegisteredScheduleList',
+      CANCEL_SCHEDULE: '/user/cancelSchedule',
     },
     UpdateSchedulePending: {
       GET_SCHEDULE: '/global/getSchedule',

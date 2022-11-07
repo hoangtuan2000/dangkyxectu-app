@@ -535,7 +535,9 @@ function UpdateSchedulePage({route, navigation}) {
                           : lightStyles.textContent
                       }>
                       {Strings.UpdateSchedulePage.FULL_NAME}{' '}
-                      {`${item.fullNameDriver} - ${item.codeDriver}`}
+                      {item.fullNameDriver &&
+                        item.codeDriver &&
+                        `${item.fullNameDriver} - ${item.codeDriver}`}
                     </Text>
                   </View>
                   {/* PHONE DRIVER */}
@@ -560,8 +562,7 @@ function UpdateSchedulePage({route, navigation}) {
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.PHONE}{' '}
-                      {item.phoneDriver}
+                      {Strings.UpdateSchedulePage.PHONE} {item.phoneDriver}
                     </Text>
                   </View>
                   {/* EMAIL DRIVER */}
@@ -586,8 +587,7 @@ function UpdateSchedulePage({route, navigation}) {
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.EMAIL}{' '}
-                      {item.emailDriver}
+                      {Strings.UpdateSchedulePage.EMAIL} {item.emailDriver}
                     </Text>
                   </View>
                 </View>

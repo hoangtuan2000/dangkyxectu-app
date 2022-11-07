@@ -22,6 +22,7 @@
     "react": "18.0.0",
     "react-native": "0.69.4",
     "react-native-autocomplete-dropdown": "^2.0.7",
+    "react-native-collapsible": "^1.6.0",
     "react-native-multi-selectbox": "^1.5.0",
     "react-native-neat-date-picker": "github:hoangtuan2000/react-native-neat-date-picker-custom",
     "react-native-paper": "^4.12.5",
