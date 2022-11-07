@@ -137,6 +137,25 @@ const Strings = {
     BRAND: 'Thương Hiệu: ',
   },
 
+  UpdateSchedulePage: {
+    TITLE: 'Thông Tin Lịch Trình',
+    LICENSE_PLATES: 'Biển Số Xe: ',
+    SCHEDULE_STATUS: 'Trạng Thái Lịch Trình: ',
+    COLOR: 'Màu Sắc: ',
+    BRAND: 'Thương Hiệu: ',
+    TIME: 'Thời Gian: ',
+    START_LOCATION: 'Vị Trí Bắt Đầu: ',
+    END_LOCATION: 'Vị Trí Kết Thúc: ',
+    REASON: 'Mục Đích Sử Dụng Xe: ',
+    NOTE: 'Ghi Chú: ',
+    PHONE: 'Điện Thoại: ',
+    ENTER_PHONE: '-- Nhập Điện Thoại --',
+    ENTER_COMMENT: '-- Nhập Bình Luận --',
+    REVIEW: 'Đánh Giá: ',
+    SUPPORT_PHONE: 'Số điện thoại không đúng định dạng',
+    SUPPORT_COMMENT: `Bao gồm ${Constants.Common.MAX_LENGTH_COMMENT} ký tự`,
+  },
+
   RentedCarList: {
     SCHEDULE: 'Lịch Trình',
     TIME: 'Thời Gian: ',

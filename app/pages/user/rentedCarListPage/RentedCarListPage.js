@@ -264,7 +264,7 @@ function RentedCarListPage({navigation}) {
       data.startDate,
       data.endDate,
     );
-  }
+  };
 
   const run = async () => {
     await getUserRegisteredScheduleList();
@@ -412,19 +412,46 @@ function RentedCarListPage({navigation}) {
                         </View>
                       </View>
 
-                      <ButtonCustom
-                        onPress={() =>
-                          navigation.navigate(
-                            RoutesPath.Pages.UPDATE_SCHEDULE_PENDING,
-                            {
-                              idSchedule: item.idSchedule,
-                              handleGetDataWithFilter: () => handleGetDataWithFilter()
-                            },
-                          )
-                        }
-                        textButton={Strings.Common.UPDATE}
-                        padding={8}
-                      />
+                      {/* UPDATE SCHEDULE NOT PENDING */}
+                      {item.idScheduleStatus !=
+                        Constants.ScheduleStatusCode.PENDING && (
+                        <ButtonCustom
+                          onPress={() =>
+                            navigation.navigate(
+                              RoutesPath.Pages.UPDATE_SCHEDULE,
+                              {
+                                idSchedule: item.idSchedule,
+                                handleGetDataWithFilter: () =>
+                                  handleGetDataWithFilter(),
+                              },
+                            )
+                          }
+                          textButton={Strings.Common.UPDATE}
+                          padding={8}
+                        />
+                      )}
+
+                      {/* UPDATE SCHEDULE PENDING */}
+                      {helper.isDateTimeStampGreaterThanCurrentDate(
+                        item.startDate,
+                      ) &&
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.PENDING && (
+                          <ButtonCustom
+                            onPress={() =>
+                              navigation.navigate(
+                                RoutesPath.Pages.UPDATE_SCHEDULE_PENDING,
+                                {
+                                  idSchedule: item.idSchedule,
+                                  handleGetDataWithFilter: () =>
+                                    handleGetDataWithFilter(),
+                                },
+                              )
+                            }
+                            textButton={Strings.Common.UPDATE}
+                            padding={8}
+                          />
+                        )}
                     </View>
                   </View>
                 );

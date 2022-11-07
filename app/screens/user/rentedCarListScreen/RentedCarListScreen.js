@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RoutesPath from '../../../constant/RoutesPath';
 import RentedCarListPage from '../../../pages/user/rentedCarListPage/RentedCarListPage';
 import UpdateSchedulePendingPage from '../../../pages/user/updateSchedulePendingPage/UpdateSchedulePendingPage';
+import UpdateSchedulePage from '../../../pages/user/updateSchedulePage/UpdateSchedulePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,10 @@ function RentedCarListScreen() {
       <Stack.Screen
         name={RoutesPath.Pages.UPDATE_SCHEDULE_PENDING}
         component={UpdateSchedulePendingPage}
+      />
+      <Stack.Screen
+        name={RoutesPath.Pages.UPDATE_SCHEDULE}
+        component={UpdateSchedulePage}
       />
     </Stack.Navigator>
   );

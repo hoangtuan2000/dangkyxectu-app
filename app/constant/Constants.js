@@ -57,6 +57,7 @@ const Constants = {
     PAGE: 1,
     LIMIT_ENTRY: 10,
     LENGTH_COMMON: 250,
+    MAX_LENGTH_COMMENT: 500,
     CHARACTERS_MIN_LENGTH_LICENSE_PLATES: 7,
     CHARACTERS_MAX_LENGTH_LICENSE_PLATES: 10,
     CHARACTERS_MIN_LENGTH_REASON_CANCEL_SCHEDULE: 5,
@@ -89,6 +90,12 @@ const Constants = {
       GET_SCHEDULE: '/global/getSchedule',
       GET_SCHEDULE_DATE_FOR_CAR: '/global/getScheduledDateForCar',
       UPDATE_SCHEDULE_PENDING: '/user/updateSchedulePending',
+    },
+    UpdateSchedule: {
+      GET_SCHEDULE: '/global/getSchedule',
+      CREATE_OR_UPDATE_REVIEW: '/user/createOrUpdateReview',
+      UPDATE_PHONE_NUMBER_USER_SCHEDULE:
+        '/user/updatePhoneNumberUserInSchedule',
     },
   },
 

@@ -8,7 +8,6 @@ const lightStyles = StyleSheet.create({
   },
 
   wrapper: {
-    height: 42,
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 5,
@@ -43,7 +42,6 @@ const darkStyles = StyleSheet.create({
   },
 
   wrapper: {
-    height: 42,
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 5,

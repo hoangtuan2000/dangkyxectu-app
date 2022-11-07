@@ -14,6 +14,7 @@ const RoutesPath = {
     SCHEDULE_REGISTRATION: 'ScheduleRegistration',
     RENTED_CAR_LIST: 'RentedCarListPage',
     UPDATE_SCHEDULE_PENDING: 'UpdateSchedulePendingPage',
+    UPDATE_SCHEDULE: 'UpdateSchedulePage',
     ACCOUNT: 'AccountPage',
   },
 };
