@@ -154,6 +154,10 @@ const Strings = {
     REVIEW: 'Đánh Giá: ',
     SUPPORT_PHONE: 'Số điện thoại không đúng định dạng',
     SUPPORT_COMMENT: `Bao gồm ${Constants.Common.MAX_LENGTH_COMMENT} ký tự`,
+    INFO_DRIVER: 'Thông Tin Tài Xế: ',
+    FULL_NAME: 'Họ Tên: ',
+    PHONE: 'Điện Thoại: ',
+    EMAIL: 'Email: '
   },
 
   RentedCarList: {

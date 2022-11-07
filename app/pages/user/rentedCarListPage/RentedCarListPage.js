@@ -325,7 +325,11 @@ function RentedCarListPage({navigation}) {
                         ? darkStyles.cardContainer
                         : lightStyles.cardContainer
                     }>
-                    <View>
+                    <View
+                      style={{
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}>
                       <Image
                         source={{
                           uri: item.image,
@@ -334,6 +338,20 @@ function RentedCarListPage({navigation}) {
                           isDarkMode
                             ? darkStyles.imageCar
                             : lightStyles.imageCar
+                        }
+                      />
+                      <ButtonCustom
+                        onPress={() => handleGetDataWithFilter()}
+                        textButton={Strings.Common.CANCEL}
+                        bgColor={Constants.Styles.Color.ERROR}
+                        padding={8}
+                        iconPosition={'right'}
+                        icon={
+                          <MaterialIcons
+                            name={'delete-outline'}
+                            size={26}
+                            color={Constants.Styles.Color.WHITE}
+                          />
                         }
                       />
                     </View>
@@ -412,9 +430,41 @@ function RentedCarListPage({navigation}) {
                         </View>
                       </View>
 
-                      {/* UPDATE SCHEDULE NOT PENDING */}
-                      {item.idScheduleStatus !=
-                        Constants.ScheduleStatusCode.PENDING && (
+                      {/* UPDATE SCHEDULE APPROVED || RECEIVED */}
+                      {(item.idScheduleStatus ==
+                        Constants.ScheduleStatusCode.APPROVED ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.RECEIVED) &&
+                        helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
+                          item.startDate,
+                        ) && (
+                          <ButtonCustom
+                            onPress={() =>
+                              navigation.navigate(
+                                RoutesPath.Pages.UPDATE_SCHEDULE,
+                                {
+                                  idSchedule: item.idSchedule,
+                                  handleGetDataWithFilter: () =>
+                                    handleGetDataWithFilter(),
+                                },
+                              )
+                            }
+                            textButton={Strings.Common.UPDATE}
+                            padding={8}
+                            iconPosition={'right'}
+                            icon={
+                              <MaterialIcons
+                                name={'progress-upload'}
+                                size={26}
+                                color={Constants.Styles.Color.WHITE}
+                              />
+                            }
+                          />
+                        )}
+
+                      {/* UPDATE SCHEDULE COMPLETE */}
+                      {item.idScheduleStatus ==
+                        Constants.ScheduleStatusCode.COMPLETE && (
                         <ButtonCustom
                           onPress={() =>
                             navigation.navigate(
@@ -426,8 +476,16 @@ function RentedCarListPage({navigation}) {
                               },
                             )
                           }
-                          textButton={Strings.Common.UPDATE}
+                          textButton={Strings.Common.REVIEW}
                           padding={8}
+                          iconPosition={'right'}
+                          icon={
+                            <MaterialIcons
+                              name={'message-star'}
+                              size={26}
+                              color={Constants.Styles.Color.WHITE}
+                            />
+                          }
                         />
                       )}
 
@@ -450,8 +508,59 @@ function RentedCarListPage({navigation}) {
                             }
                             textButton={Strings.Common.UPDATE}
                             padding={8}
+                            iconPosition={'right'}
+                            icon={
+                              <MaterialIcons
+                                name={'progress-upload'}
+                                size={26}
+                                color={Constants.Styles.Color.WHITE}
+                              />
+                            }
                           />
                         )}
+
+                      {/* SHOW SCHEDULE */}
+                      {(((item.idScheduleStatus ==
+                        Constants.ScheduleStatusCode.APPROVED ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.RECEIVED) &&
+                        !helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
+                          item.startDate,
+                        )) ||
+                        (!helper.isDateTimeStampGreaterThanCurrentDate(
+                          item.startDate,
+                        ) &&
+                          item.idScheduleStatus ==
+                            Constants.ScheduleStatusCode.PENDING) ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.CANCELLED ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.MOVING ||
+                        item.idScheduleStatus ==
+                          Constants.ScheduleStatusCode.REFUSE) && (
+                        <ButtonCustom
+                          onPress={() =>
+                            navigation.navigate(
+                              RoutesPath.Pages.UPDATE_SCHEDULE,
+                              {
+                                idSchedule: item.idSchedule,
+                                handleGetDataWithFilter: () =>
+                                  handleGetDataWithFilter(),
+                              },
+                            )
+                          }
+                          textButton={Strings.Common.DETAIL}
+                          padding={8}
+                          iconPosition={'right'}
+                          icon={
+                            <MaterialIcons
+                              name={'eye'}
+                              size={26}
+                              color={Constants.Styles.Color.WHITE}
+                            />
+                          }
+                        />
+                      )}
                     </View>
                   </View>
                 );

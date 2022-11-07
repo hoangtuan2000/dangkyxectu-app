@@ -9,18 +9,13 @@ import {
 import {useSelector} from 'react-redux';
 import Strings from '../../../constant/Strings';
 import {darkStyles, lightStyles} from './styles';
-import DateRangePickerCustom from '../../../components/dateRangePickerCustom/DateRangePickerCustom';
 import InputCustom from '../../../components/inputCustom/InputCustom';
-import ModalChooseAddress from '../../../components/modalChooseAddress/ModalChooseAddress';
 import ButtonCustom from '../../../components/buttonCustom/ButtonCustom';
-import ButtonAddress from '../../../components/buttonAddress/ButtonAddress';
-import {RentalCarListServices} from '../../../services/RentalCarListServices';
 import helper from '../../../common/helper';
 import ModalSuccess from '../../../components/modalSuccess/ModalSuccess';
 import ModalError from '../../../components/modalError/ModalError';
 import BackDrop from '../../../components/backDrop/BackDrop';
 import Constants from '../../../constant/Constants';
-import {UpdateSchedulePendingServices} from '../../../services/user/UpdateSchedulePendingServices';
 import ModalConfirmation from '../../../components/modalConfirmation/ModalConfirmation';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {UpdateScheduleServices} from '../../../services/user/UpdateScheduleServices';
@@ -30,10 +25,6 @@ function UpdateSchedulePage({route, navigation}) {
   const {idSchedule, handleGetDataWithFilter} = route.params;
   const idCar = 1;
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
-  const currentUser = useSelector(state => state.currentUser.user);
-
-  const startAddressRef = React.useRef();
-  const endAddressRef = React.useRef();
 
   const [modalError, setModalError] = React.useState({
     open: false,
@@ -47,28 +38,6 @@ function UpdateSchedulePage({route, navigation}) {
     title: Strings.Common.DO_YOU_WANT_TO_UPDATE,
     content: Strings.Common.UPDATE_CONFIRMATION,
     handleSubmit: () => {},
-  });
-
-  const [modalDateRange, setModalDateRange] = React.useState(false);
-  const [modalStartAddress, setModalStartAddress] = React.useState(false);
-  const [modalEndAddress, setModalEndAddress] = React.useState(false);
-  const [showStartAddress, setShowStartAddress] = React.useState();
-  const [showEndAddress, setShowEndAddress] = React.useState();
-  const [disableDateSchedule, setDisableDateSchedule] = React.useState([]);
-
-  const [defaultAddress, setDefaultAddress] = React.useState({
-    startAddress: {
-      address: null,
-      province: null,
-      district: null,
-      ward: null,
-    },
-    endAddress: {
-      address: null,
-      province: null,
-      district: null,
-      ward: null,
-    },
   });
 
   const [schedule, setSchedule] = React.useState([]);
@@ -432,11 +401,16 @@ function UpdateSchedulePage({route, navigation}) {
                         }>
                         {Strings.UpdateSchedulePage.REVIEW}
                       </Text>
-                      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-                      <StarRating
-                        rating={dataSendApi.starNumber}
-                        onChange={e => handleChangeRating(e)}
-                      />
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                        }}>
+                        <StarRating
+                          rating={dataSendApi.starNumber}
+                          onChange={e => handleChangeRating(e)}
+                        />
                       </View>
                       <View style={{paddingHorizontal: 10}}>
                         {/* COMMENT */}
@@ -524,6 +498,96 @@ function UpdateSchedulePage({route, navigation}) {
                           : lightStyles.textContent
                       }>
                       {`${item.endLocation} - ${item.wardEnd} - ${item.districtEnd} - ${item.provinceEnd}`}
+                    </Text>
+                  </View>
+                </View>
+
+                {/* INFO DRIVER */}
+                <View>
+                  <Text
+                    style={
+                      isDarkMode
+                        ? darkStyles.textContent
+                        : lightStyles.textContent
+                    }>
+                    {Strings.UpdateSchedulePage.INFO_DRIVER}
+                  </Text>
+                  {/* FULL NAME */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'account'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
+                    <Text
+                      style={
+                        isDarkMode
+                          ? darkStyles.textContent
+                          : lightStyles.textContent
+                      }>
+                      {Strings.UpdateSchedulePage.FULL_NAME}{' '}
+                      {`${item.fullNameDriver} - ${item.codeDriver}`}
+                    </Text>
+                  </View>
+                  {/* PHONE DRIVER */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'phone'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
+                    <Text
+                      style={
+                        isDarkMode
+                          ? darkStyles.textContent
+                          : lightStyles.textContent
+                      }>
+                      {Strings.UpdateSchedulePage.PHONE}{' '}
+                      {item.phoneDriver}
+                    </Text>
+                  </View>
+                  {/* EMAIL DRIVER */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'email'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
+                    <Text
+                      style={
+                        isDarkMode
+                          ? darkStyles.textContent
+                          : lightStyles.textContent
+                      }>
+                      {Strings.UpdateSchedulePage.EMAIL}{' '}
+                      {item.emailDriver}
                     </Text>
                   </View>
                 </View>
