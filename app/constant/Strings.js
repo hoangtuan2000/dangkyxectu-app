@@ -175,6 +175,7 @@ const Strings = {
     REASON: 'Lý Do:',
     CAR_TYPE: 'Loại Xe:',
     STATUS: 'Trạng Thái: ',
+    REVIEW: 'Đánh Giá: ',
   },
 
   RentedCarFilterModal: {

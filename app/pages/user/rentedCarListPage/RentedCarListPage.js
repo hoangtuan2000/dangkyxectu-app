@@ -23,6 +23,7 @@ import RoutesPath from '../../../constant/RoutesPath';
 import {RentedCarListServices} from '../../../services/user/RentedCarListServices';
 import RentedCarFilterModal from '../../../components/user/rentedcarFilterModal/RentedCarFilterModal';
 import ModalConfirmationCancel from '../../../components/modalConfirmationCancel/ModalConfirmationCancel';
+import StarRating from 'react-native-star-rating-widget';
 
 function RentedCarListPage({navigation}) {
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
@@ -36,8 +37,10 @@ function RentedCarListPage({navigation}) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
-  const [modalConfirmationCancel, setModalConfirmationCancel] =
-    React.useState({open: false, idSchedule: null});
+  const [modalConfirmationCancel, setModalConfirmationCancel] = React.useState({
+    open: false,
+    idSchedule: null,
+  });
   const [dataInfo, setDataInfo] = React.useState({
     page: Constants.Common.PAGE,
     pageSize: Constants.Common.LIMIT_ENTRY,
@@ -452,6 +455,24 @@ function RentedCarListPage({navigation}) {
                           </Text>
                         </View>
                       </View>
+                      {item.idScheduleStatus ==
+                        Constants.ScheduleStatusCode.COMPLETE && (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                            marginBottom: 5,
+                          }}>
+                          <Text
+                            style={
+                              isDarkMode ? darkStyles.text : lightStyles.text
+                            }>
+                            {Strings.RentedCarList.REVIEW}
+                          </Text>
+                          <StarRating rating={item.starNumber} starSize={18} />
+                        </View>
+                      )}
 
                       {/* UPDATE SCHEDULE APPROVED || RECEIVED */}
                       {(item.idScheduleStatus ==
