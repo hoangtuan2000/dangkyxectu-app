@@ -256,19 +256,19 @@ function DriverTripManagerPage({navigation}) {
   };
 
   const handleGetDataWithFilter = async () => {
-    // let data = await handleFormatDataFilter();
-    // await getDriverScheduleList(
-    //   false,
-    //   Constants.Common.PAGE,
-    //   Constants.Common.LIMIT_ENTRY,
-    //   data.status,
-    //   data.carType,
-    //   data.scheduleCode,
-    //   data.address,
-    //   data.idWard,
-    //   data.startDate,
-    //   data.endDate,
-    // );
+    let data = await handleFormatDataFilter();
+    await getDriverScheduleList(
+      false,
+      Constants.Common.PAGE,
+      Constants.Common.LIMIT_ENTRY,
+      data.status,
+      data.carType,
+      data.scheduleCode,
+      data.address,
+      data.idWard,
+      data.startDate,
+      data.endDate,
+    );
   };
 
   const run = async () => {
@@ -438,7 +438,7 @@ function DriverTripManagerPage({navigation}) {
                         <ButtonCustom
                           onPress={() =>
                             navigation.navigate(
-                              RoutesPath.Pages.UPDATE_SCHEDULE,
+                              RoutesPath.Pages.SHOW_SCHEDULE_DRIVER,
                               {
                                 idSchedule: item.idSchedule,
                                 handleGetDataWithFilter: () =>
@@ -461,7 +461,7 @@ function DriverTripManagerPage({navigation}) {
                         <ButtonCustom
                           onPress={() =>
                             navigation.navigate(
-                              RoutesPath.Pages.UPDATE_SCHEDULE,
+                              RoutesPath.Pages.SHOW_SCHEDULE_DRIVER,
                               {
                                 idSchedule: item.idSchedule,
                                 handleGetDataWithFilter: () =>

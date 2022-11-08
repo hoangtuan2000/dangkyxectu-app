@@ -18,10 +18,11 @@ import BackDrop from '../../../components/backDrop/BackDrop';
 import Constants from '../../../constant/Constants';
 import ModalConfirmation from '../../../components/modalConfirmation/ModalConfirmation';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {UpdateScheduleServices} from '../../../services/user/UpdateScheduleServices';
+import {ShowScheduleDriverServices} from '../../../services/driver/ShowScheduleDriverServices';
 import StarRating from 'react-native-star-rating-widget';
+import ModalCarStatusConfirmation from '../../../components/driver/modalCarStatusConfirmation/ModalCarStatusConfirmation';
 
-function UpdateSchedulePage({route, navigation}) {
+function ShowScheduleDriverPage({route, navigation}) {
   const {idSchedule, handleGetDataWithFilter} = route.params;
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 
@@ -34,10 +35,17 @@ function UpdateSchedulePage({route, navigation}) {
   const [backDrop, setBackDrop] = React.useState(false);
   const [dialogConfirmation, setDialogConfirmation] = React.useState({
     open: false,
-    title: Strings.Common.DO_YOU_WANT_TO_UPDATE,
-    content: Strings.Common.UPDATE_CONFIRMATION,
+    title: Strings.Common.DO_YOU_WANT_TO_CONFIRM_MOVING,
+    content: Strings.Common.MOVING_CONFIRMATION,
     handleSubmit: () => {},
   });
+
+  const [modalCarStatusConfirmation, setModalCarStatusConfirmation] =
+    React.useState({
+      open: false,
+      idSchedule: null,
+      idScheduleStatus: null,
+    });
 
   const [schedule, setSchedule] = React.useState([]);
 
@@ -56,20 +64,18 @@ function UpdateSchedulePage({route, navigation}) {
   });
 
   const getSchedule = async () => {
-    const res = await UpdateScheduleServices.getSchedule({
+    const res = await ShowScheduleDriverServices.getSchedule({
       idSchedule: idSchedule,
     });
     // axios success
     if (res.data) {
       if (res.data.status == Constants.ApiCode.OK) {
         setSchedule(res.data.data);
-        setDataSendApi({
-          ...dataSendApi,
-          idReview: res.data.data[0].idReview,
+        setModalCarStatusConfirmation({
+          ...modalCarStatusConfirmation,
+          open: false,
           idSchedule: res.data.data[0].idSchedule,
-          comment: res.data.data[0].commentReview,
-          starNumber: res.data.data[0].starNumber,
-          phoneUser: res.data.data[0].phoneUser,
+          idScheduleStatus: res.data.data[0].idScheduleStatus,
         });
       } else {
         setModalError({
@@ -92,6 +98,13 @@ function UpdateSchedulePage({route, navigation}) {
         content: res.name || null,
       });
     }
+  };
+
+  const handleOpenDialogCarStatusConfirmation = () => {
+    setModalCarStatusConfirmation({
+      ...modalCarStatusConfirmation,
+      open: true,
+    });
   };
 
   const handleChangePhone = e => {
@@ -127,35 +140,17 @@ function UpdateSchedulePage({route, navigation}) {
     }
   };
 
-  const handleSubmit = async () => {
+  const confirmMoving = async () => {
     await setBackDrop(true);
-    let res = {};
-    if (
-      schedule.length > 0 &&
-      schedule[0].idScheduleStatus == Constants.ScheduleStatusCode.COMPLETE
-    ) {
-      res = await UpdateScheduleServices.createOrUpdateReview({
-        idReview: dataSendApi.idReview,
-        idSchedule: dataSendApi.idSchedule,
-        comment: dataSendApi.comment,
-        starNumber: dataSendApi.starNumber,
-      });
-    } else if (
-      schedule.length > 0 &&
-      (schedule[0].idScheduleStatus == Constants.ScheduleStatusCode.APPROVED ||
-        schedule[0].idScheduleStatus == Constants.ScheduleStatusCode.RECEIVED)
-    ) {
-      res = await UpdateScheduleServices.updatePhoneNumberUserInSchedule({
-        idSchedule: dataSendApi.idSchedule,
-        phoneUser: dataSendApi.phoneUser,
-      });
-    }
-
+    const res = await ShowScheduleDriverServices.confirmMoving({
+      idSchedule: idSchedule,
+    });
     // axios success
     if (res.data) {
       if (res.data.status == Constants.ApiCode.OK) {
-        setModalSuccess(true);
         handleGetDataWithFilter();
+        getSchedule();
+        setModalSuccess(true);
       } else {
         setModalError({
           ...modalError,
@@ -182,13 +177,12 @@ function UpdateSchedulePage({route, navigation}) {
     }, 1000);
   };
 
-  const onSubmit = () => {
-    // call dialog confirm => submit
+  const handleConfirmMoving = async () => {
     setDialogConfirmation({
       ...dialogConfirmation,
       open: true,
       handleSubmit: () => {
-        handleSubmit();
+        confirmMoving();
       },
     });
   };
@@ -214,7 +208,7 @@ function UpdateSchedulePage({route, navigation}) {
         style={{flexGrow: 1, marginBottom: 20}}>
         {/* TITLE */}
         <Text style={isDarkMode ? darkStyles.title : lightStyles.title}>
-          {Strings.UpdateSchedulePage.TITLE} {idSchedule}
+          {Strings.ShowScheduleDriver.TITLE} {idSchedule}
         </Text>
 
         {schedule.map(item => {
@@ -254,7 +248,7 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.LICENSE_PLATES}{' '}
+                  {Strings.ShowScheduleDriver.LICENSE_PLATES}{' '}
                   {item.licensePlates}
                 </Text>
 
@@ -265,7 +259,7 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.COLOR} {item.carColor}
+                  {Strings.ShowScheduleDriver.COLOR} {item.carColor}
                 </Text>
 
                 {/* CAR BRAND */}
@@ -275,7 +269,7 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.BRAND} {item.carBrand}
+                  {Strings.ShowScheduleDriver.BRAND} {item.carBrand}
                 </Text>
 
                 {/* SCHEDULE STATUS */}
@@ -290,7 +284,7 @@ function UpdateSchedulePage({route, navigation}) {
                         ? darkStyles.textStatus
                         : lightStyles.textStatus
                     }>
-                    {Strings.UpdateSchedulePage.SCHEDULE_STATUS}
+                    {Strings.ShowScheduleDriver.SCHEDULE_STATUS}
                   </Text>
                   <View
                     style={{
@@ -312,7 +306,7 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.TIME}
+                  {Strings.ShowScheduleDriver.TIME}
                   <Text style={{fontWeight: 'bold'}}>
                     {`${helper.formatDateStringFromTimeStamp(
                       item.startDate,
@@ -327,7 +321,7 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.REASON} {item.reason}
+                  {Strings.ShowScheduleDriver.REASON} {item.reason}
                 </Text>
 
                 {/* NOTE */}
@@ -337,97 +331,98 @@ function UpdateSchedulePage({route, navigation}) {
                       ? darkStyles.textContent
                       : lightStyles.textContent
                   }>
-                  {Strings.UpdateSchedulePage.NOTE} {item.note}
+                  {Strings.ShowScheduleDriver.NOTE} {item.note}
                 </Text>
 
-                {/* PHONE */}
-                {(item.idScheduleStatus ==
-                  Constants.ScheduleStatusCode.APPROVED ||
-                  item.idScheduleStatus ==
-                    Constants.ScheduleStatusCode.RECEIVED) &&
-                helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
-                  item.startDate,
-                ) ? (
-                  <>
-                    {/* UPDATE PHONE */}
-                    <View>
-                      <Text
-                        style={
-                          isDarkMode
-                            ? darkStyles.textContent
-                            : lightStyles.textContent
-                        }>
-                        {Strings.UpdateSchedulePage.PHONE}
-                      </Text>
-                      <View style={{paddingHorizontal: 10}}>
-                        {/* PHONE */}
-                        <InputCustom
-                          error={errorData.phoneUser}
-                          helperText={Strings.UpdateSchedulePage.SUPPORT_PHONE}
-                          icon={'phone-outline'}
-                          onChangeText={e => handleChangePhone(e)}
-                          placeholder={Strings.UpdateSchedulePage.ENTER_PHONE}
-                          value={dataSendApi.phoneUser}
-                        />
-                      </View>
-                    </View>
-                  </>
-                ) : (
-                  <>
-                    {/* PHONE */}
+                {/* INFO_USER */}
+                <View>
+                  <Text
+                    style={
+                      isDarkMode
+                        ? darkStyles.textContent
+                        : lightStyles.textContent
+                    }>
+                    {Strings.ShowScheduleDriver.INFO_USER}
+                  </Text>
+                  {/* FULL NAME */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'account'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
                     <Text
                       style={
                         isDarkMode
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.PHONE} {item.phoneUser}
+                      {Strings.ShowScheduleDriver.FULL_NAME}{' '}
+                      {item.fullNameUser &&
+                        item.codeUser &&
+                        `${item.fullNameUser} - ${item.codeUser}`}
                     </Text>
-                  </>
-                )}
-
-                {/* RATING */}
-                {item.idScheduleStatus ==
-                  Constants.ScheduleStatusCode.COMPLETE && (
-                  <>
-                    {/* UPDATE REVIEW */}
-                    <View>
-                      <Text
-                        style={
-                          isDarkMode
-                            ? darkStyles.textContent
-                            : lightStyles.textContent
-                        }>
-                        {Strings.UpdateSchedulePage.REVIEW}
-                      </Text>
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: 'row',
-                          justifyContent: 'center',
-                        }}>
-                        <StarRating
-                          rating={dataSendApi.starNumber}
-                          onChange={e => handleChangeRating(e)}
-                        />
-                      </View>
-                      <View style={{paddingHorizontal: 10}}>
-                        {/* COMMENT */}
-                        <InputCustom
-                          multiLine={true}
-                          error={errorData.comment}
-                          helperText={
-                            Strings.UpdateSchedulePage.SUPPORT_COMMENT
-                          }
-                          icon={'note-edit-outline'}
-                          onChangeText={e => handleChangeComment(e)}
-                          placeholder={Strings.UpdateSchedulePage.ENTER_COMMENT}
-                          value={dataSendApi.comment}
-                        />
-                      </View>
-                    </View>
-                  </>
-                )}
+                  </View>
+                  {/* PHONE USER */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'phone'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
+                    <Text
+                      style={
+                        isDarkMode
+                          ? darkStyles.textContent
+                          : lightStyles.textContent
+                      }>
+                      {Strings.ShowScheduleDriver.PHONE} {item.phoneUser}
+                    </Text>
+                  </View>
+                  {/* EMAIL USER */}
+                  <View
+                    style={{
+                      marginLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <MaterialIcons
+                      name={'email'}
+                      size={26}
+                      color={
+                        isDarkMode
+                          ? Constants.Styles.Color.WHITE
+                          : Constants.Styles.Color.PRIMARY
+                      }
+                    />
+                    <Text
+                      style={
+                        isDarkMode
+                          ? darkStyles.textContent
+                          : lightStyles.textContent
+                      }>
+                      {Strings.ShowScheduleDriver.EMAIL} {item.emailUser}
+                    </Text>
+                  </View>
+                </View>
 
                 {/* START LOCATION */}
                 <View>
@@ -437,7 +432,7 @@ function UpdateSchedulePage({route, navigation}) {
                         ? darkStyles.textContent
                         : lightStyles.textContent
                     }>
-                    {Strings.UpdateSchedulePage.START_LOCATION}
+                    {Strings.ShowScheduleDriver.START_LOCATION}
                   </Text>
                   <View
                     style={{
@@ -473,7 +468,7 @@ function UpdateSchedulePage({route, navigation}) {
                         ? darkStyles.textContent
                         : lightStyles.textContent
                     }>
-                    {Strings.UpdateSchedulePage.END_LOCATION}
+                    {Strings.ShowScheduleDriver.END_LOCATION}
                   </Text>
                   <View
                     style={{
@@ -509,7 +504,7 @@ function UpdateSchedulePage({route, navigation}) {
                         ? darkStyles.textContent
                         : lightStyles.textContent
                     }>
-                    {Strings.UpdateSchedulePage.INFO_DRIVER}
+                    {Strings.ShowScheduleDriver.INFO_DRIVER}
                   </Text>
                   {/* FULL NAME */}
                   <View
@@ -533,7 +528,7 @@ function UpdateSchedulePage({route, navigation}) {
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.FULL_NAME}{' '}
+                      {Strings.ShowScheduleDriver.FULL_NAME}{' '}
                       {item.fullNameDriver &&
                         item.codeDriver &&
                         `${item.fullNameDriver} - ${item.codeDriver}`}
@@ -561,7 +556,7 @@ function UpdateSchedulePage({route, navigation}) {
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.PHONE} {item.phoneDriver}
+                      {Strings.ShowScheduleDriver.PHONE} {item.phoneDriver}
                     </Text>
                   </View>
                   {/* EMAIL DRIVER */}
@@ -586,7 +581,7 @@ function UpdateSchedulePage({route, navigation}) {
                           ? darkStyles.textContent
                           : lightStyles.textContent
                       }>
-                      {Strings.UpdateSchedulePage.EMAIL} {item.emailDriver}
+                      {Strings.ShowScheduleDriver.EMAIL} {item.emailDriver}
                     </Text>
                   </View>
                 </View>
@@ -598,40 +593,104 @@ function UpdateSchedulePage({route, navigation}) {
                   justifyContent: 'flex-end',
                   alignItems: 'flex-end',
                 }}>
-                {((item.idScheduleStatus ==
-                  Constants.ScheduleStatusCode.APPROVED ||
+                <ButtonCustom
+                  onPress={() => navigation.goBack()}
+                  bgColor={Constants.Styles.Color.ERROR}
+                  textButton={Strings.Common.CLOSE}
+                  iconPosition={'right'}
+                  icon={
+                    <MaterialIcons
+                      name="close-circle-outline"
+                      size={20}
+                      color={Constants.Styles.Color.WHITE}
+                    />
+                  }
+                />
+
+                {/* RECEIVE_SCHEDULE BUTTON */}
+                {helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
+                  item.startDate,
+                ) &&
                   item.idScheduleStatus ==
-                    Constants.ScheduleStatusCode.RECEIVED) &&
-                  helper.isDateTimeStampGreaterThanOrEqualCurrentDate(
-                    item.startDate,
-                  )) ||
-                item.idScheduleStatus ==
-                  Constants.ScheduleStatusCode.COMPLETE ? (
-                  <>
+                    Constants.ScheduleStatusCode.APPROVED && (
                     <ButtonCustom
-                      onPress={() => navigation.goBack()}
-                      bgColor={Constants.Styles.Color.ERROR}
-                      textButton={Strings.Common.CANCEL}
+                      onPress={handleOpenDialogCarStatusConfirmation}
+                      bgColor={
+                        Constants.ColorOfScheduleStatus.Background.RECEIVED
+                      }
+                      textButton={Strings.ShowScheduleDriver.RECEIVE_SCHEDULE}
+                      iconPosition={'right'}
+                      icon={
+                        <MaterialIcons
+                          name="check-circle"
+                          size={20}
+                          color={Constants.Styles.Color.WHITE}
+                        />
+                      }
                     />
-                    <ButtonCustom
-                      onPress={onSubmit}
-                      textButton={Strings.Common.UPDATE}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <ButtonCustom
-                      onPress={() => navigation.goBack()}
-                      bgColor={Constants.Styles.Color.ERROR}
-                      textButton={Strings.Common.CLOSE}
-                    />
-                  </>
+                  )}
+
+                {/* MOVING_COMFIRMATION BUTTON */}
+                {item.idScheduleStatus ==
+                  Constants.ScheduleStatusCode.RECEIVED && (
+                  <ButtonCustom
+                    onPress={handleConfirmMoving}
+                    bgColor={Constants.ColorOfScheduleStatus.Background.MOVING}
+                    textButton={Strings.ShowScheduleDriver.MOVING_COMFIRMATION}
+                    iconPosition={'right'}
+                    icon={
+                      <MaterialIcons
+                        name="check-circle"
+                        size={20}
+                        color={Constants.Styles.Color.WHITE}
+                      />
+                    }
+                  />
+                )}
+
+                {/* COMPLETE_COMFIRMATION BUTTON */}
+                {item.idScheduleStatus ==
+                  Constants.ScheduleStatusCode.MOVING && (
+                  <ButtonCustom
+                    onPress={handleOpenDialogCarStatusConfirmation}
+                    bgColor={
+                      Constants.ColorOfScheduleStatus.Background.COMPLETE
+                    }
+                    textButton={
+                      Strings.ShowScheduleDriver.COMPLETE_COMFIRMATION
+                    }
+                    iconPosition={'right'}
+                    icon={
+                      <MaterialIcons
+                        name="check-circle"
+                        size={20}
+                        color={Constants.Styles.Color.WHITE}
+                      />
+                    }
+                  />
                 )}
               </View>
             </View>
           );
         })}
       </ScrollView>
+
+      <ModalCarStatusConfirmation
+        open={modalCarStatusConfirmation.open}
+        handleClose={() =>
+          setModalCarStatusConfirmation({
+            ...modalCarStatusConfirmation,
+            open: false,
+          })
+        }
+        idSchedule={modalCarStatusConfirmation.idSchedule}
+        idScheduleStatus={modalCarStatusConfirmation.idScheduleStatus}
+        handleExecuteFunctionParent={() => {
+          getSchedule();
+          handleGetDataWithFilter();
+          setModalSuccess(true)
+        }}
+      />
 
       <ModalConfirmation
         open={dialogConfirmation.open}
@@ -668,4 +727,4 @@ function UpdateSchedulePage({route, navigation}) {
   );
 }
 
-export default UpdateSchedulePage;
+export default ShowScheduleDriverPage;

@@ -101,6 +101,14 @@ const Constants = {
       UPDATE_PHONE_NUMBER_USER_SCHEDULE:
         '/user/updatePhoneNumberUserInSchedule',
     },
+    ShowScheduleDriver: {
+      GET_SCHEDULE: '/global/getSchedule',
+      CONFIRM_MOVING: '/driver/confirmMoving',
+    },
+    ModalCarStatusConfirmation: {
+      CONFIRM_RECEIVED_OR_COMPLETE_OF_SCHEDULE:
+        '/driver/confirmReceivedOrCompleteOfSchedule',
+    },
   },
 
   CarStatus: {
@@ -179,6 +187,17 @@ const Constants = {
       RECEIVED: '#03a882',
       MOVING: '#ab8e00',
     },
+  },
+
+  CarPartsCode: {
+    FRONT_OF_CAR: 1,
+    BACK_OF_CAR: 2,
+    LEFT_CAR_BODY: 3,
+    RIGHT_CAR_BODY: 4,
+    CAR_FRONT_LIGHTS: 5,
+    CAR_BACK_LIGHTS: 6,
+    OTHER_CAR_PARTS: 7,
+    CAR_CONTROL_CENTER: 8,
   },
 };
 

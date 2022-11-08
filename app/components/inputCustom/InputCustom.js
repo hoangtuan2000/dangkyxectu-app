@@ -15,6 +15,7 @@ function InputCustom({
   label,
   error,
   multiLine,
+  numberOfLines,
   helperText,
   width,
   styleLabel,
@@ -70,7 +71,7 @@ function InputCustom({
           isDarkMode ? darkStyles.wrapper : lightStyles.wrapper,
           {alignItems: icon ? 'center' : 'baseline'},
           {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
-          {height: !multiLine ? 45 : undefined}
+          {height: !multiLine ? 45 : undefined},
         ]}>
         <View>
           {icon && (
@@ -99,7 +100,10 @@ function InputCustom({
           ]}
           onChangeText={onChangeText}
           value={value}
-          numberOfLines={multiLine && 5}
+          numberOfLines={
+            numberOfLines && multiLine ? numberOfLines : multiLine && 5
+          }
+          // numberOfLines={multiLine && 5}
           multiline={multiLine ? multiLine : false}
           placeholder={placeholder}
           placeholderTextColor={

@@ -5,6 +5,7 @@ import RentedCarListPage from '../../../pages/user/rentedCarListPage/RentedCarLi
 import UpdateSchedulePendingPage from '../../../pages/user/updateSchedulePendingPage/UpdateSchedulePendingPage';
 import UpdateSchedulePage from '../../../pages/user/updateSchedulePage/UpdateSchedulePage';
 import DriverTripManagerPage from '../../../pages/driver/driverTripManagerPage/DriverTripManagerPage';
+import ShowScheduleDriverPage from '../../../pages/driver/showScheduleDriverPage/ShowScheduleDriverPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +15,10 @@ function DriverTripManagerScreen() {
       <Stack.Screen
         name={RoutesPath.Pages.DRIVER_TRIP_MANAGER}
         component={DriverTripManagerPage}
+      />
+      <Stack.Screen
+        name={RoutesPath.Pages.SHOW_SCHEDULE_DRIVER}
+        component={ShowScheduleDriverPage}
       />
     </Stack.Navigator>
   );
