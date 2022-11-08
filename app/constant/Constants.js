@@ -87,6 +87,9 @@ const Constants = {
       GET_USER_REGISTERED_SCHEDULE_LIST: '/user/getUserRegisteredScheduleList',
       CANCEL_SCHEDULE: '/user/cancelSchedule',
     },
+    DriverTripManager: {
+      GET_DRIVER_SCHEDULE_LIST: '/driver/getDriverScheduleList',
+    },
     UpdateSchedulePending: {
       GET_SCHEDULE: '/global/getSchedule',
       GET_SCHEDULE_DATE_FOR_CAR: '/global/getScheduledDateForCar',

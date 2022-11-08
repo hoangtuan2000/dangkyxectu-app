@@ -8,6 +8,7 @@ import Constants from '../../constant/Constants';
 import {useSelector} from 'react-redux';
 import {getDataUser} from '../../asyncStorage/AsyncStorage';
 import RentedCarListScreen from '../user/rentedCarListScreen/RentedCarListScreen';
+import DriverTripManagerScreen from '../driver/driverTripManagerScreen/DriverTripManagerScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -27,6 +28,8 @@ function HomeScreen() {
       initialRouteName={
         currentUser.role == Constants.Role.USER
           ? RoutesPath.Screens.RENTAL_CAR_LIST_SCREEN
+          : currentUser.role == Constants.Role.DRIVER
+          ? RoutesPath.Screens.DRIVER_TRIP_MANAGER_SCREEN
           : RoutesPath.Screens.ACCOUNT_SCREEN
       }
       inactiveColor={
@@ -50,6 +53,10 @@ function HomeScreen() {
             iconName = focused ? 'view-list' : 'view-list';
           } else if (route.name === RoutesPath.Screens.ACCOUNT_SCREEN) {
             iconName = focused ? 'account' : 'account';
+          } else if (
+            route.name === RoutesPath.Screens.DRIVER_TRIP_MANAGER_SCREEN
+          ) {
+            iconName = focused ? 'car-multiple' : 'car-multiple';
           }
 
           return <MaterialIcons name={iconName} size={26} color={color} />;
@@ -66,6 +73,15 @@ function HomeScreen() {
             name={RoutesPath.Screens.RENTED_CAR_LIST_SCREEN}
             component={RentedCarListScreen}
             options={{title: 'Xe Đã Thuê'}}
+          />
+        </>
+      )}
+      {currentUser.role == Constants.Role.DRIVER && (
+        <>
+          <Tab.Screen
+            name={RoutesPath.Screens.DRIVER_TRIP_MANAGER_SCREEN}
+            component={DriverTripManagerScreen}
+            options={{title: 'Chuyến Đi'}}
           />
         </>
       )}

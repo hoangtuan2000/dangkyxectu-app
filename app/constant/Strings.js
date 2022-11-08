@@ -189,6 +189,18 @@ const Strings = {
     ADDRESS: 'Địa Chỉ',
     CHOOSE_ADDRESS: '-- Chọn Địa Chỉ --',
   },
+
+  DriverTripManagerFilterModal: {
+    TITLE: 'Bộ Lọc Lịch Trình',
+    SCHEDULE_CODE: 'Mã Lịch Trình',
+    ENTER_SCHEDULE_CODE: '-- Nhập Mã --',
+    STATUS: 'Trạng Thái',
+    CHOOSE_STATUS: '-- Chọn Trạng Thái --',
+    CAR_TYPE: 'Loại Xe',
+    CHOOSE_CAR_TYPE: '-- Chọn Loại Xe --',
+    ADDRESS: 'Địa Chỉ',
+    CHOOSE_ADDRESS: '-- Chọn Địa Chỉ --',
+  },
 };
 
 export default Strings;

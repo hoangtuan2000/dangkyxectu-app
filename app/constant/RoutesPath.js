@@ -6,6 +6,7 @@ const RoutesPath = {
     RENTAL_CAR_LIST_SCREEN: 'RentalCarListScreen',
     RENTED_CAR_LIST_SCREEN: 'RentedCarListScreen',
     ACCOUNT_SCREEN: 'AccountScreen',
+    DRIVER_TRIP_MANAGER_SCREEN: 'DriverTripManagerScreen',
   },
   Pages: {
     SPLASH: 'SplashPage',
@@ -13,6 +14,7 @@ const RoutesPath = {
     RENTAL_CAR_LIST: 'RentalCarListPage',
     SCHEDULE_REGISTRATION: 'ScheduleRegistration',
     RENTED_CAR_LIST: 'RentedCarListPage',
+    DRIVER_TRIP_MANAGER: 'DriverTripManagerPage',
     UPDATE_SCHEDULE_PENDING: 'UpdateSchedulePendingPage',
     UPDATE_SCHEDULE: 'UpdateSchedulePage',
     ACCOUNT: 'AccountPage',
