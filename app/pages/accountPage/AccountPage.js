@@ -12,24 +12,29 @@ import {
   setDarkModeStorage,
 } from '../../asyncStorage/AsyncStorage';
 import RoutesPath from '../../constant/RoutesPath';
+import {deleteCurrentUser} from '../../redux/currentUserSlice/currentUserSlice';
 
 function AccountPage({navigation}) {
   const dispatch = useDispatch();
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+  const currentUser = useSelector(state => state.currentUser.user);
   const [darkMode, setDarkMode] = React.useState(isDarkMode);
 
   const logout = () => {
     removeDataUserStorage();
+    dispatch(deleteCurrentUser());
     navigation.navigate(RoutesPath.Screens.LOGIN_SCREEN);
   };
 
   return (
     <View style={isDarkMode ? darkStyles.container : lightStyles.container}>
       <Text style={isDarkMode ? darkStyles.textHeader : lightStyles.textHeader}>
-        Dương Hoàng Tuấn
+        {currentUser &&
+          currentUser.hasOwnProperty('fullName') &&
+          currentUser.fullName}
       </Text>
       <Text style={isDarkMode ? darkStyles.textHeader : lightStyles.textHeader}>
-        B1809315
+        {currentUser && currentUser.hasOwnProperty('code') && currentUser.code}
       </Text>
       <View style={{width: 160}}>
         <ButtonCustom

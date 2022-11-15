@@ -16,7 +16,7 @@ function NoDataView() {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}>
       <Text style={isDarkMode ? darkStyles.textNoData : lightStyles.textNoData}>
         {Strings.Common.NO_DATA}

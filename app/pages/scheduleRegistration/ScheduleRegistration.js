@@ -66,8 +66,6 @@ function ScheduleRegistration({route, navigation}) {
   const [disableDateSchedule, setDisableDateSchedule] = React.useState([]);
   const [car, setCar] = React.useState([]);
 
-  
-
   const [errorData, setErrorData] = React.useState({
     idCar: false,
     date: false,
@@ -441,18 +439,15 @@ function ScheduleRegistration({route, navigation}) {
             : Constants.Styles.Color.DARK;
           const objCarStatus = Constants.CarStatusCode;
           for (const property in objCarStatus) {
-              if (item.idCarStatus == `${objCarStatus[property]}`) {
-                  bgColor =
-                      Constants.ColorOfCarStatus.Background[property];
-                  textColor =
-                      Constants.ColorOfCarStatus.TextHaveBackground[
-                          property
-                      ];
-                  break;
-              }
+            if (item.idCarStatus == `${objCarStatus[property]}`) {
+              bgColor = Constants.ColorOfCarStatus.Background[property];
+              textColor =
+                Constants.ColorOfCarStatus.TextHaveBackground[property];
+              break;
+            }
           }
           return (
-            <>
+            <View key={item.idCar}>
               <Image
                 source={{
                   uri: item.image,
@@ -519,7 +514,7 @@ function ScheduleRegistration({route, navigation}) {
                   {Strings.ScheduleRegistration.BRAND} {item.nameCarBrand}
                 </Text>
               </View>
-            </>
+            </View>
           );
         })}
 

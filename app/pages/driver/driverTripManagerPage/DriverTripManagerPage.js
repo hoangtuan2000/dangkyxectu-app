@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../../components/buttonCustom/ButtonCustom';
@@ -26,7 +28,12 @@ import ModalConfirmationCancel from '../../../components/modalConfirmationCancel
 import StarRating from 'react-native-star-rating-widget';
 import DriverTripManagerFilterModal from '../../../components/driver/driverTripManagerFilterModal/DriverTripManagerFilterModal';
 
+const window = Dimensions.get('window');
+
 function DriverTripManagerPage({navigation}) {
+
+  const [dimensions, setDimensions] = React.useState(window);
+
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [modalError, setModalError] = React.useState({
     open: false,
@@ -280,6 +287,10 @@ function DriverTripManagerPage({navigation}) {
 
   React.useEffect(() => {
     run();
+    const subscription = Dimensions.addEventListener('change', ({window}) => {
+      setDimensions(window);
+    });
+    return () => subscription?.remove();
   }, []);
 
   return (
@@ -487,7 +498,21 @@ function DriverTripManagerPage({navigation}) {
               }}
             />
           ) : (
-            <NoDataView />
+            <ScrollView
+              style={{
+                flexGrow: 1,
+              }}
+              // REFRESH CONTROL
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }>
+              <View
+                style={{
+                  marginTop: (dimensions.height * 45) / 100,
+                }}>
+                <NoDataView />
+              </View>
+            </ScrollView>
           )}
         </>
       )}

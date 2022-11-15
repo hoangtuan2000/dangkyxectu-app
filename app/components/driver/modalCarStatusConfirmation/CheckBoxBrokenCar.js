@@ -1,15 +1,13 @@
 import React from 'react';
-import {
-  View,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {View, Dimensions, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../buttonCustom/ButtonCustom';
 import Constants from '../../../constant/Constants';
 import InputCustom from '../../inputCustom/InputCustom';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Checkbox} from 'react-native-paper';
+
+const window = Dimensions.get('window');
 
 function CheckBoxBrokenCar({
   handleCheckBrokenCarParts,
@@ -24,10 +22,25 @@ function CheckBoxBrokenCar({
   handleOpenCamera,
   handleOpenLibrary,
 }) {
-  const win = Dimensions.get('window');
-  const widthImage = win.width - (win.width * 12) / 100; //85%
-  const heightImage = (widthImage * 65) / 100;
+  // const win = Dimensions.get('window');
+  // const widthImage = win.width - (win.width * 12) / 100; //85%
+  // const heightImage = (widthImage * 65) / 100;
+
+  const [dimensions, setDimensions] = React.useState({
+    widthImage: window.width,
+    heightImage: window.height,
+  });
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
+
+  React.useEffect(() => {
+    const subscription = Dimensions.addEventListener('change', ({window}) => {
+      setDimensions({
+        widthImage: window.width - (window.width * 12) / 100, //85%
+        heightImage: ((window.width - (window.width * 12) / 100) * 65) / 100,
+      });
+    });
+    return () => subscription?.remove();
+  }, []);
 
   return (
     <View>
@@ -61,8 +74,8 @@ function CheckBoxBrokenCar({
 
         <View
           style={{
-            width: widthImage,
-            height: heightImage,
+            width: dimensions.widthImage,
+            height: dimensions.heightImage,
             borderColor: errorImage
               ? isDarkMode
                 ? Constants.Styles.Color.WARNING
@@ -80,8 +93,8 @@ function CheckBoxBrokenCar({
           {imageReview ? (
             <Image
               style={{
-                width: widthImage,
-                height: heightImage,
+                width: dimensions.widthImage,
+                height: dimensions.heightImage,
                 borderRadius: 10,
                 resizeMode: 'cover',
               }}
@@ -92,7 +105,7 @@ function CheckBoxBrokenCar({
           ) : (
             <MaterialIcons
               name={'camera-plus'}
-              size={(widthImage * 20) / 100}
+              size={(dimensions.widthImage * 20) / 100}
               color={
                 errorImage
                   ? isDarkMode

@@ -42,11 +42,11 @@ function LoginPage({navigation}) {
 
   const [dataSendApi, setDataSendApi] = useState({
     code: null,
-    password: null,
+    pass: null,
   });
   const [errorData, setErrorData] = useState({
     code: null,
-    password: null,
+    pass: null,
   });
 
   const handleChangeCode = e => {
@@ -59,21 +59,21 @@ function LoginPage({navigation}) {
   const handleChangePass = e => {
     setDataSendApi({
       ...dataSendApi,
-      password: e,
+      pass: e,
     });
   };
 
   const handleCheckData = () => {
     if (
       helper.isNullOrEmpty(dataSendApi.code) ||
-      helper.isNullOrEmpty(dataSendApi.password)
+      helper.isNullOrEmpty(dataSendApi.pass)
     ) {
       setErrorData({
         ...errorData,
         code: helper.isNullOrEmpty(dataSendApi.code)
           ? Strings.Login.ENTER_CODE_PLEASE
           : null,
-        password: helper.isNullOrEmpty(dataSendApi.password)
+        pass: helper.isNullOrEmpty(dataSendApi.pass)
           ? Strings.Login.ENTER_PASS_PLEASE
           : null,
       });
@@ -171,8 +171,8 @@ function LoginPage({navigation}) {
         <View style={{marginBottom: 25}}>
           <InputCustom
             onChangeText={e => handleChangePass(e)}
-            value={dataSendApi.password}
-            error={errorData.password}
+            value={dataSendApi.pass}
+            error={errorData.pass}
             iconPosition={'right'}
             label={Strings.Login.PASSWORD}
             placeholder={Strings.Login.ENTER_PASSWORD}

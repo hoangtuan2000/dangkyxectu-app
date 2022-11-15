@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   RefreshControl,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import ButtonCustom from '../../components/buttonCustom/ButtonCustom';
@@ -23,7 +25,11 @@ import RentalCarFilterModal from '../../components/rentalcarFilterModal/RentalCa
 import helper from '../../common/helper';
 import RoutesPath from '../../constant/RoutesPath';
 
+const window = Dimensions.get('window');
 function RentalCarListPage({navigation}) {
+
+  const [dimensions, setDimensions] = React.useState(window);
+
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
   const [modalError, setModalError] = React.useState({
     open: false,
@@ -224,6 +230,10 @@ function RentalCarListPage({navigation}) {
 
   React.useEffect(() => {
     run();
+    const subscription = Dimensions.addEventListener('change', ({window}) => {
+      setDimensions(window);
+    });
+    return () => subscription?.remove();
   }, []);
 
   return (
@@ -368,7 +378,21 @@ function RentalCarListPage({navigation}) {
               }}
             />
           ) : (
-            <NoDataView />
+            <ScrollView
+              style={{
+                flexGrow: 1,
+              }}
+              // REFRESH CONTROL
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }>
+              <View
+                style={{
+                  marginTop: (dimensions.height * 45) / 100,
+                }}>
+                <NoDataView />
+              </View>
+            </ScrollView>
           )}
         </>
       )}

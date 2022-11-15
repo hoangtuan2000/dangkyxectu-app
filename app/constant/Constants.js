@@ -2,9 +2,9 @@ const Constants = {
   Styles: {
     Color: {
       PRIMARY: '#0cb1f2',
-      WHITE: 'white',
+      WHITE: '#ffffff',
       LIGHT: '#ededed',
-      DARK: 'black',
+      DARK: '#000000',
       SECONDARY: 'gray',
       ERROR: '#f71919',
       SUCCESS: 'green',
@@ -14,7 +14,7 @@ const Constants = {
 
     BackgroundColor: {
       DARK: '#2b2b2a',
-      LIGHT: 'white',
+      LIGHT: '#ffffff',
       LIGHT_GRAY: '#d4d4d4',
     },
 
