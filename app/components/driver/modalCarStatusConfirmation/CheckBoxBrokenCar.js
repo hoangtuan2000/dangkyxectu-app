@@ -22,13 +22,10 @@ function CheckBoxBrokenCar({
   handleOpenCamera,
   handleOpenLibrary,
 }) {
-  // const win = Dimensions.get('window');
-  // const widthImage = win.width - (win.width * 12) / 100; //85%
-  // const heightImage = (widthImage * 65) / 100;
 
   const [dimensions, setDimensions] = React.useState({
-    widthImage: window.width,
-    heightImage: window.height,
+    widthImage: window.width - (window.width * 12) / 100, //85%,
+    heightImage: ((window.width - (window.width * 12) / 100) * 65) / 100,
   });
   const isDarkMode = useSelector(state => state.themeMode.darkMode);
 

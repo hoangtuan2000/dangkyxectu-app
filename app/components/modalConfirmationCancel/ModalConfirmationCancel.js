@@ -10,7 +10,6 @@ import RadioGroup from '../radioGroup/RadioGroup';
 import BackDrop from '../backDrop/BackDrop';
 import ModalError from '../modalError/ModalError';
 import helper from '../../common/helper';
-import Collapsible from 'react-native-collapsible';
 import InputCustom from '../inputCustom/InputCustom';
 import {RentedCarListServices} from '../../services/user/RentedCarListServices';
 
@@ -228,7 +227,9 @@ function ModalConfirmationCancel({
             ]}
           />
 
-          <Collapsible collapsed={dataSendApi.reason == false ? false : true}>
+          <View style={{
+            display: dataSendApi.reason == false ? 'flex' : 'none'
+          }} >
             <InputCustom
               // label={Strings.ModalConfirmationCancel.LICENSE_PLATES}
               styleLabel={{fontSize: Constants.Styles.FontSize.LARGE}}
@@ -240,7 +241,7 @@ function ModalConfirmationCancel({
               error={errorData.reasonOther}
               helperText={errorData.textHelperReasonOther}
             />
-          </Collapsible>
+          </View>
 
           {errorData.reason && (
             <Text

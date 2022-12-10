@@ -27,7 +27,7 @@ const Constants = {
   },
 
   Api: {
-    BASE_URL: 'http://192.168.1.142:3001/api',
+    BASE_URL: 'http://192.168.146.124:3001/api',
   },
 
   ApiCode: {
