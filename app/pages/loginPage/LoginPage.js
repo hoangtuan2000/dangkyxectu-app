@@ -92,6 +92,10 @@ function LoginPage({navigation}) {
       if (res.data) {
         // login success
         if (res.data.status == Constants.ApiCode.OK) {
+          await setDataSendApi({
+            code: null,
+            pass: null,
+          })
           await dispatch(changeErrorAuthencation(null));
           await setDataUserStorage(res.data.data);
           await dispatch(changeCurrentUser(res.data.data));
