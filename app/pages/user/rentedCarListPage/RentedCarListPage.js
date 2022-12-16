@@ -427,7 +427,7 @@ function RentedCarListPage({navigation}) {
                       <Text
                         style={isDarkMode ? darkStyles.text : lightStyles.text}>
                         {Strings.RentedCarList.CAR_TYPE}{' '}
-                        {`${item.carType} ${item.seatNumber} Chổ`}
+                        {`${item.carType} ${item.seatNumber} Chỗ`}
                       </Text>
                       <Text
                         style={isDarkMode ? darkStyles.text : lightStyles.text}>

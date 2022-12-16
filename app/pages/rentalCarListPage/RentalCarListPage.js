@@ -288,7 +288,7 @@ function RentalCarListPage({navigation}) {
                             ? darkStyles.carSeatNumber
                             : lightStyles.carSeatNumber
                         }>
-                        {`${item.nameCarType} ${item.seatNumber} Chổ`}
+                        {`${item.nameCarType} ${item.seatNumber} Chỗ`}
                       </Text>
                       <Text
                         style={isDarkMode ? darkStyles.text : lightStyles.text}>

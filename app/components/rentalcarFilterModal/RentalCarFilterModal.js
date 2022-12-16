@@ -55,7 +55,7 @@ function RentalCarFilterModal({
         setCarTypeList(
           res.data.data.car_type.map(val => {
             return {
-              item: `${val.name} ${val.seatNumber} Chổ`,
+              item: `${val.name} ${val.seatNumber} Chỗ`,
               id: val.idCarType,
             };
           }),

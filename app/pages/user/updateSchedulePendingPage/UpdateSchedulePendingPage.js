@@ -510,7 +510,7 @@ function UpdateSchedulePendingPage({route, navigation}) {
                     isDarkMode
                       ? darkStyles.textCarType
                       : lightStyles.textCarType
-                  }>{`${item.carType} ${item.seatNumber} Chổ`}</Text>
+                  }>{`${item.carType} ${item.seatNumber} Chỗ`}</Text>
 
                 <Text
                   style={

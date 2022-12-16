@@ -460,7 +460,7 @@ function ScheduleRegistration({route, navigation}) {
                     isDarkMode
                       ? darkStyles.textCarType
                       : lightStyles.textCarType
-                  }>{`${item.nameCarType} ${item.seatNumber} Chổ`}</Text>
+                  }>{`${item.nameCarType} ${item.seatNumber} Chỗ`}</Text>
 
                 <Text
                   style={
